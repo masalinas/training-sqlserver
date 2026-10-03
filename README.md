@@ -5,7 +5,7 @@ Material formativo oficial para la impartición de un curso técnico avanzado de
 ---
 
 ## Creación del primer plan
-Inicialmente exploraremos una plan(change) que defina mis necesidades
+Inicialmente exploraremos una plan(change) que defina mis necesidades junto al agente:
 
 ```bash
 /explore Quiero crear el material formativo completo de un curso profesional de Microsoft SQL Server Database Administration de 25 horas lectivas.
