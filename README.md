@@ -4,6 +4,44 @@ Material formativo oficial para la impartición de un curso técnico avanzado de
 
 ---
 
+## Creación del primer plan
+Inicialmente exploraremos una plan(change) que defina mis necesidades
+
+```bash
+/explore Quiero crear el material formativo completo de un curso profesional de Microsoft SQL Server Database Administration de 25 horas lectivas.
+
+Entrada y Temario oficial:
+El curso se divide en 4 módulos principales:
+1. Fundamentos y Arquitectura. Licenciamiento (arquitectura interna, storage engine, relational engine, buffer pool, MDF/NDF/LDF, instancias, bases del sistema, licenciamiento y SSMS).
+2. Gestión y Seguridad (DDL, vistas, stored procedures, T-SQL avanzado, modelo de autenticación, logins vs users, roles, esquemas y permisos).
+3. Optimización y Alta Disponibilidad (árboles B, índices agrupados/no agrupados, planes de ejecución, DMVs de monitorización, Always On AG, Log Shipping, clustering).
+4. Prácticas Recomendadas y Mantenimiento (modelos de recuperación, cadena de backups Full/Diff/Log, point-in-time restore, DBCC CHECKDB, mantenimiento y caso práctico integrador).
+
+Requisitos técnicos y restricciones de entrega:
+- Idioma: Todo el contenido, diapositivas y documentación deben estar estrictamente en español.
+- Formato de salida: Generar una presentación PowerPoint widescreen (16:9) con diseño corporativo moderno (paleta azul SQL Server / acero / acentos de contraste) usando la skill instalada de anthropic pptx (python-pptx).
+- Extensión pedagógica: Al ser un curso de 25 horas, debe estructurarse como un Slide Deck formativo profundo de entre 70 y 80 diapositivas, combinando teoría, esquemas visuales y enunciados de laboratorios prácticos.
+- Requisito crítico de notas del orador: CADA diapositiva debe incluir en su campo de speaker notes (`slide.notes_slide`) un guion pedagógico exhaustivo con objetivos de la lámina, explicación técnica detallada a bajo nivel (internals del motor), preguntas de debate para el aula y pistas/resolución para los laboratorios.
+- Diagramas e imágenes: Generar o componer esquemas visuales clave para la arquitectura del motor, estructuras de árbol B de índices, capas de seguridad y la cadena cronológica de copias de seguridad.
+- Entregables finales: Centralizar la salida en la raiz del proyecto, que contenga el archivo `curso_sql_server_dba_25h.pptx` y un archivo Markdown complementario `GUIA_DEL_DOCENTE.md` que extraiga todas las diapositivas con sus notas del orador para consulta offline.
+- Finalmente exporta tanto `curso_sql_server_dba_25h.pptx` como `GUIA_DEL_DOCENTE.md` en pdf y guarsalos igualmente en la raiz del proyecto.
+```
+
+A continuación crearemos todos los recursos openspec necesarios para implementar este primer plan(change)
+```bash
+/openspec-propose 
+```
+
+A continuación implementaremos el plan diseñado
+```bash
+/openspec-apply-change
+```
+
+Finalmente tras la creación archivaremos el plan y podremos continuar con cambios si fueran necesarios con nuevos planes
+```bash
+/openspec-archive-change
+```
+
 ## 📦 Entregables Principales
 
 1. **Presentación Técnica Oficial (78 Diapositivas 16:9):**
