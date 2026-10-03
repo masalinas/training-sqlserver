@@ -1,0 +1,57 @@
+# ==========================================
+# .gitignore — Curso SQL Server DBA (25h)
+# ==========================================
+
+# Dependencias y entornos virtuales
+node_modules/
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache y binarios
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+
+# Registro y logs de npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Archivos de bloqueo y temporales de Office / LibreOffice
+.~lock.*#
+~$*
+*.tmp
+
+# Archivos del sistema operativo y editores
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
+
+# Salidas de QA visual y renders temporales (evita subir decenas de MB de imágenes intermedias)
+presentacion/qa/
+qa/
+*.pdf
+!curso_sql_server_dba_25h.pdf
+slide-*.jpg
+sheet-*.jpg
+
+# Variables de entorno y credenciales
+.env
+.env.*
+!.env.example
