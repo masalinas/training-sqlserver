@@ -73,6 +73,12 @@ training-sqlserver/
 
 ## 🚀 Comandos de Utilidad
 
+### 0. Iniciar agente antigravity modo skip permissions
+Este modo permite que el agente ejecute comandos sin tener que esperar por ninguna la aprovación
+```bash
+agy --dangerously-skip-permissions
+```
+
 ### 1. Reconstruir el Slide Deck PPTX
 ```bash
 node presentacion/src/build.js

@@ -48,6 +48,7 @@ presentacion/qa/
 qa/
 *.pdf
 !curso_sql_server_dba_25h.pdf
+!GUIA_DEL_DOCENTE.pdf
 slide-*.jpg
 sheet-*.jpg
 
