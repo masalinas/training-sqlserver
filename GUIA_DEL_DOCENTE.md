@@ -2,7 +2,7 @@
 
 > **Manual de Referencia y Guion Técnico para el Instructor**  
 > **Duración:** 25 horas lectivas (4 módulos + módulo introductorio)  
-> **Entregable complementario:** `curso_sql_server_dba_25h.pptx` (78 diapositivas panorámicas 16:9 con diagramas nativos y notas integradas)  
+> **Entregable complementario:** `curso_sql_server_dba_25h.pptx` (81 diapositivas panorámicas 16:9 con diagramas nativos y notas integradas)  
 
 ---
 
@@ -14,7 +14,7 @@
 | **1** | Fundamentos y Arquitectura. Licenciamiento | 5,5 h | 5 – 20 | Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF y Lab 1 |
 | **2** | Gestión y Seguridad | 7,0 h | 21 – 42 | DDL, restricciones, procedimientos, DML analítico, permisos, roles y Lab 2 |
 | **3** | Optimización y Alta Disponibilidad | 6,0 h | 43 – 60 | Índices B-Tree, estadísticas, planes de ejecución, DMVs, Always On y Lab 3 |
-| **4** | Mantenimiento, Copias de Seguridad y Caso Final | 6,0 h | 61 – 78 | Backups, Point-in-Time, CHECKDB, Agent, incidencias, Lab 4 y Caso Integrador |
+| **4** | Mantenimiento, Copias de Seguridad y Caso Final | 6,0 h | 61 – 81 | Backups, Point-in-Time, CHECKDB, Agent, SSIS, incidencias, Lab 4 y Caso Integrador |
 
 ---
 
@@ -3771,7 +3771,129 @@ Puntos de Interacción / Preguntas:
 
 ---
 
-## Diapositiva 70: Incidencia: log de transacciones lleno
+## Diapositiva 70: SSIS: arquitectura, motor y herramientas
+*Categoría / Badge:* `AUTOMATIZACIÓN Y ETL`  
+*Módulo:* 4 · Mantenimiento y Buenas Prácticas
+
+### Contenido Clave en Pantalla
+- Motor en el Servidor (Setup)
+
+- Feature en Setup: marcar «Integration Services» en el instalador oficial de SQL Server.
+- Servicio de Windows: registra MsDtsSrvr.exe para gestión y ejecución de paquetes.
+- Requisito CLR: habilitar sp_configure 'clr enabled', 1; RECONFIGURE en la instancia.
+- Catálogo SSISDB: crear catálogo en SSMS; protegido por Database Master Key y contraseña.
+
+- Entorno de Diseño (Visual Studio)
+
+- Herramienta IDE: Visual Studio 2019 o 2022 (Community gratuita, Pro o Enterprise).
+- Extensión oficial: «SQL Server Integration Services Projects» desde VS Marketplace.
+- Proyectos y artefactos: soluciones con proyectos .dtproj y paquetes de integración .dtsx.
+- Desacoplamiento: SSDT ya no viene en la ISO de SQL Server; ciclo de vida independiente.
+
+- Desacoplamiento clave: SSDT ya no se incluye en la ISO de SQL Server. El desarrollador diseña paquetes en Visual Studio (.ispac); el DBA gestiona el servicio SSIS, provisiona SSISDB y asegura la ejecución en el servidor.
+
+### Guion del Docente y Notas Técnicas
+Objetivo Pedagógico:
+Comprender la arquitectura desacoplada de SQL Server Integration Services (SSIS), los pasos para instalar el motor en el servidor y la configuración del entorno de desarrollo visual en Visual Studio.
+
+Guion y Explicación Técnica:
+- SQL Server Integration Services (SSIS) es la plataforma empresarial de Microsoft para extracción, transformación y carga (ETL). Para un DBA, es crucial distinguir el motor de ejecución en el servidor del entorno de diseño en el cliente.
+- Instalación en servidor: en el asistente de instalación de SQL Server (Setup.exe), se debe marcar la característica «Integration Services» dentro de Shared Features. Esto registra el servicio de Windows MsDtsSrvr. Para utilizar el modelo moderno de despliegue por proyectos, se debe crear el catálogo SSISDB en Management Studio (SSMS). Esto requiere habilitar previamente CLR mediante sp_configure «clr enabled», 1 y RECONFIGURE.
+- Catálogo SSISDB: es una base de datos de usuario alojada en la propia instancia relacional. Protege contraseñas y parámetros de conexión mediante cifrado simétrico y asimétrico respaldado por la Database Master Key. Si se migra la base de datos a otro servidor, es imprescindible contar con la contraseña maestra definida al crear el catálogo.
+- Herramienta visual de diseño: antiguamente venía BIDS o SSDT integrado en la ISO de SQL Server. Desde las versiones modernas (SQL Server 2017/2019/2022), Microsoft desacopló el ciclo de vida: se instala Visual Studio (edición Community gratuita, Professional o Enterprise) y se añade la extensión «SQL Server Integration Services Projects» desde el Marketplace de Visual Studio.
+- El artefacto final de diseño es un archivo .ispac que empaqueta el proyecto completo con sus parámetros de entorno, conexiones y paquetes .dtsx.
+
+Puntos de Interacción / Preguntas:
+- ¿Por qué Microsoft separó la herramienta de diseño visual del instalador del motor de base de datos?
+- ¿Qué consecuencias tendría perder la contraseña de cifrado del catálogo SSISDB al migrar a otro servidor?
+- ¿Qué diferencia hay entre ejecutar un paquete en modo depuración dentro de Visual Studio y ejecutarlo en el motor de producción?
+
+
+---
+
+## Diapositiva 71: Pipeline ETL: ingesta de CSV a SQL Server
+*Categoría / Badge:* `ETL Y DATA FLOW`  
+*Módulo:* 4 · Mantenimiento y Buenas Prácticas
+
+### Contenido Clave en Pantalla
+- 1
+
+- Flat File Source (CSV)
+
+- Conexión al fichero .csv: delimitador de columnas (coma o punto y coma), calificador de texto entre comillas, codificación UTF-8 y salto de línea CRLF. Los datos entran al pipeline como cadenas DT_STR o DT_WSTR.
+
+- 2
+
+- Data Conversion (RAM)
+
+- Transformación en memoria: convierte las cadenas de texto del CSV a los tipos de datos relacionales de destino (DT_I4 para enteros, DT_NUMERIC para importes o DT_DATE para fechas). Permite redirigir filas erróneas.
+
+- 3
+
+- OLE DB Destination
+
+- Inserción masiva en la tabla de destino de SQL Server. Configuración en modo «Table or view - fast load»: ejecuta un BULK INSERT con TABLOCK, evitando registrar cada fila individualmente en el log de transacciones.
+
+- Por qué CSV y Fast Load: el formato CSV es el estándar de la industria para cargas batch limpias y sin dependencias de drivers de Office; la opción Fast Load multiplica por diez la velocidad de inserción al trabajar en bloque.
+
+### Guion del Docente y Notas Técnicas
+Objetivo Pedagógico:
+Aprender a construir un pipeline de carga masiva en el Data Flow de SSIS desde un archivo plano CSV hacia una tabla relacional en SQL Server, comprendiendo los tipos de datos internos y la optimización de carga.
+
+Guion y Explicación Técnica:
+- En SSIS, la arquitectura distingue dos niveles fundamentales: el Control Flow (orquesta tareas, bucles y lógica condicional de ejecución) y el Data Flow Task (mueve y transforma datos en memoria RAM).
+- Dentro de la tarea Data Flow, el motor de SSIS utiliza un pipeline basado en buffers en memoria RAM (gobernados por DefaultBufferMaxRows y DefaultBufferSize). Los datos nunca tocan el disco mientras viajan del origen al destino a menos que se sature la RAM (spooling).
+- Paso 1 - Flat File Source: lee el archivo CSV. Es crucial definir correctamente la página de códigos (ej. UTF-8 65001), delimitadores de columna y salto de fila, y si la primera fila contiene los encabezados. Todos los campos de texto plano se interpretan inicialmente como cadenas DT_STR (ANSI) o DT_WSTR (Unicode).
+- Paso 2 - Data Conversion: la base de datos relacional espera enteros, fechas o decimales tipados. Esta transformación convierte los tipos de datos en el buffer de memoria. Si una fila contiene un valor no convertible, el componente permite redirigir el error (Error Output) a un fichero de auditoría sin abortar todo el lote.
+- Paso 3 - OLE DB Destination: conecta con la base de datos destino de SQL Server. La configuración crítica para el DBA es seleccionar «Table or view - fast load». Esto ejecuta un BULK INSERT directo a la tabla con la opción TABLOCK, minimizando el consumo de Transaction Log y realizando cargas de cientos de miles de filas en segundos en lugar de ejecutar INSERTs individuales.
+
+Puntos de Interacción / Preguntas:
+- ¿Qué ocurre con el rendimiento de la base de datos si dejamos OLE DB Destination en modo estándar en vez de Fast Load?
+- ¿Por qué es preferible usar Flat File (CSV) frente a Excel para procesos batch automáticos y desatendidos?
+- ¿Cómo configurarías la salida de errores (Error Output) para no detener la carga si 5 filas de 100.000 vienen con datos corruptos?
+
+
+---
+
+## Diapositiva 72: Despliegue en SSISDB y Jobs con Agent
+*Categoría / Badge:* `ADMINISTRACIÓN Y OPERACIÓN`  
+*Módulo:* 4 · Mantenimiento y Buenas Prácticas
+
+### Contenido Clave en Pantalla
+- 1. Despliegue del Proyecto (.ispac)
+- Compilación en Visual Studio (Project Deployment Model) generando el archivo .ispac. Despliegue en SSISDB mediante el asistente de SSMS, organizando carpetas por aplicación.
+
+- 2. Programación en SQL Server Agent
+- Creación de un Job con paso (Job Step) de tipo «Integration Services Package». Selección del proyecto y paquete en SSISDB, con horarios (Schedules) y reintentos automáticos.
+
+- 3. Seguridad y Proxies del Agent
+- Regla de oro: nunca ejecutar paquetes bajo la cuenta de servicio de SQL Server ni como sysadmin. Uso de Credential de Windows y Proxy de Agent con acceso NTFS mínimo al recurso de CSVs.
+
+- 4. Monitorización y Diagnóstico
+- Informes nativos en SSMS con clic derecho en SSISDB («All Executions») para analizar duración y filas procesadas. Consulta de vistas catalog.executions y catalog.operation_messages.
+
+- Trampa crítica en producción: un paquete que funciona en Visual Studio falla en el Agent si no se usa un Proxy; la cuenta de servicio de SQL Server no suele tener permisos NTFS sobre las carpetas de red compartidas con los CSVs.
+
+### Guion del Docente y Notas Técnicas
+Objetivo Pedagógico:
+Dominar el ciclo de vida de producción de un paquete SSIS: despliegue en SSISDB, automatización mediante SQL Server Agent y aseguramiento con Proxies para cumplimiento del mínimo privilegio.
+
+Guion y Explicación Técnica:
+- El ciclo de vida de un paquete SSIS no termina en Visual Studio: el rol del DBA comienza cuando el desarrollador entrega el archivo compilado .ispac (Project Deployment Model).
+- Despliegue: en SSMS, se despliega el .ispac dentro del catálogo SSISDB en una carpeta dedicada por aplicación. SSISDB permite definir Variables de Entorno (Environments), de modo que el mismo paquete use cadenas de conexión de desarrollo, staging o producción sin necesidad de recompilar.
+- Automatización: en SQL Server Agent se crea un nuevo Job. Al añadir un paso (Job Step), se selecciona el tipo de subsistema «SQL Server Integration Services Package», apuntando al proyecto y paquete en SSISDB.
+- Seguridad con Proxies (punto clave): por defecto, los pasos de SSIS ejecutados por usuarios no-sysadmin no pueden correr bajo la cuenta de servicio del Agent. Un DBA profesional crea una Credential con un usuario de servicio de Windows y la vincula a un Proxy del Agent para el subsistema SSIS. Así, el paquete tiene únicamente los permisos de lectura NTFS sobre la carpeta de red donde caen los CSVs y permisos de escritura en la tabla destino.
+- Diagnóstico y monitorización: cuando un job de SSIS falla, el historial del Agent suele mostrar un error genérico («The package execution failed»). Para ver la causa exacta (fila errónea, tipo incompatible, timeout), el DBA hace clic derecho en el proyecto dentro de SSISDB -> Reports -> Standard Reports -> All Executions, o consulta directamente la tabla catalog.operation_messages.
+
+Puntos de Interacción / Preguntas:
+- ¿Por qué es una mala práctica convertir en sysadmin al usuario que ejecuta los jobs de SSIS para solucionar problemas de permisos?
+- ¿Dónde buscarías el mensaje detallado de error si el historial del Agent solo indica «falló el paso 1»?
+- ¿Cómo ayudan los «Environments» de SSISDB a separar los entornos de pruebas y producción sin tocar el código del paquete?
+
+
+---
+
+## Diapositiva 73: Incidencia: log de transacciones lleno
 *Categoría / Badge:* `INCIDENCIAS`  
 *Módulo:* 4 · Mantenimiento y Buenas Prácticas
 
@@ -3821,7 +3943,7 @@ Puntos de Interacción / Preguntas:
 
 ---
 
-## Diapositiva 71: Incidencia: TempDB saturada
+## Diapositiva 74: Incidencia: TempDB saturada
 *Categoría / Badge:* `INCIDENCIAS`  
 *Módulo:* 4 · Mantenimiento y Buenas Prácticas
 
@@ -3880,7 +4002,7 @@ Puntos de Interacción / Preguntas:
 
 ---
 
-## Diapositiva 72: Bloqueos prolongados y deadlocks
+## Diapositiva 75: Bloqueos prolongados y deadlocks
 *Categoría / Badge:* `INCIDENCIAS`  
 *Módulo:* 4 · Mantenimiento y Buenas Prácticas
 
@@ -3937,7 +4059,7 @@ Puntos de Interacción / Preguntas:
 
 ---
 
-## Diapositiva 73: LABORATORIO · LABORATORIO 4 · PREPARACIÓN
+## Diapositiva 76: LABORATORIO · LABORATORIO 4 · PREPARACIÓN
 *Categoría / Badge:* `T-SQL`  
 *Módulo:* 4 · Mantenimiento y Buenas Prácticas
 
@@ -4017,7 +4139,7 @@ Instrucciones de Laboratorio:
 
 ---
 
-## Diapositiva 74: LABORATORIO · LABORATORIO 4 · DESASTRE
+## Diapositiva 77: LABORATORIO · LABORATORIO 4 · DESASTRE
 *Categoría / Badge:* `T-SQL`  
 *Módulo:* 4 · Mantenimiento y Buenas Prácticas
 
@@ -4085,7 +4207,7 @@ Instrucciones de Laboratorio:
 
 ---
 
-## Diapositiva 75: LABORATORIO · LABORATORIO 4 · RESTAURACIÓN
+## Diapositiva 78: LABORATORIO · LABORATORIO 4 · RESTAURACIÓN
 *Categoría / Badge:* `T-SQL`  
 *Módulo:* 4 · Mantenimiento y Buenas Prácticas
 
@@ -4150,7 +4272,7 @@ Instrucciones de Laboratorio:
 
 ---
 
-## Diapositiva 76: LABORATORIO · CASO INTEGRADOR FINAL
+## Diapositiva 79: LABORATORIO · CASO INTEGRADOR FINAL
 *Módulo:* 4 · Mantenimiento y Buenas Prácticas
 
 ### Contenido Clave en Pantalla
@@ -4218,7 +4340,7 @@ Instrucciones de Laboratorio:
 
 ---
 
-## Diapositiva 77: Checklist de buenas prácticas del DBA
+## Diapositiva 80: Checklist de buenas prácticas del DBA
 *Categoría / Badge:* `RESUMEN`  
 *Módulo:* 4 · Mantenimiento y Buenas Prácticas
 
@@ -4268,7 +4390,7 @@ Puntos de Interacción / Preguntas:
 
 ---
 
-## Diapositiva 78: Gracias: ahora piensas como un DBA
+## Diapositiva 81: Gracias: ahora piensas como un DBA
 *Módulo:* 4 · Mantenimiento y Buenas Prácticas
 
 ### Contenido Clave en Pantalla
