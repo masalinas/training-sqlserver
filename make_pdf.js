@@ -37,7 +37,7 @@ const modulesMeta = {
   1: { title: 'MÓDULO 1: FUNDAMENTOS Y ARQUITECTURA. LICENCIAMIENTO', duration: '5,5 h', slides: '5 – 20', focus: 'Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF y Lab 1' },
   2: { title: 'MÓDULO 2: GESTIÓN Y SEGURIDAD', duration: '7,0 h', slides: '21 – 42', focus: 'DDL, restricciones, procedimientos, DML analítico, permisos, roles y Lab 2' },
   3: { title: 'MÓDULO 3: OPTIMIZACIÓN Y ALTA DISPONIBILIDAD', duration: '6,0 h', slides: '43 – 60', focus: 'Índices B-Tree, estadísticas, planes de ejecución, DMVs, Always On y Lab 3' },
-  4: { title: 'MÓDULO 4: MANTENIMIENTO, COPIAS DE SEGURIDAD Y CASO FINAL', duration: '6,0 h', slides: '61 – 78', focus: 'Backups, Point-in-Time, CHECKDB, Agent, incidencias, Lab 4 y Caso Integrador' }
+  4: { title: 'MÓDULO 4: MANTENIMIENTO, COPIAS DE SEGURIDAD Y CASO FINAL', duration: '6,0 h', slides: '61 – 81', focus: 'Backups, Point-in-Time, CHECKDB, Agent, SSIS, incidencias, Lab 4 y Caso Integrador' }
 };
 
 // Friendly slide titles for opener slides
@@ -84,7 +84,7 @@ for (let i = 1; i < parts.length; i++) {
       badge = 'LABORATORIO PRÁCTICO';
     } else if (slideTitle.includes('Apertura del Módulo')) {
       badge = 'INTRODUCCIÓN MÓDULO';
-    } else if (slideNum === 78) {
+    } else if (slideNum === 81) {
       badge = 'CIERRE DEL CURSO';
     } else {
       badge = 'ADMINISTRACIÓN';
@@ -795,7 +795,7 @@ let html = `<!DOCTYPE html>
       <h1 class="cover-title">Guía del Docente</h1>
       <h2 class="cover-subtitle">Curso de Administración de SQL Server (25 Horas)</h2>
       <div class="cover-tagline">
-        Manual de referencia técnico y metodológico para el instructor. Incluye desglose pormenorizado de las 78 diapositivas, objetivos pedagógicos, explicaciones técnicas a bajo nivel de la arquitectura del motor, preguntas de dinamización para el aula, resolución paso a paso de los laboratorios y el checklist operativo de buenas prácticas del Administrador de Bases de Datos.
+        Manual de referencia técnico y metodológico para el instructor. Incluye desglose pormenorizado de las 81 diapositivas, objetivos pedagógicos, explicaciones técnicas a bajo nivel de la arquitectura del motor, preguntas de dinamización para el aula, resolución paso a paso de los laboratorios y el checklist operativo de buenas prácticas del Administrador de Bases de Datos.
       </div>
 
       <div class="metrics-grid">
@@ -808,7 +808,7 @@ let html = `<!DOCTYPE html>
           <div class="metric-label">Módulos (0 al 4)</div>
         </div>
         <div class="metric-card">
-          <div class="metric-num">78</div>
+          <div class="metric-num">81</div>
           <div class="metric-label">Diapositivas con Guion</div>
         </div>
         <div class="metric-card">
@@ -836,7 +836,7 @@ let html = `<!DOCTYPE html>
         </div>
         <div class="cover-meta-row">
           <span class="cover-meta-label">Material Complementario:</span>
-          <span class="cover-meta-val">curso_sql_server_dba_25h.pptx (78 diapositivas panorámicas 16:9)</span>
+          <span class="cover-meta-val">curso_sql_server_dba_25h.pptx (81 diapositivas panorámicas 16:9)</span>
         </div>
         <div class="cover-meta-row">
           <span class="cover-meta-label">Repositorio del Proyecto:</span>
@@ -902,8 +902,8 @@ let html = `<!DOCTYPE html>
             <td style="text-align: center; font-weight: 700;">4</td>
             <td><strong>Mantenimiento, Copias de Seguridad y Caso Final</strong></td>
             <td style="text-align: center;">6,0 h</td>
-            <td style="text-align: center;">61 – 78</td>
-            <td>Backups, Point-in-Time, CHECKDB, Agent, incidencias, Lab 4 y Caso Integrador</td>
+            <td style="text-align: center;">61 – 81</td>
+            <td>Backups, Point-in-Time, CHECKDB, Agent, SSIS, incidencias, Lab 4 y Caso Integrador</td>
           </tr>
         </tbody>
       </table>
@@ -933,9 +933,9 @@ let html = `<!DOCTYPE html>
           <div class="mod-card-meta">Heaps vs Clustered, B-Tree, Non-Clustered y covering indexes, estadísticas y estimador de cardinalidad, planes de ejecución, DMVs de rendimiento, RTO/RPO y Always On AG.<br><strong>Lab 3.1:</strong> Índices · <strong>Lab 3.2:</strong> Planes · <strong>Lab 3.3:</strong> DMVs.</div>
         </div>
         <div class="mod-card" style="grid-column: span 2;">
-          <div class="mod-card-header">Módulo 4 · 6,0 h · Diaps. 61–78</div>
+          <div class="mod-card-header">Módulo 4 · 6,0 h · Diaps. 61–81</div>
           <div class="mod-card-title">Mantenimiento, Copias de Seguridad y Caso Final</div>
-          <div class="mod-card-meta">Modelos Simple vs Full, cadena Full + Diff + Log con CHECKSUM, restauración Point-in-Time (STOPAT), DBCC CHECKDB, mantenimiento automatizado con Agent, alertas de gravedad 19–25, resolución de incidencias críticas (log lleno, TempDB saturada, deadlocks) y Checklist de Buenas Prácticas del DBA.<br><strong>Lab 4:</strong> Preparación, desastre y restauración · <strong>Caso Práctico Integrador Final</strong> (Rúbrica completa).</div>
+          <div class="mod-card-meta">Modelos Simple vs Full, cadena Full + Diff + Log con CHECKSUM, restauración Point-in-Time (STOPAT), DBCC CHECKDB, mantenimiento automatizado con Agent, SSIS (motor, ETL y SSISDB), alertas de gravedad 19–25, resolución de incidencias críticas (log lleno, TempDB saturada, deadlocks) y Checklist de Buenas Prácticas del DBA.<br><strong>Lab 4:</strong> Preparación, desastre y restauración · <strong>Caso Práctico Integrador Final</strong> (Rúbrica completa).</div>
         </div>
       </div>
     </div>
@@ -953,7 +953,7 @@ slides.forEach((slide) => {
   else if (slide.num >= 5 && slide.num <= 20) modNum = 1;
   else if (slide.num >= 21 && slide.num <= 42) modNum = 2;
   else if (slide.num >= 43 && slide.num <= 60) modNum = 3;
-  else if (slide.num >= 61 && slide.num <= 78) modNum = 4;
+  else if (slide.num >= 61 && slide.num <= 81) modNum = 4;
 
   if (modNum !== currentModule) {
     currentModule = modNum;
@@ -1046,7 +1046,7 @@ console.log('HTML generated successfully at', htmlPath);
 // Generate PDF via Playwright
 (async () => {
   console.log('Launching Chromium for PDF rendering...');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({ executablePath: fs.existsSync('/usr/bin/google-chrome') ? '/usr/bin/google-chrome' : undefined });
   const page = await browser.newPage();
   
   await page.goto('file://' + htmlPath, { waitUntil: 'networkidle' });

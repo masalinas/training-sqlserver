@@ -24,7 +24,7 @@ def extract():
     md.append("# Guía del Docente: Curso de Administración de SQL Server (25 Horas)\n")
     md.append("> **Manual de Referencia y Guion Técnico para el Instructor**  ")
     md.append("> **Duración:** 25 horas lectivas (4 módulos + módulo introductorio)  ")
-    md.append("> **Entregable complementario:** `curso_sql_server_dba_25h.pptx` (78 diapositivas panorámicas 16:9 con diagramas nativos y notas integradas)  \n")
+    md.append("> **Entregable complementario:** `curso_sql_server_dba_25h.pptx` (81 diapositivas panorámicas 16:9 con diagramas nativos y notas integradas)  \n")
     md.append("---\n")
     md.append("## Estructura General del Curso\n")
     md.append("| Módulo | Título | Horas | Diapositivas | Enfoque Pedagógico |")
@@ -33,7 +33,7 @@ def extract():
     md.append("| **1** | Fundamentos y Arquitectura. Licenciamiento | 5,5 h | 5 – 20 | Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF y Lab 1 |")
     md.append("| **2** | Gestión y Seguridad | 7,0 h | 21 – 42 | DDL, restricciones, procedimientos, DML analítico, permisos, roles y Lab 2 |")
     md.append("| **3** | Optimización y Alta Disponibilidad | 6,0 h | 43 – 60 | Índices B-Tree, estadísticas, planes de ejecución, DMVs, Always On y Lab 3 |")
-    md.append("| **4** | Mantenimiento, Copias de Seguridad y Caso Final | 6,0 h | 61 – 78 | Backups, Point-in-Time, CHECKDB, Agent, incidencias, Lab 4 y Caso Integrador |")
+    md.append("| **4** | Mantenimiento, Copias de Seguridad y Caso Final | 6,0 h | 61 – 81 | Backups, Point-in-Time, CHECKDB, Agent, SSIS, incidencias, Lab 4 y Caso Integrador |")
     md.append("\n---\n")
 
     # Mapeo de módulos por número de slide
