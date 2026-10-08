@@ -1,0 +1,18 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver-dev
+    hostname: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=TuClaveSegura123! # Requiere mayúsculas, minúsculas, números y símbolos
+      - MSSQL_PID=Developer # Edición gratuita para desarrollo y pruebas
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    restart: unless-stopped
+
+volumes:
+  sqlserver_data:
+    name: sqlserver_data

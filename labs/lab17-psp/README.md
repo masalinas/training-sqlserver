@@ -1,0 +1,3 @@
+## Introducción
+
+Parameter Sensitive Plan (PSP) optimization: La solución nativa al clásico problema del Parameter Sniffing. Anteriormente, si un procedimiento almacenado se compilaba con un parámetro que devolvía 1 fila, el plan se guardaba y se reutilizaba de forma desastrosa para una ejecución posterior que devolviera 10 millones de filas. PSP permite al motor mantener en caché múltiples planes de ejecución activos para una misma consulta y usar el más eficiente según la cardinalidad del parámetro actual.

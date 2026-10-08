@@ -25,7 +25,7 @@ Cada diapositiva del slide deck SHALL incluir un guion pedagógico exhaustivo en
 - **THEN** la nota contiene las secciones: *Objetivo Pedagógico*, *Guion y Explicación Técnica* (mín. 120 palabras con internals y advertencias), *Puntos de Interacción / Preguntas* e *Instrucciones de Laboratorio* (en slides prácticas).
 
 #### Scenario: Cobertura del cien por cien
-- **WHEN** se analiza el slide deck completo de 78 diapositivas
+- **WHEN** se analiza el slide deck completo de 81 diapositivas
 - **THEN** ninguna diapositiva carece de notas del orador estructuradas.
 
 ### Requirement: Distribución Curricular de 25 Horas
@@ -49,7 +49,7 @@ El contenido del curso SHALL estructurarse en 4 módulos técnicos más un módu
 
 #### Scenario: Módulo 4 (Mantenimiento, Backups y Caso Integrador)
 - **WHEN** se imparte el bloque de continuidad y buenas prácticas (~6.0 h)
-- **THEN** se cubren modelos de recuperación, backups Full/Diff/Log, Point-in-Time Restore (`STOPAT`), `DBCC CHECKDB`, automatización con SQL Server Agent, resolución de incidencias en producción, Laboratorio 4 y el Caso Práctico Integrador final.
+- **THEN** se cubren modelos de recuperación, backups Full/Diff/Log, Point-in-Time Restore (`STOPAT`), `DBCC CHECKDB`, automatización con SQL Server Agent, arquitectura e instalación de SQL Server Integration Services (motor y Visual Studio), pipeline ETL práctico de ingesta masiva desde CSV a SQL Server (Data Flow y Fast Load), catálogo SSISDB y proxies de seguridad, resolución de incidencias en producción, Laboratorio 4 y el Caso Práctico Integrador final.
 
 ### Requirement: Entregables Complementarios
 El repositorio SHALL proporcionar tanto el slide deck editable como los documentos exportados para lectura offline.

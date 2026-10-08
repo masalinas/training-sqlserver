@@ -1,0 +1,3 @@
+## Introducción
+
+Contained Availability Groups (Grupos de disponibilidad contenidos): Resuelve el mayor punto de fricción operativo de las arquitecturas Always On. En lugar de replicar solo las bases de datos de usuario, un AG contenido incluye sus propias bases de datos de sistema (master y msdb). Esto significa que los inicios de sesión (logins), los permisos y los trabajos del SQL Agent se replican automáticamente entre los nodos del clúster, eliminando la necesidad de sincronizarlos manualmente.

@@ -1,0 +1,3 @@
+## Introducción
+
+Low-Level Security (Seguridad a nivel de fila): Permite restringir el acceso a los registros de una tabla basándose en el contexto de ejecución del usuario. Mediante políticas de seguridad, se puede lograr que, bajo una misma consulta `SELECT * FROM Ventas`, un vendedor solo vea sus propias ventas, mientras que el gerente regional vea las de todo el equipo, sin necesidad de modificar el código de la aplicación.

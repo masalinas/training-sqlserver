@@ -1,0 +1,3 @@
+## Introducción
+
+In-Memory OLTP (Hekaton): Un motor de base de datos integrado y optimizado para la memoria principal. A diferencia de las tablas tradicionales, no utiliza bloqueos ni pestillos (locks/latches), sino control de concurrencia optimista multiversión. Permite crear tablas que residen en memoria y compilar procedimientos almacenados de forma nativa a código C, logrando un rendimiento extremo para sistemas transaccionales (OLTP) de alta concurrencia.

@@ -1,0 +1,3 @@
+## Introducción
+
+Adaptive Query Processing (Procesamiento de consultas adaptable): (Renombrado y ampliado en versiones posteriores como Intelligent Query Processing). Hasta entonces, el optimizador generaba un plan de ejecución y lo seguía a ciegas. Con esta mejora, el motor aprende de los errores de estimación en tiempo de ejecución. Por ejemplo, si estima que necesita 10 MB de RAM y usa 1 GB, ajustará automáticamente la concesión de memoria (Memory Grant Feedback) para las siguientes ejecuciones de la misma consulta.
