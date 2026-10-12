@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  mi-backend-asp:
+    image: ://mi-registro.com
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      # Sobrescribimos la cadena de conexión de ASP.NET Core dinámicamente:
+      - ConnectionStrings__DefaultConnection=Server=servidor_sql_o_contenedor;Database=TiendaDemo;User Id=AnalistaVentas;Password=${DB_PASSWORD};Encrypt=True;TrustServerCertificate=True;
