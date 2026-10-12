@@ -1,6 +1,7 @@
 -- A. Simulamos una consulta lenta en nuestra base de datos
 USE training;
 GO
+
 WAITFOR DELAY '00:00:02'; 
 SELECT 'Esta consulta tardó mucho y fue capturada';
 GO

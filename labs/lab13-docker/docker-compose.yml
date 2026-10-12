@@ -5,7 +5,7 @@ services:
     hostname: sqlserver
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=TuClaveSegura123! # Requiere mayúsculas, minúsculas, números y símbolos
+      - MSSQL_SA_PASSWORD=!Thingtrack2010 # Requiere mayúsculas, minúsculas, números y símbolos
       - MSSQL_PID=Developer # Edición gratuita para desarrollo y pruebas
     ports:
       - "1433:1433"
