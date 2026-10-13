@@ -56,3 +56,6 @@ sheet-*.jpg
 .env
 .env.*
 !.env.example
+
+GUIA_DEL_DOCENTE.md
+GUIA_DEL_DOCENTE.pdf
