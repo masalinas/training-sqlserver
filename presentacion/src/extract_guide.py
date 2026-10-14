@@ -33,7 +33,7 @@ def extract():
     md.append("| **1** | Fundamentos y Arquitectura. Licenciamiento | 5,5 h | 5 – 20 | Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF y Lab 1 |")
     md.append("| **2** | Gestión y Seguridad | 7,0 h | 21 – 42 | DDL, restricciones, procedimientos, DML analítico, permisos, roles y Lab 2 |")
     md.append("| **3** | Optimización y Alta Disponibilidad | 6,0 h | 43 – 60 | Índices B-Tree, estadísticas, planes de ejecución, DMVs, Always On y Lab 3 |")
-    md.append("| **4** | Mantenimiento, Copias de Seguridad y Caso Final | 6,0 h | 61 – 81 | Backups, Point-in-Time, CHECKDB, Agent, SSIS, incidencias, Lab 4 y Caso Integrador |")
+    md.append("| **4** | Mantenimiento, Copias de Seguridad y Caso Final | 6,0 h | 61 – 81 | Backups, Point-in-Time, CHECKDB, Agent, incidencias, SSIS, Lab 4 y Caso Integrador |")
     md.append("\n---\n")
 
     # Mapeo de módulos por número de slide

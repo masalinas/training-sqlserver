@@ -37,7 +37,7 @@ const modulesMeta = {
   1: { title: 'MÓDULO 1: FUNDAMENTOS Y ARQUITECTURA. LICENCIAMIENTO', duration: '5,5 h', slides: '5 – 20', focus: 'Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF y Lab 1' },
   2: { title: 'MÓDULO 2: GESTIÓN Y SEGURIDAD', duration: '7,0 h', slides: '21 – 42', focus: 'DDL, restricciones, procedimientos, DML analítico, permisos, roles y Lab 2' },
   3: { title: 'MÓDULO 3: OPTIMIZACIÓN Y ALTA DISPONIBILIDAD', duration: '6,0 h', slides: '43 – 60', focus: 'Índices B-Tree, estadísticas, planes de ejecución, DMVs, Always On y Lab 3' },
-  4: { title: 'MÓDULO 4: MANTENIMIENTO, COPIAS DE SEGURIDAD Y CASO FINAL', duration: '6,0 h', slides: '61 – 81', focus: 'Backups, Point-in-Time, CHECKDB, Agent, SSIS, incidencias, Lab 4 y Caso Integrador' }
+  4: { title: 'MÓDULO 4: MANTENIMIENTO, COPIAS DE SEGURIDAD Y CASO FINAL', duration: '6,0 h', slides: '61 – 81', focus: 'Backups, Point-in-Time, CHECKDB, Agent, incidencias, SSIS, Lab 4 y Caso Integrador' }
 };
 
 // Friendly slide titles for opener slides
@@ -46,7 +46,7 @@ const friendlyTitles = {
   21: '02 · Apertura del Módulo: Gestión y Seguridad',
   43: '03 · Apertura del Módulo: Optimización y Alta Disponibilidad',
   61: '04 · Apertura del Módulo: Mantenimiento y Buenas Prácticas',
-  76: 'Laboratorio: Caso Práctico Integrador Final'
+  79: 'Laboratorio: Caso Práctico Integrador Final'
 };
 
 const slides = [];
@@ -903,7 +903,7 @@ let html = `<!DOCTYPE html>
             <td><strong>Mantenimiento, Copias de Seguridad y Caso Final</strong></td>
             <td style="text-align: center;">6,0 h</td>
             <td style="text-align: center;">61 – 81</td>
-            <td>Backups, Point-in-Time, CHECKDB, Agent, SSIS, incidencias, Lab 4 y Caso Integrador</td>
+            <td>Backups, Point-in-Time, CHECKDB, Agent, incidencias, SSIS, Lab 4 y Caso Integrador</td>
           </tr>
         </tbody>
       </table>
@@ -935,7 +935,7 @@ let html = `<!DOCTYPE html>
         <div class="mod-card" style="grid-column: span 2;">
           <div class="mod-card-header">Módulo 4 · 6,0 h · Diaps. 61–81</div>
           <div class="mod-card-title">Mantenimiento, Copias de Seguridad y Caso Final</div>
-          <div class="mod-card-meta">Modelos Simple vs Full, cadena Full + Diff + Log con CHECKSUM, restauración Point-in-Time (STOPAT), DBCC CHECKDB, mantenimiento automatizado con Agent, SSIS (motor, ETL y SSISDB), alertas de gravedad 19–25, resolución de incidencias críticas (log lleno, TempDB saturada, deadlocks) y Checklist de Buenas Prácticas del DBA.<br><strong>Lab 4:</strong> Preparación, desastre y restauración · <strong>Caso Práctico Integrador Final</strong> (Rúbrica completa).</div>
+          <div class="mod-card-meta">Modelos Simple vs Full, cadena Full + Diff + Log con CHECKSUM, restauración Point-in-Time (STOPAT), DBCC CHECKDB, mantenimiento automatizado con Agent, alertas de gravedad 19–25, resolución de incidencias críticas (log lleno, TempDB saturada, deadlocks), SSIS (motor, ETL y SSISDB) y Checklist de Buenas Prácticas del DBA.<br><strong>Lab 4:</strong> Preparación, desastre y restauración · <strong>Caso Práctico Integrador Final</strong> (Rúbrica completa).</div>
         </div>
       </div>
     </div>
