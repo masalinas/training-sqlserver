@@ -1,12 +1,5 @@
 ## Introducción
 
-Lanzar SQL con sqlcmd
-
-```bash
-sqlcmd -S localhost -U sa -P "!Thingtrack2010" -C -Q "SELECT @@VERSION"
-sqlcmd -S localhost -E -C -Q "SELECT @@VERSION"
-```
-
 Los Extended Events (Eventos Extendidos o XEvents) son el sistema de monitorización de rendimiento nativo, avanzado y de bajo impacto de SQL Server. Fueron diseñados para reemplazar definitivamente al antiguo y pesado SQL Server Profiler (SQL Trace).
 La gran ventaja de los XEvents es que están integrados profundamente en el núcleo del motor relacional. Mientras que el antiguo Profiler consumía muchísima CPU y RAM (y no se recomendaba dejarlo encendido en producción), los Extended Events son tan ligeros que puedes dejarlos corriendo permanentemente para capturar telemetría sin degradar el rendimiento del servidor.
 
@@ -25,3 +18,26 @@ Para dominar los XEvents, solo necesitas entender la arquitectura de sus 4 compo
 
 Ver un ejemplo de creación de un evento en `event.sql` y la simulación del mismo en `simulate.sql` desde SQL Server Management Studio.
 
+```sql
+-- 1. Crear la Sesión de Eventos Extendidos a nivel de Servidor
+CREATE EVENT SESSION [Radar_Consultas_Lentas] ON SERVER
+ADD EVENT sqlserver.sql_statement_completed
+(
+    -- ACCIÓN: Qué datos extra queremos capturar
+    ACTION
+    (
+        sqlserver.database_name,
+        sqlserver.client_app_name,
+        sqlserver.sql_text
+    )
+    -- PREDICADO: Cuál es el filtro (Duración en microsegundos > 1 segundo)
+    WHERE (duration > 1000000)
+)
+-- DESTINO: Dónde lo guardamos (en la memoria RAM para no ensuciar el disco)
+ADD TARGET package0.ring_buffer(SET max_memory=(2048));
+GO
+
+-- 2. Iniciar la sesión (La sesión se crea apagada por defecto)
+ALTER EVENT SESSION [Radar_Consultas_Lentas] ON SERVER STATE = START;
+GO
+```
