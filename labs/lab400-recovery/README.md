@@ -1,5 +1,11 @@
 ## Introducción
 
+El término "Modelos de recuperación" es arquitectónicamente no define cómo se hacen las copias (backups), sino qué capacidad exacta tendrás para restaurar los datos cuando el servidor falle:
+
+- El Backup es la herramienta, la Recuperación es la meta: A nivel empresarial, programar copias de seguridad no sirve de nada si no cumplen con el objetivo de negocio. Esta configuración define tu límite máximo de supervivencia: determina si ante un desastre podrás hacer un "viaje en el tiempo" al segundo exacto previo al fallo (Modelo Full) o si estás dispuesto a perder todo el trabajo del día (Modelo Simple).
+- Controla el motor interno, no solo las copias: El modelo de recuperación cambia radicalmente el comportamiento interno de SQL Server en el día a día, independientemente de que hagas backups o no. Como vimos antes, dicta cuándo se trunca automáticamente el archivo .ldf y si el motor tiene permiso para saltarse el registro fila por fila (minimal logging) para acelerar las inserciones masivas.
+- Se alinea con los estándares de contingencia (RPO): En ciberseguridad y auditoría, el estándar para medir la pérdida de datos aceptable se llama Recovery Point Objective (Punto Objetivo de Recuperación). El "Modelo de Recuperación" es la palanca técnica directa dentro de SQL Server para garantizar que se cumpla ese RPO firmado por la empresa.
+
 Un administrador de bases de datos debe decidir al crear una base de datos: el Modelo de Recuperación. Este ajuste dicta cómo SQL Server gestiona el archivo de registro de transacciones (.ldf) y, por tanto, hasta qué punto puedes recuperar los datos tras un desastre.
 
 1. Modelo Simple (Simple):
@@ -7,16 +13,16 @@ Un administrador de bases de datos debe decidir al crear una base de datos: el M
 Es el modelo de menor mantenimiento, ideal para entornos donde perder datos recientes no es crítico o pueden volver a generarse. Su uso típico son los entornos de desarrollo o bases de datos analíticas (DWH recargable).   
 
 - Truncado y Cadena (Log chain): En este modelo, el motor recicla el espacio del archivo de log de forma automática en cada checkpoint. Debido a esto, el historial continuo se destruye, la cadena de log no existe, y SQL Server no te permite ejecutar el comando BACKUP LOG.
-- Restauración: Como no hay copias de seguridad del log, si el servidor se cae a las 14:00, tu única opción es restaurar el último backup Full o Diferencial que hiciste la noche anterior, perdiendo todas las ventas del día. 
+- Restauración: Como no hay copias de seguridad del log, si el servidor se cae a las 14:00, tu única opción es restaurar el último backup Full o Diferencial que hiciste la noche anterior, perdiendo todas las ventas del día.
 - Rendimiento: Aplica minimal logging en operaciones masivas, lo que hace que las importaciones de datos sean extremadamente rápidas porque no registra fila por fila.   
 
 2. Modelo Completo (Full):
 
 Es el estándar absoluto y obligatorio para bases de datos transaccionales (OLTP en producción), como una tienda online real donde perder un solo pedido es inaceptable.   
 
-- Truncado y Cadena: SQL Server no borra nada del log automáticamente. El truncado ocurre sólo tras ejecutar explícitamente un BACKUP LOG. Esto obliga al DBA a programar backups del log frecuentes (ej. cada 15 minutos) para mantener una cadena continua y evitar que el disco duro se llene. 
+- Truncado y Cadena: SQL Server no borra nada del log automáticamente. El truncado ocurre sólo tras ejecutar explícitamente un BACKUP LOG. Esto obliga al DBA a programar backups del log frecuentes (ej. cada 15 minutos) para mantener una cadena continua y evitar que el disco duro se llene.
 - Restauración: Gracias a esta cadena continua, puedes hacer una restauración a cualquier instante exacto usando STOPAT. Si un usuario borra la tabla Pedido a las 11:45:30, puedes restaurar la base de datos exactamente a las 11:45:29.
-- Rendimiento: Su desventaja es que realiza un registro completo de cada operación masiva. Si importas un millón de filas, SQL Server escribe un millón de registros en el log, lo que consume mucha CPU e I/O de disco. 
+- Rendimiento: Su desventaja es que realiza un registro completo de cada operación masiva. Si importas un millón de filas, SQL Server escribe un millón de registros en el log, lo que consume mucha CPU e I/O de disco.
 
 3. Modelo Bulk-Logged (Optimizado para cargas masivas):
 
@@ -65,36 +71,36 @@ GO
 
 -- PASO 1: Restaurar el backup Full del Domingo
 -- Se usa NORECOVERY porque sabemos que vamos a apilar más cosas.
-RESTORE DATABASE Ventas 
-FROM DISK = 'C:\Backups\Ventas_Full_Domingo.bak' 
+RESTORE DATABASE Ventas
+FROM DISK = 'C:\Backups\Ventas_Full_Domingo.bak'
 WITH NORECOVERY, REPLACE;
 GO
 
 -- PASO 2: Restaurar el backup Diferencial del Martes
 -- Sobrescribe los cambios desde el domingo hasta el martes.
 -- Se sigue usando NORECOVERY porque faltan los logs del miércoles.
-RESTORE DATABASE Ventas 
-FROM DISK = 'C:\Backups\Ventas_Diff_Martes.bak' 
+RESTORE DATABASE Ventas
+FROM DISK = 'C:\Backups\Ventas_Diff_Martes.bak'
 WITH NORECOVERY;
 GO
 
 -- PASO 3: Restaurar los backups de Log intermedios (Martes 22:15 a Miércoles 10:30)
 -- IMPORTANTE: Para los logs, el comando cambia de RESTORE DATABASE a RESTORE LOG
 -- Si hay varios archivos, se restauran uno por uno en orden cronológico, todos con NORECOVERY.
-RESTORE LOG Ventas 
-FROM DISK = 'C:\Backups\Ventas_Log_Martes_Noche.trn' 
+RESTORE LOG Ventas
+FROM DISK = 'C:\Backups\Ventas_Log_Martes_Noche.trn'
 WITH NORECOVERY;
 
-RESTORE LOG Ventas 
-FROM DISK = 'C:\Backups\Ventas_Log_Miercoles_Manana.trn' 
+RESTORE LOG Ventas
+FROM DISK = 'C:\Backups\Ventas_Log_Miercoles_Manana.trn'
 WITH NORECOVERY;
 GO
 
 -- PASO 4: El último Log y el viaje en el tiempo (STOPAT)
 -- Aquí usamos RECOVERY para abrir la base de datos finalmente.
 -- El formato de STOPAT es 'YYYY-MM-DD HH:MM:SS'
-RESTORE LOG Ventas 
-FROM DISK = 'C:\Backups\Ventas_Log_Miercoles_Desastre.trn' 
+RESTORE LOG Ventas
+FROM DISK = 'C:\Backups\Ventas_Log_Miercoles_Desastre.trn'
 WITH STOPAT = '2026-10-14 10:36:00', RECOVERY;
 GO
 ```
@@ -107,12 +113,12 @@ USE master;
 GO
 
 -- Cambiar la base de datos al modelo Simple
-ALTER DATABASE Ventas 
+ALTER DATABASE Ventas
 SET RECOVERY SIMPLE;
 GO
 
 -- Cambiar la base de datos al modelo Full
-ALTER DATABASE Ventas 
+ALTER DATABASE Ventas
 SET RECOVERY PULL;
 GO
 ```
