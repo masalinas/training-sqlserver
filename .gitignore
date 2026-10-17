@@ -46,10 +46,6 @@ Desktop.ini
 # Salidas de QA visual y renders temporales (evita subir decenas de MB de imágenes intermedias)
 presentacion/qa/
 qa/
-*.pdf
-!curso_sql_server_dba_20h.pdf
-!curso_sql_server_dba_25h.pdf
-!GUIA_DEL_DOCENTE.pdf
 slide-*.jpg
 sheet-*.jpg
 
