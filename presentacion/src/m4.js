@@ -1,6 +1,6 @@
 'use strict';
 /**
- * m4.js — MÓDULO 4 «Prácticas Recomendadas y Mantenimiento» (diapositivas 61–78, 5 h).
+ * m4.js — MÓDULO 4 «Prácticas Recomendadas y Mantenimiento» (diapositivas 62–82, 5 h).
  * Modelos de recuperación, estrategia de backups, restauración point-in-time, DBCC CHECKDB,
  * mantenimiento automatizado, resolución de incidencias, Laboratorio 4, caso integrador y cierre.
  */
@@ -30,7 +30,7 @@ module.exports = async (pres, H, D) => {
     );
   }
 
-  // ═════════════════════════ 61 · Separador de módulo ═════════════════════════
+  // ═════════════════════════ 62 · Separador de módulo ═════════════════════════
   H.divider(pres, {
     mod: 4,
     title: 'Mantenimiento y Buenas Prácticas',
@@ -60,7 +60,7 @@ module.exports = async (pres, H, D) => {
     },
   });
 
-  // ═════════════════════════ 62 · Modelos de recuperación ═════════════════════════
+  // ═════════════════════════ 63 · Modelos de recuperación ═════════════════════════
   let s = H.slide(pres, {
     mod: 4,
     badge: 'Backups',
@@ -96,7 +96,7 @@ module.exports = async (pres, H, D) => {
   );
   H.callout(s, { x: 0.6, y: 5.6, w: 12.13, h: 1.1, kind: 'warn', lead: 'Minimal logging:', text: 'registra sólo la asignación de extents, no cada fila. Es más rápido y genera menos log, pero un log backup con carga masiva no permite STOPAT en su interior.', size: 14 });
 
-  // ═════════════════════════ 63 · Estrategia Full + Diff + Log chain ═════════════════════════
+  // ═════════════════════════ 64 · Estrategia Full + Diff + Log chain ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Backups',
@@ -120,7 +120,7 @@ module.exports = async (pres, H, D) => {
   });
   D.backupTimeline(s, { x: 0.6, y: 1.75, w: 12.13, h: 5.0 });
 
-  // ═════════════════════════ 64 · T-SQL de backup ═════════════════════════
+  // ═════════════════════════ 65 · T-SQL de backup ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Backups',
@@ -171,7 +171,7 @@ WITH COPY_ONLY, COMPRESSION, CHECKSUM;`,
     ['FaCloud', 'TO URL (Azure Blob)', 'Copia externa en la nube con credencial SAS.'],
   ].forEach(([icon, title, body], i) => rowCard(s, { x: 8.6, y: 1.75 + i * 1.77, w: 4.13, h: 1.46, icon, title, body }));
 
-  // ═════════════════════════ 65 · Tail-log, verificación e historial msdb ═════════════════════════
+  // ═════════════════════════ 66 · Tail-log, verificación e historial msdb ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Backups',
@@ -221,7 +221,7 @@ ORDER BY bs.backup_finish_date DESC;`,
   });
   H.callout(s, { x: 0.6, y: 5.45, w: 12.13, h: 1.25, kind: 'warn', lead: 'VERIFYONLY no basta:', text: 'sólo comprueba que el fichero es legible. La prueba real es restaurar en otro servidor y ejecutar DBCC CHECKDB; planifícala (p. ej. mensualmente).', size: 14 });
 
-  // ═════════════════════════ 66 · Restauración point-in-time ═════════════════════════
+  // ═════════════════════════ 67 · Restauración point-in-time ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Restauración',
@@ -273,7 +273,7 @@ WITH STOPAT = N'2025-03-12T10:36:00', RECOVERY;`,
     ['FaEye', 'STANDBY', 'Sólo lectura entre restauraciones; usa fichero undo.'],
   ].forEach(([icon, title, body], i) => rowCard(s, { x: 8.75, y: 1.75 + i * 1.77, w: 3.98, h: 1.46, icon, title, body }));
 
-  // ═════════════════════════ 67 · DBCC CHECKDB ═════════════════════════
+  // ═════════════════════════ 68 · DBCC CHECKDB ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Integridad',
@@ -320,7 +320,7 @@ FROM msdb.dbo.suspect_pages;`,
     ],
   });
 
-  // ═════════════════════════ 68 · Reorganize vs Rebuild ═════════════════════════
+  // ═════════════════════════ 69 · Reorganize vs Rebuild ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Mantenimiento',
@@ -371,7 +371,7 @@ UPDATE STATISTICS dbo.Pedido WITH FULLSCAN;`,
   });
   H.callout(s, { x: 0.6, y: 5.75, w: 12.13, h: 1.0, kind: 'tip', lead: 'Estadísticas primero:', text: 'actualízalas por umbral de cambios (dm_db_stats_properties) y en horas valle; suelen aportar más que reconstruir índices.', size: 14 });
 
-  // ═════════════════════════ 69 · Mantenimiento automatizado ═════════════════════════
+  // ═════════════════════════ 70 · Mantenimiento automatizado ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Mantenimiento',
@@ -406,7 +406,7 @@ UPDATE STATISTICS dbo.Pedido WITH FULLSCAN;`,
     { cols: 3, x: 0.6, y: 1.75, w: 12.13, h: 5.0, size: 14, titleSize: 16 }
   );
 
-  // ═════════════════════════ 70 · LDF lleno ═════════════════════════
+  // ═════════════════════════ 71 · LDF lleno ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Incidencias',
@@ -454,7 +454,7 @@ TO DISK = N'${BK}Log2.trn';`,
   );
   H.callout(s, { x: 0.6, y: 5.4, w: 12.13, h: 1.3, kind: 'warn', lead: 'Nunca borres el .ldf:', text: 'la base puede quedar sin recuperar. Resuelve la causa raíz (log_reuse_wait_desc) y reduce el fichero sólo una vez, después.', size: 14 });
 
-  // ═════════════════════════ 71 · TempDB saturada ═════════════════════════
+  // ═════════════════════════ 72 · TempDB saturada ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Incidencias',
@@ -502,7 +502,7 @@ WHERE wait_type LIKE N'PAGELATCH%'
   });
   H.callout(s, { x: 7.8, y: 5.5, w: 4.93, h: 1.25, kind: 'tip', text: 'Ficheros iguales y pre-dimensionados; no hagas shrink rutinario.', size: 14 });
 
-  // ═════════════════════════ 72 · Bloqueos y deadlocks ═════════════════════════
+  // ═════════════════════════ 73 · Bloqueos y deadlocks ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Incidencias',
@@ -551,7 +551,7 @@ WHERE xe.object_name = N'xml_deadlock_report';`,
     ['FaBalanceScale', 'RCSI y KILL con cautela', 'Los lectores no bloquean; KILL, el último recurso.'],
   ].forEach(([icon, title, body], i) => rowCard(s, { x: 7.8, y: 1.75 + i * 1.77, w: 4.93, h: 1.46, icon, title, body }));
 
-  // ═════════════════════════ 73 · SSIS: Arquitectura e instalación ═════════════════════════
+  // ═════════════════════════ 74 · SSIS: Arquitectura e instalación ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Automatización y ETL',
@@ -597,7 +597,7 @@ WHERE xe.object_name = N'xml_deadlock_report';`,
     size: 14,
   });
 
-  // ═════════════════════════ 74 · Pipeline ETL práctico ═════════════════════════
+  // ═════════════════════════ 75 · Pipeline ETL práctico ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'ETL y Data Flow',
@@ -643,7 +643,7 @@ WHERE xe.object_name = N'xml_deadlock_report';`,
     size: 14,
   });
 
-  // ═════════════════════════ 75 · Despliegue en SSISDB y Agent ═════════════════════════
+  // ═════════════════════════ 76 · Despliegue en SSISDB y Agent ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Administración y Operación',
@@ -697,7 +697,7 @@ WHERE xe.object_name = N'xml_deadlock_report';`,
     size: 14,
   });
 
-  // ═════════════════════════ 76 · Lab 4 (A): preparar BD y cadena ═════════════════════════
+  // ═════════════════════════ 77 · Lab 4 (A): preparar BD y cadena ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Laboratorio 4 · Preparación',
@@ -754,7 +754,7 @@ WITH DIFFERENTIAL, CHECKSUM, INIT;`,
     ['Segundo log backup', 'Un cliente más y BACKUP LOG; anota el COUNT.'],
   ].forEach(([title, body], i) => rowCard(s, { x: 8.6, y: 1.75 + i * 1.27, w: 4.13, h: 1.0, num: i + 1, title, body }));
 
-  // ═════════════════════════ 77 · Lab 4 (B): desastre y tail-log ═════════════════════════
+  // ═════════════════════════ 78 · Lab 4 (B): desastre y tail-log ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Laboratorio 4 · Desastre',
@@ -804,7 +804,7 @@ WITH NORECOVERY, CHECKSUM, INIT;`,
   });
   H.callout(s, { x: 0.6, y: 5.75, w: 12.13, h: 1.0, kind: 'warn', lead: 'Trampa:', text: 'si hay conexiones abiertas a Ventas, usa ALTER DATABASE … SET SINGLE_USER WITH ROLLBACK IMMEDIATE antes del tail-log.', size: 14 });
 
-  // ═════════════════════════ 78 · Lab 4 (C): restauración point-in-time ═════════════════════════
+  // ═════════════════════════ 79 · Lab 4 (C): restauración point-in-time ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Laboratorio 4 · Restauración',
@@ -861,7 +861,7 @@ SELECT COUNT(*) AS Pedidos FROM Ventas.dbo.Pedido;`,
   });
   H.callout(s, { x: 8.6, y: 4.75, w: 4.13, h: 2.0, kind: 'warn', lead: 'Trampa:', text: 'STOPAT va en HoraOK, antes del DELETE, y sin NORECOVERY en el último paso.', size: 14 });
 
-  // ═════════════════════════ 79 · Caso práctico integrador ═════════════════════════
+  // ═════════════════════════ 80 · Caso práctico integrador ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Caso integrador final',
@@ -917,7 +917,7 @@ SELECT COUNT(*) AS Pedidos FROM Ventas.dbo.Pedido;`,
     ],
   });
 
-  // ═════════════════════════ 80 · Checklist de buenas prácticas DBA ═════════════════════════
+  // ═════════════════════════ 81 · Checklist de buenas prácticas DBA ═════════════════════════
   s = H.slide(pres, {
     mod: 4,
     badge: 'Resumen',
@@ -953,7 +953,7 @@ SELECT COUNT(*) AS Pedidos FROM Ventas.dbo.Pedido;`,
     rowCard(s, { x: 0.6 + col * (5.915 + 0.3), y: 1.75 + row * 1.275, w: 5.915, h: 0.975, icon: 'FaCheckCircle', title, body });
   });
 
-  // ═════════════════════════ 81 · Cierre del curso ═════════════════════════
+  // ═════════════════════════ 82 · Cierre del curso ═════════════════════════
   H.closing(pres, {
     mod: 4,
     title: 'Gracias: ahora piensas como un DBA',

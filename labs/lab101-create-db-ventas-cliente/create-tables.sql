@@ -1,3 +1,19 @@
+USE master;
+GO
+
+-- 0. Crear la base de datos training
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'training')
+BEGIN
+    CREATE DATABASE training;
+    PRINT 'Base de datos [training] creada.';
+END
+GO
+
+-- Cambiar el contexto a la base de datos recién creada
+USE training;
+GO
+
+-- 1. Crear tabla Cliente
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Cliente]') AND type in (N'U'))
 BEGIN
     CREATE TABLE dbo.Cliente (
@@ -13,7 +29,7 @@ BEGIN
 END
 GO
 
--- 3. Crear tabla dbo.Pedido
+-- 2. Crear tabla Pedido
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Pedido]') AND type in (N'U'))
 BEGIN
     CREATE TABLE dbo.Pedido (
@@ -34,7 +50,7 @@ BEGIN
 END
 GO
 
--- 4. Insertar datos de prueba para los laboratorios
+-- 3. Insertar datos de prueba para los laboratorios
 -- Desactivar el conteo de filas para no ensuciar la salida de consola (buena práctica en scripts)
 SET NOCOUNT ON;
 
@@ -56,13 +72,16 @@ BEGIN
     BEGIN TRAN;
     DECLARE @i INT = 1;
 
+    -- Creamos 100000 pedidos con un cliente aleatorio entre 1 y 4, totales aleatorios y
+    -- estados aleatorios entre un conjunto enumerado: 'Completado', 'Enviado', 'Pendiente'
     WHILE @i <= 100000
     BEGIN
         INSERT INTO dbo.Pedido (ClienteID, Total, Estado)
         VALUES (
-            (@i % 4) + 1, 
-            ROUND(RAND(CHECKSUM(NEWID())) * 1000, 2), -- Totales aleatorios entre 0 y 1000
-            
+            -- Nos aseguramos que todo pedido tenga un ClienteID entre los posibles (1 a 4)
+            (@i % 4) + 1,
+            -- Totales aleatorios entre 0 y 1000
+            ROUND(RAND(CHECKSUM(NEWID())) * 1000, 2),            
             -- Magia aleatoria para elegir el Estado
             CHOOSE(ABS(CHECKSUM(NEWID())) % 3 + 1, 'Completado', 'Enviado', 'Pendiente')
         );

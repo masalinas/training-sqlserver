@@ -1,7 +1,7 @@
 'use strict';
 /**
  * m0_m1.js — Módulo 0 (Bienvenida y entorno) y Módulo 1 (Fundamentos y arquitectura. Licenciamiento).
- * Diapositivas 1–20.
+ * Diapositivas 1–21.
  */
 module.exports = async (pres, H, D) => {
   const { COL, CX, CW, CY, CH } = H;
@@ -20,7 +20,7 @@ module.exports = async (pres, H, D) => {
         'Mensaje clave: un DBA no "administra tablas", garantiza que los datos estén disponibles, íntegros, seguros y rápidos. Los cuatro adjetivos estructuran el curso.',
         'El curso son 20 horas repartidas en 4 módulos: Fundamentos y arquitectura (4 h), Gestión y seguridad (5,5 h), Optimización y alta disponibilidad (5 h) y Mantenimiento y buenas prácticas (5 h), más 0,5 h de bienvenida y entorno.',
         'Cada módulo termina con un laboratorio guiado y el curso cierra con un caso práctico integrador que obliga a combinar todo: diseño, seguridad, índices y backups.',
-        'Versión de referencia: SQL Server 2022 (compatible con 2019). Las diferencias relevantes con 2016/2017 y 2025 se señalan cuando importan.',
+        'Versión de referencia: SQL Server 2025 (compatible con 2022 y 2019). Las diferencias relevantes con 2016/2017 se señalan cuando importan.',
       ],
       preguntas: [
         '¿Quién ha sufrido alguna vez una caída de producción por falta de espacio, de backups o de índices? (Sirve de gancho para todo el curso.)',
@@ -95,10 +95,10 @@ module.exports = async (pres, H, D) => {
       guion: [
         'Tres piezas: una instancia SQL Server (Docker o local), una herramienta cliente (SSMS en Windows; extensión MSSQL de VS Code en macOS/Linux) y un editor de scripts.',
         'Azure Data Studio ha llegado al final de su soporte (28 de febrero de 2026): Microsoft recomienda la extensión MSSQL de Visual Studio Code. Si algún alumno lo tiene instalado, funciona pero ya no recibe actualizaciones.',
-        'Docker: la imagen oficial mcr.microsoft.com/mssql/server:2022-latest es multiplataforma. En Mac con Apple Silicon hay que ejecutar Docker Desktop con emulación x86_64 (--platform linux/amd64) y activar Rosetta en los ajustes; el arranque es más lento pero funciona.',
-        'Variables imprescindibles: ACCEPT_EULA=Y y MSSQL_SA_PASSWORD con una contraseña que cumpla la política de complejidad (8+ caracteres, tres de cuatro categorías); si no, el contenedor arranca y se detiene sin avisar: se diagnostica con docker logs sql2022.',
+        'Docker: la imagen oficial mcr.microsoft.com/mssql/server:2025-latest es multiplataforma. En Mac con Apple Silicon hay que ejecutar Docker Desktop con emulación x86_64 (--platform linux/amd64) y activar Rosetta en los ajustes; el arranque es más lento pero funciona.',
+        'Variables imprescindibles: ACCEPT_EULA=Y y MSSQL_SA_PASSWORD con una contraseña que cumpla la política de complejidad (8+ caracteres, tres de cuatro categorías); si no, el contenedor arranca y se detiene sin avisar: se diagnostica con docker logs sql2025.',
         'El volumen -v sqldata:/var/opt/mssql persiste los ficheros .mdf/.ldf si se elimina el contenedor. Se usará en el laboratorio de restauración del Módulo 4.',
-        'Opción local (Windows): SQL Server 2022 Developer Edition (gratuita, con todas las funciones de Enterprise y sólo para desarrollo y pruebas) + SSMS 20/21.',
+        'Opción local (Windows): SQL Server 2025 Developer Edition (gratuita, con todas las funciones de Enterprise y sólo para desarrollo y pruebas) + SSMS 20/21.',
       ],
       preguntas: [
         '¿Qué diferencia hay entre conectarse con la cuenta sa y con autenticación de Windows? (Anticipa el Módulo 2.)',
@@ -116,12 +116,12 @@ module.exports = async (pres, H, D) => {
   const ch3 = (CH - 2 * 0.25) / 3;
   [['FaDesktop', 'SSMS (Windows)', 'Cliente completo: objetos, planes de ejecución, Agent, Profiler.'],
    ['FaCode', 'VS Code + extensión MSSQL', 'Multiplataforma; sustituye a Azure Data Studio (fin de soporte 28/02/2026).'],
-   ['FaDocker', 'Docker o instalación local', 'Imagen oficial 2022-latest, o Developer Edition en Windows.']].forEach(([ic, t, b], i) =>
+   ['FaDocker', 'Docker o instalación local', 'Imagen oficial 2025-latest, o Developer Edition en Windows.']].forEach(([ic, t, b], i) =>
     H.card(s, { x: ex, y: CY + i * (ch3 + 0.25), w: exw, h: ch3, icon: ic, title: t, body: b, size: 14, tone: 'light', side: true }));
-  H.code(s, { x: 6.9, y: CY, w: 5.83, h: 3.4, label: 'BASH · DOCKER', size: 12, code: 'docker run -d --name sql2022 \\\n  -e "ACCEPT_EULA=Y" \\\n  -e "MSSQL_SA_PASSWORD=Curso#SQL2022!" \\\n  -p 1433:1433 \\\n  -v sqldata:/var/opt/mssql \\\n  mcr.microsoft.com/mssql/server:2022-latest\n\ndocker ps\ndocker logs sql2022 | tail -n 5' });
+  H.code(s, { x: 6.9, y: CY, w: 5.83, h: 3.4, label: 'BASH · DOCKER', size: 12, code: 'docker run -d --name sql2025 \\\n  -e "ACCEPT_EULA=Y" \\\n  -e "MSSQL_SA_PASSWORD=Curso#SQL2025!" \\\n  -p 1433:1433 \\\n  -v sqldata:/var/opt/mssql \\\n  mcr.microsoft.com/mssql/server:2025-latest\n\ndocker ps\ndocker logs sql2025 | tail -n 5' });
   H.callout(s, { x: 6.9, y: 5.45, w: 5.83, h: 1.3, kind: 'warn', lead: 'Si el contenedor se para:', text: 'revisa docker logs. Casi siempre es una contraseña de sa que no cumple la política de complejidad.' });
 
-  // ════════════════════════ MÓDULO 1 — Fundamentos y arquitectura (5–20) ════════════════════════
+  // ════════════════════════ MÓDULO 1 — Fundamentos y arquitectura (5–21) ════════════════════════
 
   // 5 ─ Separador
   H.divider(pres, {
@@ -132,14 +132,15 @@ module.exports = async (pres, H, D) => {
       { icon: 'FaHdd', text: 'Páginas, extensiones y ficheros' },
       { icon: 'FaDatabase', text: 'Instancias y bases del sistema' },
       { icon: 'FaTag', text: 'Ediciones y licenciamiento' },
+      { icon: 'FaBrain', text: 'Tablas vectoriales (IA)' },
       { icon: 'FaFlask', text: 'Laboratorio 1' },
     ],
     notes: {
       obj: 'Introducir el Módulo 1 y justificar por qué empezamos por la arquitectura interna antes que por la sintaxis.',
       guion: [
         'Idea fuerza: casi todos los problemas que veremos más adelante (bloqueos, rendimiento, log lleno, restauraciones) se explican con cuatro conceptos: Buffer Pool, páginas, Transaction Log y tempdb. Este módulo los instala en la cabeza del alumno.',
-        'Recorrido: historia y versiones → arquitectura → estructura física (páginas, extensiones, MDF/NDF/LDF, WAL y VLFs) → instancias y bases del sistema → ediciones y licenciamiento → herramientas → Laboratorio 1.',
-        'Duración estimada 4,0 horas: ~2,5 de teoría con demostraciones y ~1,5 de laboratorio.',
+        'Recorrido: historia y versiones → arquitectura → estructura física (páginas, extensiones, MDF/NDF/LDF, WAL y VLFs) → instancias y bases del sistema → ediciones y licenciamiento → herramientas → tablas vectoriales (IA) → Laboratorio 1.',
+        'Duración estimada 4,0 horas: ~2,75 de teoría con demostraciones (incluyendo tipo VECTOR) y ~1,25 de laboratorio.',
       ],
       preguntas: ['¿Qué creéis que ocurre exactamente entre que escribís un INSERT y que el dato está "guardado"? Anotad las respuestas, las revisaremos al explicar el WAL.'],
     },
@@ -154,9 +155,9 @@ module.exports = async (pres, H, D) => {
         'SQL Server nace en 1989 (Sybase/Microsoft/Ashton-Tate). Los hitos modernos empiezan con 2005 (DMVs, TRY/CATCH, CLR), 2008 (compresión, Policy-Based Management) y 2012 (Always On AG y columnstore).',
         '2014: In-Memory OLTP (Hekaton) y Buffer Pool Extension. 2016: Query Store, Always Encrypted, Row-Level Security, temporal tables. 2017: primera versión en Linux y Docker; adaptive query processing.',
         '2019: Intelligent Query Processing (memory grant feedback, batch mode en rowstore), Accelerated Database Recovery (ADR) y UTF-8. 2022: Ledger, Parameter Sensitive Plan optimization, Contained Availability Groups y copia a S3.',
-        '2025: incorpora el tipo vector y funciones de IA, el tipo json nativo y expresiones regulares en T-SQL. Conviene verificar en la página de ciclo de vida de Microsoft las fechas de soporte vigentes.',
+        '2025: incorpora el tipo vector y funciones de IA (VECTOR, VECTOR_DISTANCE), el tipo json nativo y expresiones regulares en T-SQL. Es la versión de referencia del curso.',
         'Ciclo de vida: 5 años de soporte principal + 5 de soporte extendido (parches de seguridad). SQL Server 2016 terminó su soporte extendido en julio de 2026; 2017 termina en octubre de 2027, 2019 en enero de 2030 y 2022 en enero de 2033.',
-        'Nivel de compatibilidad (COMPATIBILITY_LEVEL): 130=2016, 140=2017, 150=2019, 160=2022. Una BD restaurada en una versión nueva mantiene su nivel de compatibilidad hasta que se cambie; es clave en migraciones.',
+        'Nivel de compatibilidad (COMPATIBILITY_LEVEL): 130=2016, 140=2017, 150=2019, 160=2022, 170=2025. Una BD restaurada en una versión nueva mantiene su nivel de compatibilidad hasta que se cambie; es clave en migraciones.',
       ],
       preguntas: [
         '¿Qué versión tenéis en producción y en qué fecha termina su soporte extendido?',
@@ -176,11 +177,11 @@ module.exports = async (pres, H, D) => {
   const vw = (CW - 6 * 0.15) / 7;
   vers.forEach(([y, f], i) => {
     const x = CX + i * (vw + 0.15);
-    H.rect(s, { x, y: CY, w: vw, h: 3.4, fill: i === 5 ? COL.NAVY : COL.WHITE, radius: 0.12, shadowOn: true, line: COL.LINE });
-    s.addText(y, { x, y: CY + 0.2, w: vw, h: 0.6, fontFace: H.FONT.head, fontSize: 28, bold: true, color: i === 5 ? COL.WHITE : COL.CORAL, align: 'center', margin: 0 });
-    H.bullets(s, f, { x: x + 0.15, y: CY + 1.0, w: vw - 0.25, h: 2.3, size: 13, color: i === 5 ? COL.WHITE : COL.TEXT, leadColor: COL.NAVY, after: 8 });
+    H.rect(s, { x, y: CY, w: vw, h: 3.4, fill: i === 6 ? COL.NAVY : COL.WHITE, radius: 0.12, shadowOn: true, line: COL.LINE });
+    s.addText(y, { x, y: CY + 0.2, w: vw, h: 0.6, fontFace: H.FONT.head, fontSize: 28, bold: true, color: i === 6 ? COL.WHITE : COL.CORAL, align: 'center', margin: 0 });
+    H.bullets(s, f, { x: x + 0.15, y: CY + 1.0, w: vw - 0.25, h: 2.3, size: 13, color: i === 6 ? COL.WHITE : COL.TEXT, leadColor: COL.NAVY, after: 8 });
   });
-  H.callout(s, { x: CX, y: 5.5, w: CW, h: 1.2, kind: 'warn', lead: 'Ciclo de vida:', text: '5 años de soporte principal + 5 de soporte extendido. SQL Server 2016 ya no recibe parches de seguridad (jul-2026); 2022 es la referencia del curso.' });
+  H.callout(s, { x: CX, y: 5.5, w: CW, h: 1.2, kind: 'warn', lead: 'Ciclo de vida:', text: '5 años de soporte principal + 5 de soporte extendido. SQL Server 2016 ya no recibe parches de seguridad (jul-2026); 2025 es la referencia del curso.' });
 
   // 7 ─ Arquitectura del motor
   s = H.slide(pres, {
@@ -393,15 +394,15 @@ module.exports = async (pres, H, D) => {
 
   // 15 ─ Ediciones
   s = H.slide(pres, {
-    mod: 1, badge: 'Licenciamiento', title: 'Ediciones de SQL Server 2022',
+    mod: 1, badge: 'Licenciamiento', title: 'Ediciones de SQL Server 2025',
     notes: {
       obj: 'Elegir la edición adecuada según límites de cómputo, memoria y funcionalidades, y entender las restricciones de cada una.',
       guion: [
         'Express: gratuita, para aplicaciones pequeñas y aprendizaje. Límites: 1 socket o 4 cores (el menor), 1.410 MB para el Buffer Pool, 10 GB por base de datos; sin SQL Server Agent.',
-        'Standard: para cargas departamentales. Hasta 4 sockets o 24 cores, 128 GB de Buffer Pool. Incluye Basic Availability Groups (una BD por AG, una réplica secundaria), compresión de backup, TDE (desde 2019) y cifrado.',
+        'Standard: para cargas departamentales. Hasta 4 sockets o 24 cores, 128 GB de Buffer Pool. Incluye Basic Availability Groups (una BD por AG, una réplica secundaria), compresión de backup, TDE (desde 2019) y soporte nativo de tipo VECTOR.',
         'Enterprise: sin límites de cómputo (el máximo que permita el SO) y todas las funciones: particionado online, compresión de datos, Always On AG avanzados, rebuild online de índices, in-memory ampliado, Resource Governor, etc.',
         'Developer: mismas funciones que Enterprise, gratis pero sin derecho a producción. Es la edición ideal para el laboratorio y desarrollo. La edición Evaluation dura 180 días.',
-        'Web existe sólo para proveedores de hosting. Las cifras de límites pueden variar entre versiones: validar siempre con la documentación oficial "Editions and supported features of SQL Server 2022".',
+        'Web existe sólo para proveedores de hosting. Las cifras de límites pueden variar entre versiones: validar siempre con la documentación oficial "Editions and supported features of SQL Server 2025".',
         'Criterios de elección: necesidad de HA avanzada, volumen de memoria/CPU, funciones de seguridad y cumplimiento, y coste. Standard cubre mucho más de lo que se cree; Enterprise se justifica por funciones concretas, no por prestigio.',
       ],
       preguntas: [
@@ -494,12 +495,56 @@ module.exports = async (pres, H, D) => {
       ],
     },
   });
-  H.code(s, { x: CX, y: CY, w: 5.4, h: 2.4, size: 12, label: 'BASH · SQLCMD', code: 'sqlcmd -S localhost,1433 -U sa -C \\\n  -P "Curso#SQL2022!" \\\n  -Q "SELECT @@VERSION"\n\nsqlcmd -S .\\SQLEXPRESS -E -b \\\n  -i script.sql -o salida.txt' });
+  H.code(s, { x: CX, y: CY, w: 5.4, h: 2.4, size: 12, label: 'BASH · SQLCMD', code: 'sqlcmd -S localhost,1433 -U sa -C \\\n  -P "Curso#SQL2025!" \\\n  -Q "SELECT @@VERSION"\n\nsqlcmd -S .\\SQLEXPRESS -E -b \\\n  -i script.sql -o salida.txt' });
   H.code(s, { x: 6.3, y: CY, w: 6.43, h: 3.9, size: 12, label: 'T-SQL · EXTENDED EVENTS', code: "CREATE EVENT SESSION [lentas] ON SERVER\nADD EVENT sqlserver.sql_statement_completed\n  (WHERE duration > 1000000)   -- > 1 s (µs)\nADD TARGET package0.event_file\n  (SET filename = N'lentas.xel')\nWITH (STARTUP_STATE = OFF);\nGO\nALTER EVENT SESSION [lentas] ON SERVER\n  STATE = START;" });
   H.callout(s, { x: CX, y: 4.45, w: 5.4, h: 2.3, kind: 'tip', lead: 'system_health', text: 'ya está activa por defecto y recoge deadlocks y errores graves. Mírala primero tras un incidente.' });
   H.callout(s, { x: 6.3, y: 5.9, w: 6.43, h: 0.85, kind: 'warn', text: 'Filtra siempre con predicados para limitar la sobrecarga.' });
 
-  // 19 ─ Laboratorio 1 (I)
+  // 19 ─ Tablas vectoriales e IA (SQL Server 2025)
+  s = H.slide(pres, {
+    mod: 1, badge: 'Almacenamiento', title: 'SQL Server 2025: Tablas vectoriales y RAG',
+    notes: {
+      obj: 'Comprender el soporte del tipo nativo VECTOR en SQL Server 2025, el cálculo de distancias semánticas y la implementación de arquitecturas RAG dentro del motor relacional.',
+      guion: [
+        'SQL Server 2025 incorpora el tipo de dato nativo VECTOR(n), transformando el motor relacional en una base de datos vectorial de alto rendimiento para escenarios de Inteligencia Artificial.',
+        'Ventaja clave para el DBA: evita dispersar los datos en motores vectoriales externos (Pinecone, Chroma, Milvus). Los embeddings residen en la misma tabla junto al resto de columnas transaccionales, bajo el mismo modelo de seguridad (ACID, permisos, RLS, Always Encrypted y TDE).',
+        'Función VECTOR_DISTANCE(métrica, vector1, vector2): calcula la distancia entre vectores. Métricas soportadas: cosine (similitud del coseno, típica en embeddings de texto), euclidean (distancia euclídea) y dot (producto escalar).',
+        'Arquitectura RAG (Retrieval-Augmented Generation): una consulta busca semánticamente los documentos más relevantes con ORDER BY VECTOR_DISTANCE(...) ASC y devuelve el contexto para un LLM, combinando fácilmente filtros relacionales (WHERE EmpresaId = @id AND Fecha >= @desde).',
+        'Internals: VECTOR(n) almacena números de coma flotante de 32 bits (4 bytes por dimensión). Un vector de 1536 dimensiones (OpenAI text-embedding-3) ocupa ~6 KB. Si una fila excede 8060 bytes, SQL Server gestiona el desbordamiento hacia páginas ROW_OVERFLOW o LOB.',
+        'Laboratorio y práctica: en el repositorio disponéis de labs/lab115-vector-table/vector_table.sql con una simulación completa de base de conocimiento y búsqueda semántica para probar en vuestro contenedor.',
+      ],
+      preguntas: [
+        '¿Qué ventajas operativas y de seguridad ofrece gestionar embeddings en SQL Server frente a sincronizarlos con una base de datos vectorial externa?',
+        'Si cada vector de 1536 dimensiones ocupa ~6 KB, ¿qué precauciones de diseño físico (ficheros, Buffer Pool, índices) debemos tomar como DBAs?',
+      ],
+      lab: [
+        'Opcional (demo): abrir el script labs/lab115-vector-table/vector_table.sql en SSMS o VS Code.',
+        'Crear la tabla dbo.BaseConocimiento con la columna ContenidoEmbedding VECTOR(4).',
+        'Insertar los registros de prueba y ejecutar la consulta con VECTOR_DISTANCE(\'cosine\', ...) ordenando ascendentemente.',
+      ],
+    },
+  });
+  H.code(s, {
+    x: CX, y: CY, w: 6.8, h: 3.8, size: 11, label: 'T-SQL · TABLAS VECTORIALES (SQL 2025)',
+    code: "-- Tabla con columna vectorial nativa (dimensión fija)\nCREATE TABLE dbo.BaseConocimiento (\n    DocumentoID   INT IDENTITY(1,1) PRIMARY KEY,\n    Titulo        NVARCHAR(200) NOT NULL,\n    Contenido     NVARCHAR(MAX) NOT NULL,\n    Embedding     VECTOR(1536) NOT NULL\n);\n\n-- Búsqueda semántica usando similitud de coseno\nDECLARE @VectorPregunta VECTOR(1536) = CAST('[...]' AS VECTOR(1536));\n\nSELECT TOP 3 Titulo, Contenido,\n    VECTOR_DISTANCE('cosine', Embedding, @VectorPregunta) AS Distancia\nFROM dbo.BaseConocimiento\nORDER BY Distancia ASC;\nGO"
+  });
+  H.card(s, {
+    x: 7.7, y: CY, w: 5.03, h: 2.35, icon: 'FaBrain', title: 'Tipo nativo VECTOR', size: 12,
+    bullets: ['Embeddings densos para texto, imágenes o audio', 'Almacenamiento de floats de 32 bits (4 bytes/dim)', 'Métricas de distancia: cosine, euclidean, dot'],
+    tone: 'tint'
+  });
+  H.card(s, {
+    x: 7.7, y: CY + 2.5, w: 5.03, h: 2.45, icon: 'FaLayerGroup', title: 'Consultas Híbridas y RAG', size: 12,
+    bullets: ['Filtros relacionales (WHERE) y similitud semántica', 'Contexto directo para LLMs en arquitecturas RAG', 'Demostración práctica: labs/lab115-vector-table'],
+    tone: 'light'
+  });
+  H.callout(s, {
+    x: CX, y: 5.2, w: 6.8, h: 1.5, kind: 'tip',
+    lead: 'RAG sin bases externas:',
+    text: 'Los embeddings se benefician del modelo ACID, cifrado TDE, Row-Level Security y backups de SQL Server sin pipelines ETL a bases de datos de terceros.'
+  });
+
+  // 20 ─ Laboratorio 1 (I)
   s = H.slide(pres, {
     mod: 1, badge: 'Base de datos', title: 'Lab 1 (I): BD con ficheros y filegroups', lab: true,
     notes: {
@@ -525,7 +570,7 @@ module.exports = async (pres, H, D) => {
   H.code(s, { x: CX, y: CY, w: 7.6, h: 5.0, size: 12, label: 'T-SQL · LABORATORIO 1', code: "CREATE DATABASE Ventas\nON PRIMARY\n  (NAME = Ventas_sys, FILENAME = '/var/opt/mssql/data/Ventas.mdf',\n   SIZE = 64MB,  FILEGROWTH = 64MB),\nFILEGROUP FG_DATOS\n  (NAME = Ventas_d1,  FILENAME = '/var/opt/mssql/data/Ventas_d1.ndf',\n   SIZE = 256MB, FILEGROWTH = 128MB),\n  (NAME = Ventas_d2,  FILENAME = '/var/opt/mssql/data/Ventas_d2.ndf',\n   SIZE = 256MB, FILEGROWTH = 128MB)\nLOG ON\n  (NAME = Ventas_log, FILENAME = '/var/opt/mssql/log/Ventas.ldf',\n   SIZE = 128MB, FILEGROWTH = 64MB);\nGO" });
   H.card(s, { x: 8.55, y: CY, w: 4.18, h: 5.0, icon: 'FaFlask', title: 'Enunciado', size: 14, bullets: ['Crea la BD Ventas con los ficheros indicados', 'Dos ficheros del mismo tamaño en FG_DATOS', 'Autogrowth en MB, nunca en %', 'Comprueba el resultado en SSMS (Propiedades → Archivos)'], tone: 'tint' });
 
-  // 20 ─ Laboratorio 1 (II)
+  // 21 ─ Laboratorio 1 (II)
   s = H.slide(pres, {
     mod: 1, badge: 'Base de datos', title: 'Lab 1 (II): verificar y hacer crecer', lab: true,
     notes: {

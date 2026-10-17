@@ -1,6 +1,6 @@
 'use strict';
 /**
- * m2.js — MÓDULO 2 «Gestión y Seguridad (DDL, DML y Seguridad)» · 22 diapositivas (nº 21–42) · 5,5 h.
+ * m2.js — MÓDULO 2 «Gestión y Seguridad (DDL, DML y Seguridad)» · 22 diapositivas (nº 22–43) · 5,5 h.
  * BD de ejemplo coherente en todo el módulo: Ventas (dbo.Cliente, dbo.Pedido) + schemas rpt / app.
  */
 module.exports = async (pres, H, D) => {
@@ -8,7 +8,7 @@ module.exports = async (pres, H, D) => {
   const MOD = 2;
   const mk = (badge, title, notes, lab = false) => H.slide(pres, { mod: MOD, badge, title, notes, lab });
 
-  // ───────────────────────── 21 · Separador de módulo ─────────────────────────
+  // ───────────────────────── 22 · Separador de módulo ─────────────────────────
   H.divider(pres, {
     mod: MOD,
     title: 'Gestión y Seguridad',
@@ -31,7 +31,7 @@ module.exports = async (pres, H, D) => {
         'Bloque 2 (DML avanzado): orden lógico del SELECT, JOINs lógicos y sus tres algoritmos físicos (Nested Loops, Merge, Hash), subconsultas, CTE y window functions.',
         'Bloque 3 (seguridad): autenticación, jerarquía Login → User → Rol → Permiso, GRANT/DENY/REVOKE, ownership chaining, mínimo privilegio y auditoría básica.',
         'Aviso de planificación: Laboratorio 2A tras DML (~1 h) y Laboratorio 2B al final de seguridad (~1 h). Si el grupo va justo de tiempo, se recortan ejercicios opcionales, nunca los pasos de verificación.',
-        'Requisito previo: SSMS o Azure Data Studio conectados a una instancia 2019/2022 con permisos de sysadmin (para crear logins y bases de datos).',
+        'Requisito previo: SSMS o Azure Data Studio conectados a una instancia 2022/2025 con permisos de sysadmin (para crear logins y bases de datos).',
       ],
       preguntas: [
         '¿Qué parte de vuestro trabajo actual depende más de que el modelo de datos esté bien definido (integridad) y cuál de que esté bien protegido?',
@@ -40,7 +40,7 @@ module.exports = async (pres, H, D) => {
     },
   });
 
-  // ───────────────────────── 22 · Creación de tablas y restricciones ─────────────────────────
+  // ───────────────────────── 23 · Creación de tablas y restricciones ─────────────────────────
   let s = mk('DDL', 'Creación de tablas y restricciones', {
     obj: 'Que el alumno sepa declarar tablas con las cinco restricciones básicas (PK, FK, CHECK, UNIQUE, DEFAULT) y entienda qué hace el motor internamente con cada una.',
     guion: [
@@ -91,7 +91,7 @@ CREATE TABLE dbo.Pedido (
     ],
   });
 
-  // ───────────────────────── 23 · Errores comunes DDL ─────────────────────────
+  // ───────────────────────── 24 · Errores comunes DDL ─────────────────────────
   s = mk('Buenas prácticas', 'Errores comunes en el diseño DDL', {
     obj: 'Interiorizar los seis errores de diseño más habituales en producción y su consecuencia medible en rendimiento o integridad.',
     guion: [
@@ -117,7 +117,7 @@ CREATE TABLE dbo.Pedido (
     { title: 'Tipos sobredimensionados', icon: 'FaExpandArrowsAlt', body: 'Más páginas, más I/O y más memoria en el Buffer Pool para el mismo dato.' },
   ], { cols: 3, titleSize: 16, size: 14 });
 
-  // ───────────────────────── 24 · Vistas estándar vs indexadas ─────────────────────────
+  // ───────────────────────── 25 · Vistas estándar vs indexadas ─────────────────────────
   s = mk('Vistas', 'Vistas estándar frente a vistas indexadas', {
     obj: 'Distinguir una vista estándar (consulta almacenada, sin datos) de una vista indexada (resultado materializado) y saber cuándo conviene cada una.',
     guion: [
@@ -149,7 +149,7 @@ SELECT c.ClienteId, c.Nombre, p.PedidoId, p.Fecha, p.Total
 FROM   dbo.Cliente AS c JOIN dbo.Pedido AS p ON p.ClienteId = c.ClienteId;`,
   });
 
-  // ───────────────────────── 25 · Vistas indexadas: requisitos ─────────────────────────
+  // ───────────────────────── 26 · Vistas indexadas: requisitos ─────────────────────────
   s = mk('Vistas', 'Vistas indexadas: SCHEMABINDING y requisitos', {
     obj: 'Crear correctamente una vista indexada conociendo sus restricciones y sus costes de mantenimiento.',
     guion: [
@@ -198,7 +198,7 @@ SELECT * FROM dbo.vVentasCliente WITH (NOEXPAND);`,
     ],
   });
 
-  // ───────────────────────── 26 · Procedimientos almacenados ─────────────────────────
+  // ───────────────────────── 27 · Procedimientos almacenados ─────────────────────────
   s = mk('Programabilidad', 'Procedimientos almacenados', {
     obj: 'Entender qué aporta un procedimiento almacenado (rendimiento, encapsulación y seguridad) y escribir uno con las buenas prácticas básicas.',
     guion: [
@@ -243,7 +243,7 @@ EXEC dbo.usp_PedidosPorCliente @ClienteId = 42;`,
     ],
   });
 
-  // ───────────────────────── 27 · Plan caching, sniffing, recompilaciones ─────────────────────────
+  // ───────────────────────── 28 · Plan caching, sniffing, recompilaciones ─────────────────────────
   s = mk('Programabilidad', 'Plan caching, sniffing y recompilaciones', {
     obj: 'Comprender el ciclo compilar → cachear → reutilizar → recompilar y reconocer un problema de parameter sniffing con sus mitigaciones.',
     guion: [
@@ -279,7 +279,7 @@ FROM sys.dm_exec_cached_plans ORDER BY usecounts DESC;`,
     text: 'el primer valor compilado fija el plan para todos los demás.',
   });
 
-  // ───────────────────────── 28 · SELECT: orden lógico ─────────────────────────
+  // ───────────────────────── 29 · SELECT: orden lógico ─────────────────────────
   s = mk('DML avanzado', 'SELECT complejos: orden lógico de ejecución', {
     obj: 'Aprender que el orden de escritura de un SELECT no es el orden en que se evalúa, y usarlo para razonar sobre alias, filtros y agregados.',
     guion: [
@@ -319,7 +319,7 @@ ORDER BY Ventas DESC;`,
     text: 'ORDER BY puede usar alias de SELECT porque se evalúa después; WHERE no.',
   });
 
-  // ───────────────────────── 29 · JOINs lógicos ─────────────────────────
+  // ───────────────────────── 30 · JOINs lógicos ─────────────────────────
   s = mk('DML avanzado', 'JOINs: tipos lógicos y trampas habituales', {
     obj: 'Elegir el tipo de JOIN lógico adecuado y evitar la trampa clásica de filtrar la tabla externa en el WHERE.',
     guion: [
@@ -365,7 +365,7 @@ LEFT JOIN dbo.Pedido AS p
       AND p.Fecha >= '20240101';`,
   });
 
-  // ───────────────────────── 30 · JOINs físicos ─────────────────────────
+  // ───────────────────────── 31 · JOINs físicos ─────────────────────────
   s = mk('DML avanzado', 'JOINs: algoritmos físicos del optimizador', {
     obj: 'Reconocer en un plan de ejecución los tres operadores físicos de join, saber cuándo es adecuado cada uno y qué señales indican una mala elección.',
     guion: [
@@ -401,7 +401,7 @@ LEFT JOIN dbo.Pedido AS p
     text: 'compara Estimated frente a Actual Rows. Estadísticas obsoletas provocan joins inadecuados.',
   });
 
-  // ───────────────────────── 31 · Subconsultas, EXISTS y CTE ─────────────────────────
+  // ───────────────────────── 32 · Subconsultas, EXISTS y CTE ─────────────────────────
   s = mk('DML avanzado', 'Subconsultas, EXISTS y CTE', {
     obj: 'Usar subconsultas escalares y correlacionadas, EXISTS y CTE de forma legible sin penalizar el rendimiento.',
     guion: [
@@ -449,7 +449,7 @@ ORDER BY v.Ventas DESC;`,
     text: 'NOT IN con algún NULL devuelve cero filas: usa NOT EXISTS. Una CTE no materializa datos: se expande como una vista en línea.',
   });
 
-  // ───────────────────────── 32 · Agregados y window functions ─────────────────────────
+  // ───────────────────────── 33 · Agregados y window functions ─────────────────────────
   s = mk('DML avanzado', 'Agregados y window functions básicas', {
     obj: 'Diferenciar GROUP BY (colapsa filas) de las window functions (mantienen el detalle) y aplicar ROW_NUMBER, RANK, SUM OVER y LAG.',
     guion: [
@@ -491,7 +491,7 @@ FROM dbo.Pedido;`,
     text: 'GROUP BY colapsa filas; OVER mantiene el detalle. Indica ROWS en el frame para evitar el worktable de RANGE.',
   });
 
-  // ───────────────────────── 33 · LAB 2A ─────────────────────────
+  // ───────────────────────── 34 · LAB 2A ─────────────────────────
   s = mk('Consultas y SP', 'Laboratorio 2A: consultas y procedimientos', {
     obj: 'Aplicar DML avanzado (window functions, CTE) y encapsular el resultado en un procedimiento almacenado, observando plan caching y parameter sniffing en vivo.',
     guion: [
@@ -506,7 +506,7 @@ FROM dbo.Pedido;`,
       '¿Qué cambia en el plan al añadir OPTION (RECOMPILE)? ¿Qué coste tiene hacerlo en cada ejecución?',
     ],
     lab: [
-      'Requisito: contenedor SQL Server 2022 en marcha (docker run -e ACCEPT_EULA=Y -e MSSQL_SA_PASSWORD=<clave> -p 1433:1433 mcr.microsoft.com/mssql/server:2022-latest) y SSMS conectado a localhost,1433.',
+      'Requisito: contenedor SQL Server 2025 en marcha (docker run -e ACCEPT_EULA=Y -e MSSQL_SA_PASSWORD=<clave> -p 1433:1433 mcr.microsoft.com/mssql/server:2025-latest) y SSMS conectado a localhost,1433.',
       'Paso 1 — Datos: CREATE DATABASE Ventas; USE Ventas; crear dbo.Cliente y dbo.Pedido con los scripts de la diapositiva 22. Cargar 500 clientes: INSERT dbo.Cliente (Email, Nombre) SELECT TOP (500) CONCAT(\'c\', n, \'@demo.es\'), CONCAT(N\'Cliente \', n) FROM (SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS n FROM sys.all_objects a CROSS JOIN sys.all_objects b) AS t ORDER BY n;',
       'Paso 1b — Pedidos sesgados: INSERT dbo.Pedido (ClienteId, Fecha, Total) SELECT TOP (50000) CASE WHEN ABS(CHECKSUM(NEWID())) % 10 < 6 THEN 1 ELSE 2 + ABS(CHECKSUM(NEWID())) % 499 END, DATEADD(DAY, -ABS(CHECKSUM(NEWID())) % 730, CAST(GETDATE() AS date)), CAST(10 + ABS(CHECKSUM(NEWID())) % 990 AS decimal(12,2)) FROM sys.all_objects a CROSS JOIN sys.all_objects b; Después: CREATE INDEX IX_Pedido_Cliente ON dbo.Pedido (ClienteId) INCLUDE (Fecha, Total);',
       'Paso 2 — Consulta analítica: top 3 pedidos por importe de cada cliente con ROW_NUMBER() OVER (PARTITION BY ClienteId ORDER BY Total DESC) dentro de una CTE y WHERE rn <= 3 fuera. Añadir una columna con SUM(Total) OVER (PARTITION BY ClienteId) para el % sobre el total del cliente.',
@@ -535,7 +535,7 @@ SELECT * FROM R WHERE rn <= 3;`,
     text: 'no puedes filtrar rn en el mismo SELECT; envuélvelo en una CTE.',
   });
 
-  // ───────────────────────── 34 · Modelo de seguridad ─────────────────────────
+  // ───────────────────────── 35 · Modelo de seguridad ─────────────────────────
   s = mk('Seguridad', 'Modelo de seguridad de SQL Server', {
     obj: 'Presentar la cadena completa de seguridad (autenticación → login → user → roles/permisos → objetos) y la frontera entre nivel de instancia y de base de datos.',
     guion: [
@@ -558,7 +558,7 @@ SELECT * FROM R WHERE rn <= 3;`,
     text: 'un login abre la puerta de la instancia; los permisos los decide el user en cada base de datos.',
   });
 
-  // ───────────────────────── 35 · Autenticación ─────────────────────────
+  // ───────────────────────── 36 · Autenticación ─────────────────────────
   s = mk('Seguridad', 'Autenticación: Windows frente a SQL Server', {
     obj: 'Comparar los dos modos de autenticación, saber cuándo habilitar el modo mixto y cuáles son sus riesgos.',
     guion: [
@@ -593,7 +593,7 @@ FROM   sys.sql_logins;`,
     text: 'requiere reiniciar el servicio y deja sa expuesta: deshabilítala.',
   });
 
-  // ───────────────────────── 36 · Logins, Users y Schemas ─────────────────────────
+  // ───────────────────────── 37 · Logins, Users y Schemas ─────────────────────────
   s = mk('Seguridad', 'Logins, Users y Schemas', {
     obj: 'Distinguir login (instancia) de user (base de datos), entender su mapeo por SID y usar los schemas como espacio de nombres y unidad de permisos.',
     guion: [
@@ -640,7 +640,7 @@ CREATE USER analista FOR LOGIN lg_analista
     text: 'tras un restore, ALTER USER ... WITH LOGIN = ... repara el SID.',
   });
 
-  // ───────────────────────── 37 · Roles ─────────────────────────
+  // ───────────────────────── 38 · Roles ─────────────────────────
   s = mk('Seguridad', 'Roles fijos y roles personalizados', {
     obj: 'Conocer los roles fijos más relevantes y justificar por qué se prefieren roles personalizados con permisos sobre schemas.',
     guion: [
@@ -684,7 +684,7 @@ ALTER ROLE rol_lectura_rpt
     text: 'evita db_owner y sysadmin en aplicaciones; usa roles personalizados con permisos sobre un schema.',
   });
 
-  // ───────────────────────── 38 · GRANT / DENY / REVOKE ─────────────────────────
+  // ───────────────────────── 39 · GRANT / DENY / REVOKE ─────────────────────────
   s = mk('Seguridad', 'GRANT, DENY y REVOKE', {
     obj: 'Aplicar correctamente las tres sentencias de permisos y razonar sobre la precedencia entre ellas y entre roles.',
     guion: [
@@ -720,7 +720,7 @@ SELECT * FROM sys.fn_my_permissions(N'dbo.Pedido', N'OBJECT');`,
     text: 'DENY > GRANT > sin permiso. Los roles se acumulan, salvo DENY.',
   });
 
-  // ───────────────────────── 39 · Ownership chaining ─────────────────────────
+  // ───────────────────────── 40 · Ownership chaining ─────────────────────────
   s = mk('Seguridad', 'Ownership chaining (cadena de propiedad)', {
     obj: 'Entender cómo la cadena de propiedad permite exponer datos sólo a través de procedimientos o vistas y cuándo se rompe.',
     guion: [
@@ -760,7 +760,7 @@ SELECT * FROM sys.fn_my_permissions(N'dbo.Pedido', N'OBJECT');`,
     text: 'el SQL dinámico rompe la cadena; entre bases de datos exige DB_CHAINING.',
   });
 
-  // ───────────────────────── 40 · Mínimo privilegio y auditoría ─────────────────────────
+  // ───────────────────────── 41 · Mínimo privilegio y auditoría ─────────────────────────
   s = mk('Buenas prácticas', 'Mínimo privilegio y auditoría básica', {
     obj: 'Traducir el principio de mínimo privilegio en reglas concretas y conocer las tres herramientas básicas de auditoría de SQL Server.',
     guion: [
@@ -799,7 +799,7 @@ ALTER SERVER AUDIT Aud_Seguridad WITH (STATE = ON);`,
     text: 'consulta los eventos con sys.fn_get_audit_file.',
   });
 
-  // ───────────────────────── 41 · LAB 2B ─────────────────────────
+  // ───────────────────────── 42 · LAB 2B ─────────────────────────
   s = mk('Permisos', 'Laboratorio 2B: permisos segregados', {
     obj: 'Diseñar e implementar un esquema de permisos segregados (analista de lectura y operador de aplicación) siguiendo el mínimo privilegio, y verificarlo con EXECUTE AS.',
     guion: [
@@ -842,7 +842,7 @@ REVERT;`,
     text: 'olvidar REVERT deja la sesión suplantada.',
   });
 
-  // ───────────────────────── 42 · Resumen ─────────────────────────
+  // ───────────────────────── 43 · Resumen ─────────────────────────
   s = mk('Resumen', 'Resumen del Módulo 2: puntos clave', {
     obj: 'Consolidar los cuatro bloques del módulo y conectar con el siguiente (rendimiento y alta disponibilidad).',
     guion: [

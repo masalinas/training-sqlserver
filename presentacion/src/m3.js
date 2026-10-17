@@ -1,6 +1,6 @@
 'use strict';
 /**
- * m3.js — MÓDULO 3 «Optimización y Alta Disponibilidad» (5 h) · 18 diapositivas (nº 43–60).
+ * m3.js — MÓDULO 3 «Optimización y Alta Disponibilidad» (5 h) · 18 diapositivas (nº 44–61).
  *  1 divider · 13 teoría · 3 laboratorio · 1 resumen.
  */
 const C = (...lines) => lines.join('\n');
@@ -8,7 +8,7 @@ const C = (...lines) => lines.join('\n');
 module.exports = async (pres, H, D) => {
   const { COL } = H;
 
-  // ───────────────────────── 43 · Separador de módulo ─────────────────────────
+  // ───────────────────────── 44 · Separador de módulo ─────────────────────────
   H.divider(pres, {
     mod: 3,
     title: 'Optimización y Alta Disponibilidad',
@@ -30,7 +30,7 @@ module.exports = async (pres, H, D) => {
         'Conectar con el Módulo 1: lo visto sobre páginas de 8 KB, extensiones y el Buffer Pool explica por qué un índice reduce lecturas lógicas; lo visto sobre el Transaction Log será la base de Log Shipping y Always On.',
         'Advertir de que la mayoría de problemas de rendimiento en producción se resuelven con un buen diseño de índices y estadísticas actualizadas, antes de tocar hardware o parámetros del servidor.',
         'En HA/DR veremos conceptos y comparativa; la configuración paso a paso de un Availability Group queda fuera del alcance del laboratorio, pero se deja claro qué pregunta de negocio responde cada tecnología.',
-        'Entorno del laboratorio: SQL Server 2019/2022 en Docker o instancia local, base de datos Ventas (dbo.Cliente, dbo.Pedido, dbo.Producto) y SSMS. Verificar que todos pueden conectarse antes de empezar.',
+        'Entorno del laboratorio: SQL Server 2022/2025 en Docker o instancia local, base de datos Ventas (dbo.Cliente, dbo.Pedido, dbo.Producto) y SSMS. Verificar que todos pueden conectarse antes de empezar.',
       ],
       preguntas: [
         '¿Cuál ha sido la consulta más lenta que habéis sufrido en producción y cómo se averiguó la causa?',
@@ -39,7 +39,7 @@ module.exports = async (pres, H, D) => {
     },
   });
 
-  // ───────────────────────── 44 · Heap vs Clustered ─────────────────────────
+  // ───────────────────────── 45 · Heap vs Clustered ─────────────────────────
   let s = H.slide(pres, {
     mod: 3,
     badge: 'Índices',
@@ -83,7 +83,7 @@ module.exports = async (pres, H, D) => {
   ], { x: 0.6, y: 1.75, w: 12.13, h: 3.45, gap: 0.3 });
   H.callout(s, { x: 0.6, y: 5.5, w: 12.13, h: 1.25, kind: 'tip', size: 15, lead: 'Regla práctica:', text: 'en OLTP casi toda tabla debe tener un Clustered Index estrecho y creciente (por ejemplo INT IDENTITY). Cada columna de esa clave se copia en todos los índices no clustered.' });
 
-  // ───────────────────────── 45 · B-Tree ─────────────────────────
+  // ───────────────────────── 46 · B-Tree ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'Índices',
@@ -106,7 +106,7 @@ module.exports = async (pres, H, D) => {
   });
   D.btreeDiagram(s, { x: 0.6, y: 1.75, w: 12.13, h: 5.0 });
 
-  // ───────────────────────── 46 · NCI, Key Lookup, covering ─────────────────────────
+  // ───────────────────────── 47 · NCI, Key Lookup, covering ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'Índices',
@@ -156,7 +156,7 @@ module.exports = async (pres, H, D) => {
   });
   H.callout(s, { x: 0.6, y: 6.0, w: 12.13, h: 0.75, kind: 'info', size: 14, lead: 'Orden de la clave:', text: 'igualdad primero, rango después, y columnas de lectura en INCLUDE.' });
 
-  // ───────────────────────── 47 · Filtered, columnstore, missing indexes ─────────────────────────
+  // ───────────────────────── 48 · Filtered, columnstore, missing indexes ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'Índices',
@@ -216,7 +216,7 @@ module.exports = async (pres, H, D) => {
   });
   H.callout(s, { x: 6.8, y: 5.25, w: 5.93, h: 1.5, kind: 'warn', size: 14, lead: 'Con cautela:', text: 'son sugerencias, no órdenes. Pueden duplicar índices y se reinician con el servicio. Valídalas con el plan real.' });
 
-  // ───────────────────────── 48 · Fragmentación y Page Splits ─────────────────────────
+  // ───────────────────────── 49 · Fragmentación y Page Splits ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'Mantenimiento',
@@ -278,7 +278,7 @@ module.exports = async (pres, H, D) => {
     ],
   });
 
-  // ───────────────────────── 49 · Estadísticas ─────────────────────────
+  // ───────────────────────── 50 · Estadísticas ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'Optimizador',
@@ -323,7 +323,7 @@ module.exports = async (pres, H, D) => {
     { title: 'Cardinality Estimator', body: 'El CE nuevo (compat. 120+) cambia estimaciones; compara con el Legacy CE.' },
   ], { cols: 1, x: 7.8, y: 1.75, w: 4.93, h: 5.0, gap: 0.25, size: 14, titleSize: 17 });
 
-  // ───────────────────────── 50 · Operadores del plan ─────────────────────────
+  // ───────────────────────── 51 · Operadores del plan ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'Planes de ejecución',
@@ -375,7 +375,7 @@ module.exports = async (pres, H, D) => {
   ], { x: 0.6, y: 1.75, w: 12.13, h: 3.45, gap: 0.3 });
   H.callout(s, { x: 0.6, y: 5.35, w: 12.13, h: 1.35, kind: 'tip', size: 15, lead: 'Un Scan no es siempre un problema:', text: 'hay que cruzarlo con el nº de filas, el tamaño de la tabla y las lecturas lógicas reales antes de decidir crear un índice.' });
 
-  // ───────────────────────── 51 · Leer un plan ─────────────────────────
+  // ───────────────────────── 52 · Leer un plan ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'Planes de ejecución',
@@ -422,7 +422,7 @@ module.exports = async (pres, H, D) => {
     ],
   });
 
-  // ───────────────────────── 52 · DMVs: consultas y sesiones ─────────────────────────
+  // ───────────────────────── 53 · DMVs: consultas y sesiones ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'Monitorización',
@@ -473,7 +473,7 @@ module.exports = async (pres, H, D) => {
   });
   H.callout(s, { x: 0.6, y: 5.6, w: 12.13, h: 1.15, kind: 'warn', size: 14, lead: 'Datos volátiles:', text: 'las DMVs acumulan desde el último reinicio y query_stats sólo ve planes en caché. Necesitas VIEW SERVER STATE (VIEW SERVER PERFORMANCE STATE en 2022).' });
 
-  // ───────────────────────── 53 · DMVs: waits ─────────────────────────
+  // ───────────────────────── 54 · DMVs: waits ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'Monitorización',
@@ -532,7 +532,7 @@ module.exports = async (pres, H, D) => {
     ['WRITELOG', 'Latencia del disco de log'],
   ], { x: 6.83, y: 4.55, w: 5.9, colW: [2.6, 3.3], size: 13, maxH: 2.2 });
 
-  // ───────────────────────── 54 · RTO y RPO ─────────────────────────
+  // ───────────────────────── 55 · RTO y RPO ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'HA / DR',
@@ -569,7 +569,7 @@ module.exports = async (pres, H, D) => {
     H.stat(s, { x: 8.89, y: 4.35, w: 3.84, h: 2.4, value: 'RPO: minutos', label: 'Log Shipping: pérdida = intervalo de backup del log', valueSize: 36 });
   }
 
-  // ───────────────────────── 55 · Comparativa HA/DR ─────────────────────────
+  // ───────────────────────── 56 · Comparativa HA/DR ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'HA / DR',
@@ -599,7 +599,7 @@ module.exports = async (pres, H, D) => {
   ], { x: 0.6, y: 1.75, w: 12.13, colW: [1.9, 2.1, 2.4, 2.9, 3.0], size: 14, maxH: 3.9 });
   H.callout(s, { x: 0.6, y: 5.75, w: 12.13, h: 1.0, kind: 'tip', size: 14, lead: 'Elige por RTO/RPO, edición y presupuesto:', text: 'Standard ofrece Basic AG, FCI de 2 nodos y Log Shipping; Enterprise añade AG completos.' });
 
-  // ───────────────────────── 56 · Topología Always On AG ─────────────────────────
+  // ───────────────────────── 57 · Topología Always On AG ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'HA / DR',
@@ -645,7 +645,7 @@ module.exports = async (pres, H, D) => {
     ], { cols: 1, x: 8.55, y: 1.75, w: 4.18, h: 5.0, gap: 0.25, size: 14, titleSize: 16 });
   }
 
-  // ───────────────────────── 57 · Lab 3.1 ─────────────────────────
+  // ───────────────────────── 58 · Lab 3.1 ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'Laboratorio 3.1',
@@ -709,7 +709,7 @@ module.exports = async (pres, H, D) => {
     ),
   });
 
-  // ───────────────────────── 58 · Lab 3.2 ─────────────────────────
+  // ───────────────────────── 59 · Lab 3.2 ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'Laboratorio 3.2',
@@ -767,7 +767,7 @@ module.exports = async (pres, H, D) => {
   H.callout(s, { x: 7.8, y: 4.4, w: 4.93, h: 1.3, kind: 'warn', size: 14, lead: 'Trampa:', text: 'compara siempre planes reales y repite cada consulta 2–3 veces.' });
   H.callout(s, { x: 0.6, y: 6.0, w: 12.13, h: 0.75, kind: 'tip', size: 14, lead: 'Entrega:', text: 'tabla con operador, lecturas lógicas y desviación estimado/real de A, B y C.' });
 
-  // ───────────────────────── 59 · Lab 3.3 ─────────────────────────
+  // ───────────────────────── 60 · Lab 3.3 ─────────────────────────
   s = H.slide(pres, {
     mod: 3,
     badge: 'Laboratorio 3.3',
@@ -826,7 +826,7 @@ module.exports = async (pres, H, D) => {
     ),
   });
 
-  // ───────────────────────── 60 · Resumen ─────────────────────────
+  // ───────────────────────── 61 · Resumen ─────────────────────────
   H.closing(pres, {
     mod: 3,
     title: 'Módulo 3: puntos clave',

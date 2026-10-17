@@ -20,7 +20,7 @@ El curso se divide en 4 módulos principales:
 Requisitos técnicos y restricciones de entrega:
 - Idioma: Todo el contenido, diapositivas y documentación deben estar estrictamente en español.
 - Formato de salida: Generar una presentación PowerPoint widescreen (16:9) con diseño corporativo moderno (paleta azul SQL Server / acero / acentos de contraste) usando la skill instalada de anthropic pptx (python-pptx).
-- Extensión pedagógica: Al ser un curso de 20 horas, debe estructurarse como un Slide Deck formativo profundo de 81 diapositivas, combinando teoría, esquemas visuales y enunciados de laboratorios prácticos.
+- Extensión pedagógica: Al ser un curso de 20 horas, debe estructurarse como un Slide Deck formativo profundo de 82 diapositivas, combinando teoría, esquemas visuales y enunciados de laboratorios prácticos.
 - Requisito crítico de notas del orador: CADA diapositiva debe incluir en su campo de speaker notes (`slide.notes_slide`) un guion pedagógico exhaustivo con objetivos de la lámina, explicación técnica detallada a bajo nivel (internals del motor), preguntas de debate para el aula y pistas/resolución para los laboratorios.
 - Diagramas e imágenes: Generar o componer esquemas visuales clave para la arquitectura del motor, estructuras de árbol B de índices, capas de seguridad y la cadena cronológica de copias de seguridad.
 - Entregables finales: Centralizar la salida en la raiz del proyecto, que contenga el archivo `curso_sql_server_dba_20h.pptx` y un archivo Markdown complementario `GUIA_DEL_DOCENTE.md` que extraiga todas las diapositivas con sus notas del orador para consulta offline.
@@ -44,16 +44,16 @@ Finalmente tras la creación archivaremos el plan y podremos continuar con cambi
 
 ## 📦 Entregables Principales
 
-1. **Presentación Técnica Oficial (81 Diapositivas 16:9):**
+1. **Presentación Técnica Oficial (82 Diapositivas 16:9):**
    - **PowerPoint editable:** [`curso_sql_server_dba_20h.pptx`](./curso_sql_server_dba_20h.pptx)
    - **Documento PDF exportado:** [`curso_sql_server_dba_20h.pdf`](./curso_sql_server_dba_20h.pdf)
    - **Formato:** Panorámico 16:9 (`13.333" × 7.5"`), paleta cromática corporativa de alto contraste (`#0B2545` Azul Marino, `#134074` Azul Cobalto, `#D95D39` Coral de acento y alertas, `#F8F9FA` Fondo claro).
    - **Elementos:** Tarjetas estructuradas (*cards*), tablas comparativas, fragmentos T-SQL reales con resaltado de sintaxis sobre cajas estilizadas, y composiciones vectoriales nativas de PowerPoint (diagramas editables sin imágenes rasterizadas).
-   - **Notas del Orador:** El 100% de las diapositivas (81/81) contiene notas pedagógicas exhaustivas estructuradas en: *Objetivo Pedagógico*, *Guion y Explicación Técnica*, *Puntos de Interacción / Preguntas* e *Instrucciones de Laboratorio*.
+   - **Notas del Orador:** El 100% de las diapositivas (82/82) contiene notas pedagógicas exhaustivas estructuradas en: *Objetivo Pedagógico*, *Guion y Explicación Técnica*, *Puntos de Interacción / Preguntas* e *Instrucciones de Laboratorio*.
 
 2. **Guía Exhaustiva del Docente:**
-   - [`GUIA_DEL_DOCENTE.md`](./GUIA_DEL_DOCENTE.md)
-   - Documento Markdown de referencia (~230.000 caracteres) con el guion completo de las 20 horas lectivas para consulta offline y seguimiento en el aula, con todos los internals de SQL Server, trampas habituales y resolución detallada de cada laboratorio.
+   - [`GUIA_DEL_DOCENTE.md`](./GUIA_DEL_DOCENTE.md) y [`GUIA_DEL_DOCENTE.pdf`](./GUIA_DEL_DOCENTE.pdf)
+   - Documento Markdown y PDF de referencia (~246.000 caracteres) con el guion completo de las 20 horas lectivas para consulta offline y seguimiento en el aula, con todos los internals de SQL Server 2025, trampas habituales y resolución detallada de cada laboratorio.
 
 ---
 
@@ -61,11 +61,11 @@ Finalmente tras la creación archivaremos el plan y podremos continuar con cambi
 
 | Módulo | Título | Horas | Diapositivas | Enfoque Pedagógico y Contenido Clave |
 | :---: | :--- | :---: | :---: | :--- |
-| **0** | **Bienvenida y Entorno** | 0,5 h | 1 – 4 | Presentación del curso, dinámica de clase, herramientas (SSMS, VS Code MSSQL) y despliegue del entorno con Docker. |
-| **1** | **Fundamentos y Arquitectura. Licenciamiento** | 4,0 h | 5 – 20 | Historia y versiones, Relational Engine vs Storage Engine, Buffer Pool, SQLOS, páginas (8 KB), extensiones (64 KB), ficheros MDF/NDF/LDF, WAL, VLFs, bases del sistema, licenciamiento (Core vs Server+CAL), sqlcmd, Extended Events y **Laboratorio 1** (creación de BD, filegroups y autogrowth). |
-| **2** | **Gestión y Seguridad** | 5,5 h | 21 – 42 | DDL y restricciones (PK, FK, CHECK, UNIQUE, DEFAULT), vistas estándar e indexadas, procedimientos almacenados (plan caching y recompilaciones), DML analítico y JOINs físicos (Hash, Merge, Loop), Window Functions, capas de seguridad (Autenticación $\rightarrow$ Logins $\rightarrow$ Users $\rightarrow$ Roles $\rightarrow$ Objetos), mínimos privilegios, ownership chaining y **Laboratorios 2A y 2B** (consultas analíticas y segregación de permisos). |
-| **3** | **Optimización y Alta Disponibilidad** | 5,0 h | 43 – 60 | Índices Heap vs Clustered, Non-Clustered, árboles B-Tree, fragmentación y estadísticas, lectura de planes de ejecución (Seek vs Scan vs Key Lookup), monitorización con DMVs (`sys.dm_exec_query_stats`, `sys.dm_os_wait_stats`), RTO/RPO, comparativa de HA/DR (Log Shipping, FCI, Always On Availability Groups con topología de quórum y listener) y **Laboratorios 3.1 y 3.2** (covering indexes y análisis con DMVs). |
-| **4** | **Mantenimiento, Copias de Seguridad y Caso Integrador** | 5,0 h | 61 – 81 | Modelos de recuperación (Simple, Full, Bulk-Logged), estrategia integral de backups (Full + Diferencial + Log Chain), restauración Point-in-Time (`STOPAT`, `NORECOVERY`), integridad física (`DBCC CHECKDB`), planes automatizados con SQL Server Agent, resolución de incidencias (LDF lleno, TempDB saturada, bloqueos/deadlocks), arquitectura e instalación de SSIS, pipeline ETL en SSISDB, **Laboratorio 4** (simulación de desastre y restauración puntual), **Caso Práctico Integrador** final y checklist del DBA. |
+| **0** | **Bienvenida y Entorno** | 0,5 h | 1 – 4 | Presentación del curso, dinámica de clase, herramientas (SSMS, VS Code MSSQL) y despliegue del entorno con Docker (SQL Server 2025 Developer). |
+| **1** | **Fundamentos y Arquitectura. Licenciamiento** | 4,0 h | 5 – 21 | Historia y versiones (SQL Server 2025 / compatibilidad 170), Relational Engine vs Storage Engine, Buffer Pool, SQLOS, páginas (8 KB), extensiones (64 KB), ficheros MDF/NDF/LDF, WAL, VLFs, bases del sistema, licenciamiento (Core vs Server+CAL), sqlcmd, Extended Events, **Tablas vectoriales nativas (`VECTOR`) y búsqueda semántica (`VECTOR_DISTANCE`) para IA/RAG**, y **Laboratorio 1** (creación de BD, filegroups y autogrowth). |
+| **2** | **Gestión y Seguridad** | 5,5 h | 22 – 43 | DDL y restricciones (PK, FK, CHECK, UNIQUE, DEFAULT), vistas estándar e indexadas, procedimientos almacenados (plan caching y recompilaciones), DML analítico y JOINs físicos (Hash, Merge, Loop), Window Functions, capas de seguridad (Autenticación $\rightarrow$ Logins $\rightarrow$ Users $\rightarrow$ Roles $\rightarrow$ Objetos), mínimos privilegios, ownership chaining y **Laboratorios 2A y 2B** (consultas analíticas y segregación de permisos). |
+| **3** | **Optimización y Alta Disponibilidad** | 5,0 h | 44 – 61 | Índices Heap vs Clustered, Non-Clustered, árboles B-Tree, fragmentación y estadísticas, lectura de planes de ejecución (Seek vs Scan vs Key Lookup), monitorización con DMVs (`sys.dm_exec_query_stats`, `sys.dm_os_wait_stats`), RTO/RPO, comparativa de HA/DR (Log Shipping, FCI, Always On Availability Groups con topología de quórum y listener) y **Laboratorios 3.1 y 3.2** (covering indexes y análisis con DMVs). |
+| **4** | **Mantenimiento, Copias de Seguridad y Caso Integrador** | 5,0 h | 62 – 82 | Modelos de recuperación (Simple, Full, Bulk-Logged), estrategia integral de backups (Full + Diferencial + Log Chain), restauración Point-in-Time (`STOPAT`, `NORECOVERY`), integridad física (`DBCC CHECKDB`), planes automatizados con SQL Server Agent, resolución de incidencias (LDF lleno, TempDB saturada, bloqueos/deadlocks), arquitectura e instalación de SSIS, pipeline ETL en SSISDB, **Laboratorio 4** (simulación de desastre y restauración puntual), **Caso Práctico Integrador** final y checklist del DBA. |
 
 ---
 
@@ -74,9 +74,10 @@ Finalmente tras la creación archivaremos el plan y podremos continuar con cambi
 El deck incluye composiciones visuales desarrolladas mediante formas vectoriales nativas en PowerPoint:
 - **Slide 7:** Arquitectura interna del motor (SNI, Relational Engine, Storage Engine, Buffer Pool, SQLOS y subsistema de E/S).
 - **Slide 10:** Estructura física interna (anatomía de una página de 8 KB, extensiones mixtas/uniformes de 64 KB y organización de VLFs en el transaction log).
-- **Slide 36:** Modelo jerárquico de seguridad en capas (Autenticación $\rightarrow$ Login $\rightarrow$ User $\rightarrow$ Roles/Permisos $\rightarrow$ Objetos).
-- **Slide 46:** Estructura de árbol B-Tree comparando índices Clustered (hojas con datos) vs Non-Clustered (hojas con clave + puntero).
-- **Slide 63:** Cronograma visual de la estrategia de backups (Full + Diferencial + T-Log cada 15 min) y secuencia paso a paso de recuperación *Point-in-Time*.
+- **Slide 19:** Tablas vectoriales nativas (`VECTOR`), cálculo de distancias semánticas (`cosine`) y arquitectura RAG en SQL Server 2025.
+- **Slide 37:** Modelo jerárquico de seguridad en capas (Autenticación $\rightarrow$ Login $\rightarrow$ User $\rightarrow$ Roles/Permisos $\rightarrow$ Objetos).
+- **Slide 47:** Estructura de árbol B-Tree comparando índices Clustered (hojas con datos) vs Non-Clustered (hojas con clave + puntero).
+- **Slide 64:** Cronograma visual de la estrategia de backups (Full + Diferencial + T-Log cada 15 min) y secuencia paso a paso de recuperación *Point-in-Time*.
 
 ---
 
@@ -85,8 +86,9 @@ El deck incluye composiciones visuales desarrolladas mediante formas vectoriales
 ```text
 training-sqlserver/
 ├── README.md                                    # Este documento resumen
-├── GUIA_DEL_DOCENTE.md                          # Manual completo para el instructor (230K caracteres)
-├── curso_sql_server_dba_20h.pptx                # Slide deck generado (81 diapositivas)
+├── GUIA_DEL_DOCENTE.md                          # Manual completo para el instructor (~246K caracteres)
+├── GUIA_DEL_DOCENTE.pdf                         # Guía del docente maquetada profesionalmente en PDF
+├── curso_sql_server_dba_20h.pptx                # Slide deck generado (82 diapositivas)
 ├── curso_sql_server_dba_20h.pdf                 # Presentación completa exportada a PDF
 ├── package.json                                 # Dependencias Node.js (pptxgenjs, sharp, react-icons, etc.)
 ├── openspec/
@@ -97,10 +99,10 @@ training-sqlserver/
     └── src/
         ├── layout_helpers.js                    # Motor base de diseño, paleta, medidas y notas
         ├── diagrams.js                          # Módulo de diagramas nativos
-        ├── m0_m1.js                             # Contenido Módulo 0 y Módulo 1 (Slides 1–20)
-        ├── m2.js                                # Contenido Módulo 2 (Slides 21–42)
-        ├── m3.js                                # Contenido Módulo 3 (Slides 43–60)
-        ├── m4.js                                # Contenido Módulo 4 (Slides 61–81)
+        ├── m0_m1.js                             # Contenido Módulo 0 y Módulo 1 (Slides 1–21)
+        ├── m2.js                                # Contenido Módulo 2 (Slides 22–43)
+        ├── m3.js                                # Contenido Módulo 3 (Slides 44–61)
+        ├── m4.js                                # Contenido Módulo 4 (Slides 62–82)
         ├── build.js                             # Ensamblador del deck completo
         ├── extract_guide.py                     # Extractor de diapositivas y notas a Markdown
         ├── render.py                            # Renderizador PPTX -> PDF -> JPG por diapositiva
