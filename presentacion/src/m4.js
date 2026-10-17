@@ -1,6 +1,6 @@
 'use strict';
 /**
- * m4.js — MÓDULO 4 «Prácticas Recomendadas y Mantenimiento» (diapositivas 61–78, ~6 h).
+ * m4.js — MÓDULO 4 «Prácticas Recomendadas y Mantenimiento» (diapositivas 61–78, 5 h).
  * Modelos de recuperación, estrategia de backups, restauración point-in-time, DBCC CHECKDB,
  * mantenimiento automatizado, resolución de incidencias, Laboratorio 4, caso integrador y cierre.
  */
@@ -35,7 +35,7 @@ module.exports = async (pres, H, D) => {
     mod: 4,
     title: 'Mantenimiento y Buenas Prácticas',
     subtitle: 'Recuperación, integridad, automatización y resolución de incidencias',
-    hours: '6 h',
+    hours: '5 h',
     topics: [
       { icon: 'FaUndoAlt', text: 'Modelos de recuperación y backups' },
       { icon: 'FaHistory', text: 'Restauración point-in-time' },
@@ -51,7 +51,7 @@ module.exports = async (pres, H, D) => {
         'Recorrido: (1) modelos de recuperación y cómo condicionan el Transaction Log; (2) estrategia de backups Full + Diferencial + Log y su verificación; (3) restauración point-in-time; (4) integridad física con DBCC CHECKDB; (5) mantenimiento automatizado con SQL Server Agent; (6) incidencias típicas (LDF lleno, TempDB saturada, bloqueos y deadlocks).',
         'Cerraremos con el Laboratorio 4 (pérdida de datos simulada y recuperación a un instante exacto) y un caso integrador que evalúa todo el curso: seguridad, índices, backups y RPO/RTO.',
         'Recordar el hilo conductor: el Transaction Log (WAL) que vimos en el Módulo 1 es la pieza que hace posible la durabilidad (la «D» de ACID), el crash recovery y la restauración a un punto en el tiempo. Casi todo lo de este módulo es una consecuencia del WAL.',
-        'Tiempo orientativo: ~6 h (teoría ~3,5 h, laboratorio 4 ~1,5 h, caso integrador ~1 h). Si el grupo va justo de tiempo, la diapositiva de mantenimiento de índices puede darse como lectura y recuperarse en el caso final.',
+        'Tiempo orientativo: 5 h (teoría ~2,5 h, laboratorio 4 ~1,5 h, caso integrador ~1 h). Si el grupo va justo de tiempo, la diapositiva de mantenimiento de índices puede darse como lectura y recuperarse en el caso final.',
       ],
       preguntas: [
         '¿Quién ha sufrido alguna vez una pérdida de datos o ha tenido que restaurar una base de datos? ¿Qué falló: el backup, el proceso o la comunicación?',

@@ -1,7 +1,7 @@
 'use strict';
 /**
  * build.js — Ensambla la presentación completa.
- *   node presentacion/src/build.js            → presentacion/curso_sql_server_dba_25h.pptx
+ *   node presentacion/src/build.js            → presentacion/curso_sql_server_dba_20h.pptx
  *   MODS=m0_m1,m2 node ... build.js           → sólo esos módulos (pruebas)
  *   OUT=ruta.pptx node ... build.js           → fichero de salida alternativo
  *   START=21 node ... build.js                → numeración inicial de diapositivas (pie de página)
@@ -13,7 +13,7 @@ const H = require('./layout_helpers');
 const D = require('./diagrams');
 
 const MODULES = (process.env.MODS || 'm0_m1,m2,m3,m4').split(',');
-const OUT = process.env.OUT || path.join(__dirname, '..', '..', 'curso_sql_server_dba_25h.pptx');
+const OUT = process.env.OUT || path.join(__dirname, '..', '..', 'curso_sql_server_dba_20h.pptx');
 
 (async () => {
   // Precarga de iconos: se detectan todos los FaXxx referenciados en el código fuente.
@@ -29,7 +29,7 @@ const OUT = process.env.OUT || path.join(__dirname, '..', '..', 'curso_sql_serve
   H.state.n = (parseInt(process.env.START || '1', 10) || 1) - 1; // nº de la primera diapositiva (para pruebas de un solo módulo)
   const pres = new H.pptxgen();
   pres.layout = 'LAYOUT_WIDE'; // 13.333" x 7.5" (16:9)
-  pres.title = 'Curso de Administración de SQL Server (25 h)';
+  pres.title = 'Curso de Administración de SQL Server (20 h)';
   pres.subject = 'SQL Server DBA';
   pres.author = 'Formación SQL Server';
 

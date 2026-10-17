@@ -1,14 +1,20 @@
 version: '3.8'
 
 services:
-  mi-backend-asp:
-    image: ://mi-registro.com
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:80"
+  sql-server-training:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: sql-server-training
+    hostname: sql-server-training
+    user: "root"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      # Sobrescribimos la cadena de conexión de ASP.NET Core dinámicamente:
-      - ConnectionStrings__DefaultConnection=Server=servidor_sql_o_contenedor;Database=TiendaDemo;User Id=AnalistaVentas;Password=${DB_PASSWORD};Encrypt=True;TrustServerCertificate=True;
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${SA_PASSWORD}"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql/data
+      - sqlbackups:/var/opt/mssql/backup
+
+volumes:
+  sqldata:
+  sqlbackups:

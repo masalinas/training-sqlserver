@@ -34,10 +34,10 @@ const parts = mdContent.split(/^## Diapositiva /m);
 // Parse modules info
 const modulesMeta = {
   0: { title: 'MÓDULO 0: BIENVENIDA Y ENTORNO', duration: '0,5 h', slides: '1 – 4', focus: 'Objetivos, dinámica de clase y despliegue del entorno Docker/SSMS' },
-  1: { title: 'MÓDULO 1: FUNDAMENTOS Y ARQUITECTURA. LICENCIAMIENTO', duration: '5,5 h', slides: '5 – 20', focus: 'Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF y Lab 1' },
-  2: { title: 'MÓDULO 2: GESTIÓN Y SEGURIDAD', duration: '7,0 h', slides: '21 – 42', focus: 'DDL, restricciones, procedimientos, DML analítico, permisos, roles y Lab 2' },
-  3: { title: 'MÓDULO 3: OPTIMIZACIÓN Y ALTA DISPONIBILIDAD', duration: '6,0 h', slides: '43 – 60', focus: 'Índices B-Tree, estadísticas, planes de ejecución, DMVs, Always On y Lab 3' },
-  4: { title: 'MÓDULO 4: MANTENIMIENTO, COPIAS DE SEGURIDAD Y CASO FINAL', duration: '6,0 h', slides: '61 – 81', focus: 'Backups, Point-in-Time, CHECKDB, Agent, incidencias, SSIS, Lab 4 y Caso Integrador' }
+  1: { title: 'MÓDULO 1: FUNDAMENTOS Y ARQUITECTURA. LICENCIAMIENTO', duration: '4,0 h', slides: '5 – 20', focus: 'Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF y Lab 1' },
+  2: { title: 'MÓDULO 2: GESTIÓN Y SEGURIDAD', duration: '5,5 h', slides: '21 – 42', focus: 'DDL, restricciones, procedimientos, DML analítico, permisos, roles y Lab 2' },
+  3: { title: 'MÓDULO 3: OPTIMIZACIÓN Y ALTA DISPONIBILIDAD', duration: '5,0 h', slides: '43 – 60', focus: 'Índices B-Tree, estadísticas, planes de ejecución, DMVs, Always On y Lab 3' },
+  4: { title: 'MÓDULO 4: MANTENIMIENTO, COPIAS DE SEGURIDAD Y CASO FINAL', duration: '5,0 h', slides: '61 – 81', focus: 'Backups, Point-in-Time, CHECKDB, Agent, incidencias, SSIS, Lab 4 y Caso Integrador' }
 };
 
 // Friendly slide titles for opener slides
@@ -793,14 +793,14 @@ let html = `<!DOCTYPE html>
     <div>
       <div class="cover-top-badge">Capacitación Técnica Oficial · SQL Server DBA</div>
       <h1 class="cover-title">Guía del Docente</h1>
-      <h2 class="cover-subtitle">Curso de Administración de SQL Server (25 Horas)</h2>
+      <h2 class="cover-subtitle">Curso de Administración de SQL Server (20 Horas)</h2>
       <div class="cover-tagline">
         Manual de referencia técnico y metodológico para el instructor. Incluye desglose pormenorizado de las 81 diapositivas, objetivos pedagógicos, explicaciones técnicas a bajo nivel de la arquitectura del motor, preguntas de dinamización para el aula, resolución paso a paso de los laboratorios y el checklist operativo de buenas prácticas del Administrador de Bases de Datos.
       </div>
 
       <div class="metrics-grid">
         <div class="metric-card">
-          <div class="metric-num">25 h</div>
+          <div class="metric-num">20 h</div>
           <div class="metric-label">Duración Lectiva</div>
         </div>
         <div class="metric-card">
@@ -836,7 +836,7 @@ let html = `<!DOCTYPE html>
         </div>
         <div class="cover-meta-row">
           <span class="cover-meta-label">Material Complementario:</span>
-          <span class="cover-meta-val">curso_sql_server_dba_25h.pptx (81 diapositivas panorámicas 16:9)</span>
+          <span class="cover-meta-val">curso_sql_server_dba_20h.pptx (81 diapositivas panorámicas 16:9)</span>
         </div>
         <div class="cover-meta-row">
           <span class="cover-meta-label">Repositorio del Proyecto:</span>
@@ -880,28 +880,28 @@ let html = `<!DOCTYPE html>
           <tr>
             <td style="text-align: center; font-weight: 700;">1</td>
             <td><strong>Fundamentos y Arquitectura. Licenciamiento</strong></td>
-            <td style="text-align: center;">5,5 h</td>
+            <td style="text-align: center;">4,0 h</td>
             <td style="text-align: center;">5 – 20</td>
             <td>Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF y Lab 1</td>
           </tr>
           <tr>
             <td style="text-align: center; font-weight: 700;">2</td>
             <td><strong>Gestión y Seguridad</strong></td>
-            <td style="text-align: center;">7,0 h</td>
+            <td style="text-align: center;">5,5 h</td>
             <td style="text-align: center;">21 – 42</td>
             <td>DDL, restricciones, procedimientos, DML analítico, permisos, roles y Lab 2</td>
           </tr>
           <tr>
             <td style="text-align: center; font-weight: 700;">3</td>
             <td><strong>Optimización y Alta Disponibilidad</strong></td>
-            <td style="text-align: center;">6,0 h</td>
+            <td style="text-align: center;">5,0 h</td>
             <td style="text-align: center;">43 – 60</td>
             <td>Índices B-Tree, estadísticas, planes de ejecución, DMVs, Always On y Lab 3</td>
           </tr>
           <tr>
             <td style="text-align: center; font-weight: 700;">4</td>
             <td><strong>Mantenimiento, Copias de Seguridad y Caso Final</strong></td>
-            <td style="text-align: center;">6,0 h</td>
+            <td style="text-align: center;">5,0 h</td>
             <td style="text-align: center;">61 – 81</td>
             <td>Backups, Point-in-Time, CHECKDB, Agent, incidencias, SSIS, Lab 4 y Caso Integrador</td>
           </tr>
@@ -918,22 +918,22 @@ let html = `<!DOCTYPE html>
           <div class="mod-card-meta">Presentación del curso, dinámica de aprendizaje práctico, reglas de seguridad y despliegue del contenedor SQL Server 2022 en Docker.</div>
         </div>
         <div class="mod-card">
-          <div class="mod-card-header">Módulo 1 · 5,5 h · Diaps. 5–20</div>
+          <div class="mod-card-header">Módulo 1 · 4,0 h · Diaps. 5–20</div>
           <div class="mod-card-title">Arquitectura y Licenciamiento</div>
           <div class="mod-card-meta">Relational Engine vs Storage Engine, Buffer Pool, páginas de 8 KB, MDF/NDF/LDF, WAL y VLFs, bases del sistema, ediciones y licencias Core vs Server+CAL.<br><strong>Lab 1:</strong> Ficheros y Filegroups.</div>
         </div>
         <div class="mod-card">
-          <div class="mod-card-header">Módulo 2 · 7,0 h · Diaps. 21–42</div>
+          <div class="mod-card-header">Módulo 2 · 5,5 h · Diaps. 21–42</div>
           <div class="mod-card-title">Gestión y Seguridad</div>
           <div class="mod-card-meta">DDL robusto, vistas indexadas, Stored Procedures y plan cache sniffing, JOINs lógicos vs físicos, Window Functions, Logins, Users, Schemas, Roles y Ownership Chaining.<br><strong>Lab 2A:</strong> Consultas y SP · <strong>Lab 2B:</strong> Permisos segregados.</div>
         </div>
         <div class="mod-card">
-          <div class="mod-card-header">Módulo 3 · 6,0 h · Diaps. 43–60</div>
+          <div class="mod-card-header">Módulo 3 · 5,0 h · Diaps. 43–60</div>
           <div class="mod-card-title">Optimización y Alta Disponibilidad</div>
           <div class="mod-card-meta">Heaps vs Clustered, B-Tree, Non-Clustered y covering indexes, estadísticas y estimador de cardinalidad, planes de ejecución, DMVs de rendimiento, RTO/RPO y Always On AG.<br><strong>Lab 3.1:</strong> Índices · <strong>Lab 3.2:</strong> Planes · <strong>Lab 3.3:</strong> DMVs.</div>
         </div>
         <div class="mod-card" style="grid-column: span 2;">
-          <div class="mod-card-header">Módulo 4 · 6,0 h · Diaps. 61–81</div>
+          <div class="mod-card-header">Módulo 4 · 5,0 h · Diaps. 61–81</div>
           <div class="mod-card-title">Mantenimiento, Copias de Seguridad y Caso Final</div>
           <div class="mod-card-meta">Modelos Simple vs Full, cadena Full + Diff + Log con CHECKSUM, restauración Point-in-Time (STOPAT), DBCC CHECKDB, mantenimiento automatizado con Agent, alertas de gravedad 19–25, resolución de incidencias críticas (log lleno, TempDB saturada, deadlocks), SSIS (motor, ETL y SSISDB) y Checklist de Buenas Prácticas del DBA.<br><strong>Lab 4:</strong> Preparación, desastre y restauración · <strong>Caso Práctico Integrador Final</strong> (Rúbrica completa).</div>
         </div>
@@ -1060,7 +1060,7 @@ console.log('HTML generated successfully at', htmlPath);
     displayHeaderFooter: true,
     headerTemplate: `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 7.2pt; color: #64748b; width: 100%; display: flex; justify-content: space-between; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin: 0 14mm;">
-        <span style="font-weight: 600;">Guía del Docente · Administración de SQL Server (25 Horas)</span>
+        <span style="font-weight: 600;">Guía del Docente · Administración de SQL Server (20 Horas)</span>
         <span>Manual Técnico del Instructor</span>
       </div>
     `,

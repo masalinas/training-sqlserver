@@ -1,7 +1,7 @@
 'use strict';
 /**
  * layout_helpers.js — Módulo base de diseño para la presentación del curso
- * "Administración de Bases de Datos en Microsoft SQL Server" (25 h).
+ * "Administración de Bases de Datos en Microsoft SQL Server" (20 h).
  *
  * Implementa la skill `pptx` con pptxgenjs:
  *   - 2.1 Paleta, tipografías y lienzo 16:9 (13.333" x 7.5").
@@ -189,7 +189,7 @@ function register(slide, meta) {
 }
 function footer(slide, n, mod, dark = false) {
   const c = dark ? COL.STEEL : COL.MUTED;
-  slide.addText('Curso de Administración de SQL Server · 25 h', { x: MX, y: 7.0, w: 6, h: 0.3, fontFace: FONT.body, fontSize: 10, color: c, margin: 0, valign: 'middle' });
+  slide.addText('Curso de Administración de SQL Server · 20 h', { x: MX, y: 7.0, w: 6, h: 0.3, fontFace: FONT.body, fontSize: 10, color: c, margin: 0, valign: 'middle' });
   slide.addText(`${MODULES[mod] ? MODULES[mod].split(' · ')[0] : ''}   ${n}`, { x: W - MX - 4, y: 7.0, w: 4, h: 0.3, fontFace: FONT.body, fontSize: 10, color: c, margin: 0, align: 'right', valign: 'middle' });
 }
 

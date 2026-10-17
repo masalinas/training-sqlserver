@@ -1,6 +1,6 @@
 'use strict';
 /**
- * m2.js — MÓDULO 2 «Gestión y Seguridad (DDL, DML y Seguridad)» · 22 diapositivas (nº 21–42) · ~7 h.
+ * m2.js — MÓDULO 2 «Gestión y Seguridad (DDL, DML y Seguridad)» · 22 diapositivas (nº 21–42) · 5,5 h.
  * BD de ejemplo coherente en todo el módulo: Ventas (dbo.Cliente, dbo.Pedido) + schemas rpt / app.
  */
 module.exports = async (pres, H, D) => {
@@ -13,7 +13,7 @@ module.exports = async (pres, H, D) => {
     mod: MOD,
     title: 'Gestión y Seguridad',
     subtitle: 'DDL, DML y modelo de seguridad de SQL Server',
-    hours: '~7 h',
+    hours: '5,5 h',
     topics: [
       { icon: 'FaTable', text: 'Tablas, restricciones y vistas' },
       { icon: 'FaCogs', text: 'Procedimientos almacenados y plan cache' },
@@ -25,7 +25,7 @@ module.exports = async (pres, H, D) => {
     notes: {
       obj: 'Situar al grupo en el recorrido del módulo: primero se construyen y consultan los datos (DDL y DML) y después se protegen (seguridad). Las dos mitades comparten la misma BD de ejemplo, Ventas.',
       guion: [
-        'Este módulo es el más práctico del curso (~7 h): alterna teoría breve con T-SQL que los alumnos ejecutan en su instancia (Docker o local).',
+        'Este módulo es el más práctico del curso (5,5 h): alterna teoría breve con T-SQL que los alumnos ejecutan en su instancia (Docker o local).',
         'Hilo conductor: la base de datos Ventas con dbo.Cliente y dbo.Pedido. Todos los ejemplos, el Laboratorio 2A y el 2B reutilizan esas tablas, de modo que cada concepto se apoya en el anterior.',
         'Bloque 1 (DDL): tablas con restricciones, vistas estándar e indexadas, procedimientos almacenados y cómo el motor cachea y recompila planes (Plan Cache).',
         'Bloque 2 (DML avanzado): orden lógico del SELECT, JOINs lógicos y sus tres algoritmos físicos (Nested Loops, Merge, Hash), subconsultas, CTE y window functions.',

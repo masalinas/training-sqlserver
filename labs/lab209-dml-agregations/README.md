@@ -6,6 +6,7 @@ En T-SQL, una CTE es esencialmente una "vista temporal desechable". Es un conjun
 
 Se definen siempre utilizando la cláusula `WITH`.
 
+****
 ## El problema del null
 
 Cuando escribes una subconsulta con `NOT IN`, el motor de base de datos la traduce internamente a una serie de comparaciones unidas por el operador `AND`

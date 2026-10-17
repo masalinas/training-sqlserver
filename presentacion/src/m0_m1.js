@@ -10,7 +10,7 @@ module.exports = async (pres, H, D) => {
 
   // 1 ─ Portada
   H.titleSlide(pres, {
-    tag: 'CURSO DE FORMACIÓN · 25 H',
+    tag: 'CURSO DE FORMACIÓN · 20 H',
     title: 'Administración de SQL Server',
     subtitle: 'De la arquitectura del motor a la alta disponibilidad: operar bases de datos en producción',
     notes: {
@@ -18,7 +18,7 @@ module.exports = async (pres, H, D) => {
       guion: [
         'Presentación del instructor y de los alumnos: ronda rápida (rol, experiencia previa con T-SQL, qué versión de SQL Server usan hoy en su empresa).',
         'Mensaje clave: un DBA no "administra tablas", garantiza que los datos estén disponibles, íntegros, seguros y rápidos. Los cuatro adjetivos estructuran el curso.',
-        'El curso son 25 horas repartidas en 4 módulos: Fundamentos y arquitectura (5,5 h), Gestión y seguridad (7 h), Optimización y alta disponibilidad (6 h) y Mantenimiento y buenas prácticas (6 h), más 0,5 h de bienvenida y entorno.',
+        'El curso son 20 horas repartidas en 4 módulos: Fundamentos y arquitectura (4 h), Gestión y seguridad (5,5 h), Optimización y alta disponibilidad (5 h) y Mantenimiento y buenas prácticas (5 h), más 0,5 h de bienvenida y entorno.',
         'Cada módulo termina con un laboratorio guiado y el curso cierra con un caso práctico integrador que obliga a combinar todo: diseño, seguridad, índices y backups.',
         'Versión de referencia: SQL Server 2022 (compatible con 2019). Las diferencias relevantes con 2016/2017 y 2025 se señalan cuando importan.',
       ],
@@ -31,14 +31,14 @@ module.exports = async (pres, H, D) => {
 
   // 2 ─ Objetivos y estructura del curso
   let s = H.slide(pres, {
-    mod: 0, badge: 'Bienvenida', title: 'Qué vamos a aprender: 25 horas, 4 módulos',
+    mod: 0, badge: 'Bienvenida', title: 'Qué vamos a aprender: 20 horas, 4 módulos',
     notes: {
       obj: 'Que el alumno visualice el mapa completo del curso, el reparto horario y las competencias que adquirirá.',
       guion: [
-        'Módulo 1 (5,5 h): cómo es SQL Server por dentro. Sin entender Buffer Pool, páginas, ficheros y log no se puede diagnosticar nada después. Incluye ediciones y licenciamiento, que es donde más dinero se gasta o se pierde.',
-        'Módulo 2 (7 h): crear objetos (tablas, restricciones, vistas, procedimientos), consultar con soltura (JOINs, window functions) y asegurar el acceso con el principio de mínimo privilegio.',
-        'Módulo 3 (6 h): rendimiento (índices, estadísticas, planes de ejecución, DMVs) y alta disponibilidad / recuperación ante desastres (RTO, RPO, Log Shipping, FCI, Always On AG).',
-        'Módulo 4 (6 h): lo que separa a un aficionado de un DBA: modelos de recuperación, backups, restauración point-in-time, DBCC CHECKDB, automatización con Agent y resolución de incidencias.',
+        'Módulo 1 (4 h): cómo es SQL Server por dentro. Sin entender Buffer Pool, páginas, ficheros y log no se puede diagnosticar nada después. Incluye ediciones y licenciamiento, que es donde más dinero se gasta o se pierde.',
+        'Módulo 2 (5,5 h): crear objetos (tablas, restricciones, vistas, procedimientos), consultar con soltura (JOINs, window functions) y asegurar el acceso con el principio de mínimo privilegio.',
+        'Módulo 3 (5 h): rendimiento (índices, estadísticas, planes de ejecución, DMVs) y alta disponibilidad / recuperación ante desastres (RTO, RPO, Log Shipping, FCI, Always On AG).',
+        'Módulo 4 (5 h): lo que separa a un aficionado de un DBA: modelos de recuperación, backups, restauración point-in-time, DBCC CHECKDB, automatización con Agent y resolución de incidencias.',
         'Los números no son rígidos: si un laboratorio genera debate, se recorta teoría. El tiempo de laboratorio es el más valioso.',
         'Al final del curso el alumno podrá diseñar una estrategia de backup que cumpla un RPO dado, interpretar un plan de ejecución, y montar un esquema de permisos segregado.',
       ],
@@ -50,10 +50,10 @@ module.exports = async (pres, H, D) => {
   });
   const mods = [
     ['0,5 h', 'Bienvenida y entorno'],
-    ['5,5 h', 'Fundamentos y arquitectura'],
-    ['7 h', 'Gestión y seguridad'],
-    ['6 h', 'Optimización y alta disponibilidad'],
-    ['6 h', 'Mantenimiento y buenas prácticas'],
+    ['4,0 h', 'Fundamentos y arquitectura'],
+    ['5,5 h', 'Gestión y seguridad'],
+    ['5,0 h', 'Optimización y alta disponibilidad'],
+    ['5,0 h', 'Mantenimiento y buenas prácticas'],
   ];
   const sw = (CW - 4 * 0.25) / 5;
   mods.forEach(([v, l], i) => H.stat(s, { x: CX + i * (sw + 0.25), y: CY, w: sw, h: 1.9, value: v, label: `M${i} · ${l}`, tone: i === 0 ? 'dark' : 'light', valueSize: 40 }));
@@ -125,7 +125,7 @@ module.exports = async (pres, H, D) => {
 
   // 5 ─ Separador
   H.divider(pres, {
-    mod: 1, title: 'Fundamentos y arquitectura', subtitle: 'Incluye licenciamiento: cómo es SQL Server por dentro y qué edición y licencia necesitas', hours: '≈ 5,5 H',
+    mod: 1, title: 'Fundamentos y arquitectura', subtitle: 'Incluye licenciamiento: cómo es SQL Server por dentro y qué edición y licencia necesitas', hours: '≈ 4,0 H',
     topics: [
       { icon: 'FaHistory', text: 'Historia y versiones' },
       { icon: 'FaProjectDiagram', text: 'Arquitectura del motor' },
@@ -139,7 +139,7 @@ module.exports = async (pres, H, D) => {
       guion: [
         'Idea fuerza: casi todos los problemas que veremos más adelante (bloqueos, rendimiento, log lleno, restauraciones) se explican con cuatro conceptos: Buffer Pool, páginas, Transaction Log y tempdb. Este módulo los instala en la cabeza del alumno.',
         'Recorrido: historia y versiones → arquitectura → estructura física (páginas, extensiones, MDF/NDF/LDF, WAL y VLFs) → instancias y bases del sistema → ediciones y licenciamiento → herramientas → Laboratorio 1.',
-        'Duración estimada 5,5 horas: ~3,5 de teoría con demostraciones y ~2 de laboratorio.',
+        'Duración estimada 4,0 horas: ~2,5 de teoría con demostraciones y ~1,5 de laboratorio.',
       ],
       preguntas: ['¿Qué creéis que ocurre exactamente entre que escribís un INSERT y que el dato está "guardado"? Anotad las respuestas, las revisaremos al explicar el WAL.'],
     },

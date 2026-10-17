@@ -1,6 +1,6 @@
 'use strict';
 /**
- * m3.js — MÓDULO 3 «Optimización y Alta Disponibilidad» (~6 h) · 18 diapositivas (nº 43–60).
+ * m3.js — MÓDULO 3 «Optimización y Alta Disponibilidad» (5 h) · 18 diapositivas (nº 43–60).
  *  1 divider · 13 teoría · 3 laboratorio · 1 resumen.
  */
 const C = (...lines) => lines.join('\n');
@@ -13,7 +13,7 @@ module.exports = async (pres, H, D) => {
     mod: 3,
     title: 'Optimización y Alta Disponibilidad',
     subtitle: 'Índices, planes de ejecución, DMVs y fundamentos de HA/DR',
-    hours: '6 h',
+    hours: '5 h',
     topics: [
       { icon: 'FaProjectDiagram', text: 'Arquitectura de índices y B-Tree' },
       { icon: 'FaTools', text: 'Fragmentación y estadísticas' },
@@ -25,7 +25,7 @@ module.exports = async (pres, H, D) => {
     notes: {
       obj: 'Situar al alumnado en el siguiente bloque del curso: pasar de "la base de datos funciona" a "la base de datos funciona rápido y no se cae". Se presenta el mapa del módulo y los resultados esperados.',
       guion: [
-        'Este módulo dura unas 6 horas y se divide en tres bloques: (1) optimización a nivel de datos (índices, fragmentación y estadísticas), (2) diagnóstico (planes de ejecución y DMVs) y (3) continuidad de negocio (HA/DR).',
+        'Este módulo dura unas 5 horas y se divide en tres bloques: (1) optimización a nivel de datos (índices, fragmentación y estadísticas), (2) diagnóstico (planes de ejecución y DMVs) y (3) continuidad de negocio (HA/DR).',
         'Mensaje clave: en rendimiento NO se adivina, se mide. Todo el módulo sigue el ciclo medir → hipótesis → cambio → volver a medir, usando STATISTICS IO/TIME, el plan real y las Dynamic Management Views (DMVs).',
         'Conectar con el Módulo 1: lo visto sobre páginas de 8 KB, extensiones y el Buffer Pool explica por qué un índice reduce lecturas lógicas; lo visto sobre el Transaction Log será la base de Log Shipping y Always On.',
         'Advertir de que la mayoría de problemas de rendimiento en producción se resuelven con un buen diseño de índices y estadísticas actualizadas, antes de tocar hardware o parámetros del servidor.',
