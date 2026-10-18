@@ -1,6 +1,56 @@
 ## ## Intriducción
 DMVs (Dynamic Management Views): Vistas y funciones integradas que exponen el estado interno del servidor. Son la herramienta principal de un DBA para monitorizar el rendimiento, diagnosticar cuellos de botella (bloqueos, uso de CPU/memoria) y revisar el estado general de la instancia en tiempo real.
 
+## Permisos
+
+1. Para consultar métricas de rendimiento y tunear el servidor
+
+Si el usuario es un Desarrollador, un DBA Junior o una herramienta de monitoreo que necesita revisar índices, consultas lentas, CPU o memoria:
+
+- Para todo el servidor (Instancia completa): Debes activar VIEW SERVER PERFORMANCE STATE.
+```sql
+USE master;
+GRANT VIEW SERVER PERFORMANCE STATE TO [TuLogin o TuUsuario];
+```
+
+- Solo para una Base de Datos específica: Si no quieres darle acceso a todo el servidor, sino únicamente a una base de datos individual
+```sql
+USE [TuBaseDeDatos];
+GRANT VIEW DATABASE PERFORMANCE STATE TO [TuUsuario];
+```
+
+2. Para consultar auditorías y configuraciones de seguridad
+
+Si el usuario necesita auditar quién se conecta, estados del cifrado de datos (TDE) o permisos, SQL Server 2022 creó un permiso exclusivo para aislar esta información sensible:
+
+- Para todo el servidor: Debes activar VIEW SERVER SECURITY STATE.
+```sql
+USE master;
+GRANT VIEW SERVER SECURITY STATE TO [TuLogin o TuUsuario];
+```
+
+- Solo para una Base de Datos específica:
+```sql
+USE [TuBaseDeDatos];
+GRANT VIEW DATABASE SECURITY STATE TO [TuUsuario];
+```
+
+**Alternativa rápida mediante Roles del Servidor en SQL Server 2022**
+Si no quieres lidiar con la sintaxis de los GRANT, SQL Server 2022 introdujo nuevos roles fijos de servidor preconfigurados que puedes asignar directamente a un Login para heredar estos accesos automáticamente
+
+- Para dar acceso a todas las DMVs de rendimiento de la instancia:
+```sql
+ALTER SERVER ROLE [##MS_ServerPerformanceStateReader##] ADD MEMBER [TuLogin];
+```
+
+- Para dar acceso a todas las DMVs de seguridad de la instancia
+```sql
+ALTER SERVER ROLE [##MS_ServerSecurityStateReader##] ADD MEMBER [TuLogin];
+```
+
+**NOTA**
+Microsoft lo reemplazó `VIEW DATABASE STATE` de 2019 por `VIEW DATABASE PERFORMANCE STATE` y `VIEW DATABASE SECURITY STATE` en 2022 estos dos permisos más granulares para cumplir con el principio de seguridad de privilegios mínimos.
+
 ## Algunos ejemplos
 Ejecución y Conexiones (Monitorización en tiempo real):
 
