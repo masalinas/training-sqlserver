@@ -1,26 +1,32 @@
 ## Introducción
 
-La evolución definitiva para Alta Disponibilidad (HA) y Recuperación ante Desastres (DR), reemplazando al antiguo "Database Mirroring". Permite agrupar varias bases de datos para que conmuten por error (failover) de forma conjunta, y ofrece la posibilidad de tener réplicas secundarias de solo lectura para descargar el tráfico de reportes del servidor principal.
+Always On Availability Groups (AG) es una solución avanzada de alta disponibilidad y recuperación ante desastres en SQL Server orientada a conjuntos de bases de datos
 
-Database Mirroring fue la principal solución de Alta Disponibilidad (HA) y Recuperación ante Desastres (DR) introducida en SQL Server 2005, operando exclusivamente a nivel de base de datos individual antes de ser reemplazada por los Always On Availability Groups en 2012:
+## Características principales
 
-- Funcionamiento central: Mantenía una única copia exacta (servidor espejo) de una base de datos de producción (servidor principal) enviando de forma continua los bloques del registro de transacciones (transaction log) a través de la red.
-- Conmutación automática: Soportaba una arquitectura de tres nodos incluyendo un servidor "Testigo" (Witness). Este actuaba como árbitro; si el servidor principal caía, el testigo confirmaba la caída y orquestaba un failover automático para que el espejo asumiera el rol principal en segundos.
-- Limitación crítica (Copia ciega): A diferencia de las réplicas modernas de Always On, la base de datos en el servidor espejo estaba permanentemente en estado Restoring. No se podía leer ni consultar en tiempo real, impidiendo usar esa infraestructura secundaria para balancear cargas de lectura o reportes (la única vía era crear "fotos" manuales o Database Snapshots temporales).
-- Restricción 1:1: Solo permitía un único destino. No era posible tener un espejo síncrono local para alta disponibilidad y otro asíncrono remoto para desastres de forma simultánea.
-- No agrupable: La configuración se hacía base de datos por base de datos. Si una aplicación dependía de cinco bases de datos, no garantizaba que las cinco conmutaran juntas al mismo tiempo.
-- Columnstore (Índices columnares): Un cambio de paradigma en el almacenamiento. En lugar de guardar los datos por filas, los almacena por columnas y los comprime masivamente. Está diseñado específicamente para cargas de trabajo analíticas (OLAP / Data Warehousing), acelerando las consultas de agregación (GROUP BY, SUM, COUNT) de forma exponencial en tablas con millones o miles de millones de registros.
+- Arquitectura: Consta de 1 réplica principal (lectura/escritura) y de 1 a 8 réplicas secundarias (para lectura o copias de seguridad).
+- Modos de confirmación:
+    - Sincrónica: Prioriza la protección de datos (sin pérdida de datos, con mayor latencia).
+	- Asincrónica: Prioriza el rendimiento (menor latencia).
+- Infraestructura base: Requiere un clúster de conmutación por error como Windows Server Failover Clustering (WSFC) o Linux Pacemaker (aunque existen alternativas de despliegue específicas).
+- Tipos de conmutación (Failover): Puede ser automática (en modo síncrono), manual planificada o forzada (con posible pérdida de datos)
 
-El DBA debe decidir explícitamente cuándo implementarlos, existiendo dos formas principales de hacerlo:
-- Agrupado (Clustered Columnstore Index - CCI): Convierte la tabla entera al formato columnar, reemplazando por completo el almacenamiento tradicional por filas. Se utiliza en tablas de hechos masivas (Data Warehouses) donde las operaciones son principalmente cargas de datos en lote y lecturas de millones de registros, ya que este formato penaliza las actualizaciones y borrados puntuales frecuentes (UPDATE / DELETE).
-- No Agrupado (Nonclustered Columnstore Index - NCCI): Se crea como un índice secundario sobre una tabla tradicional (Rowstore) que ya existe. Esto permite un modelo híbrido (conocido como HTAP), donde el sistema transaccional del día a día sigue usando las filas estándar para escrituras rápidas, mientras que los informes analíticos utilizan el índice columnar paralelo para hacer sumas y promedios a velocidad extrema.
+## Arcquitectura
 
-En resumen, requieren un análisis previo de la carga de trabajo y un comando explícito (CREATE CLUSTERED COLUMNSTORE INDEX... o CREATE NONCLUSTERED COLUMNSTORE INDEX...) sobre las tablas específicas que sufran cuellos de botella en consultas de agregación.
-      
-El uso de índices columnstore implica un intercambio técnico estricto: sacrificas rendimiento en escrituras y consumo de recursos a cambio de velocidades extremas en lectura analítica.
-Las penalizaciones y costes operativos se dividen en cuatro áreas críticas:
-- Degradación en consultas de búsqueda puntual (Seeks): Si la aplicación necesita recuperar una fila específica (ej. SELECT * FROM Clientes WHERE ID = 5), el columnstore es significativamente más lento que un índice B-Tree tradicional. En lugar de navegar por un árbol para ir directo al dato, el motor debe ubicar el Rowgroup (grupo de filas), pasarlo a RAM y descomprimir cientos de miles de valores de esa columna para devolver un solo registro.
-- Penalización extrema en actualizaciones (UPDATEs): Los segmentos de datos comprimidos en un columnstore son inmutables. Un UPDATE no modifica el dato en su sitio; se ejecuta físicamente como un DELETE lógico (marcando el registro original en un mapa de bits oculto, el deleted bitmap) seguido de un INSERT de la nueva fila en una estructura temporal sin comprimir. Esto fragmenta el índice y consume mucha CPU.
-- Alta demanda de memoria RAM (Memory Grants): Construir el índice, así como descomprimir segmentos al vuelo durante las consultas, requiere asignaciones masivas de memoria. Si el servidor no tiene suficiente RAM disponible, SQL Server expulsará la operación hacia la base de datos tempdb (en disco), lo que destruye instantáneamente el beneficio de rendimiento de la consulta.
-- La carga oculta del "Tuple Mover": Para no penalizar los INSERTs individuales, los datos nuevos entran primero en el Delta Store (una estructura oculta en formato de fila tradicional). Cuando ese almacén alcanza exactamente 1.048.576 registros, un proceso en segundo plano llamado Tuple Mover despierta para comprimir esos datos en un nuevo segmento columnar. Este proceso de compresión intensiva genera picos severos de uso de CPU.
-Conclusión arquitectónica: Si aplicas un índice columnstore sobre una tabla transaccional (OLTP) pura, con alta concurrencia de UPDATE, DELETE e INSERT de una en una fila, paralizarás el rendimiento del servidor. Su hábitat natural son tablas donde los datos se insertan en grandes bloques (cargas batch) y rara vez se modifican posteriormente.
+A continuación se detalla una tabla con el resumen de la función de cada componente presente en el diagrama de arquitectura de Always On Availability Groups:
+
+![Architecture](architecture.jpeg)
+
+| Componente | Función Principal |
+| :--- | :--- |
+| **Active Directory Domain Services (AD DS)** | Gestiona la autenticación, las identidades de red y los permisos de seguridad centralizados para todos los nodos y cuentas de servicio del entorno. |
+| **Windows Server Failover Cluster (WSFC)** | Infraestructura del sistema operativo que supervisa la salud de los servidores, coordina la comunicación interna y gestiona el mecanismo de conmutación por error (*failover*). |
+| **AG Listener (Oyente)** | Nombre de red virtual e dirección IP única a la que se conectan las aplicaciones. Enruta el tráfico automáticamente hacia la réplica principal activa sin que el cliente sepa qué servidor físico está respondiendo. |
+| **Client Application / Reporting Service** | Capa de aplicación de los usuarios. Las aplicaciones transaccionales van a la réplica de lectura/escritura, mientras que los reportes pueden redirigirse a las réplicas secundarias de solo lectura para liberar carga. |
+| **Primary Replica (Node 1)** | Nodo activo que aloja las bases de datos en modo lectura y escritura. Recibe todas las transacciones de producción y coordina el envío de los registros de transacciones (*logs*) hacia las réplicas secundarias. |
+| **Secondary Replica (Node 2 - Synchronous)** | Copia exacta que recibe los cambios de forma síncrona. Garantiza que **no haya pérdida de datos** y permite habilitar la **conmutación por error automática** si el Nodo 1 falla. Puede usarse para lectura o backups. |
+| **Secondary Replica (Node 3 - Asynchronous)** | Copia que recibe los cambios de forma asíncrona para no afectar el rendimiento del nodo principal. Ideal para escenarios de **recuperación ante desastres (DR)** geográficamente distantes; su conmutación es manual. |
+| **Database A (AG)** | Base de datos de usuario configurada bajo el modelo de recuperación completa (*Full Recovery*) que forma parte del grupo de disponibilidad y se replica entre todos los nodos participantes. |
+| **Log Buffer / Log Transport** | Mecanismo encargado de capturar los bloques del registro de transacciones en la réplica principal y transmitirlos a través de la red hacia los nodos secundarios para su posterior aplicación (*Redo*). |
+| **Windows Server OS** | Sistema operativo base instalado en el hardware o máquina virtual de cada uno de los nodos individuales (Nodo 1, Nodo 2 y Nodo 3). |
+
