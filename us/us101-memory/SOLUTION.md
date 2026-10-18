@@ -25,3 +25,10 @@ RECONFIGURE;
 ```
 
 Al ejecutar esto, el Lazy Writer de SQL Server detectará inmediatamente que está por encima de su nuevo límite y comenzará a liberar memoria hasta ajustarse a los 12 GB, devolviendo la fluidez al sistema operativo sin necesidad de reiniciar el servicio.
+
+**NOTA**
+```sql
+-- Buenas prácticas: Volver a ocultar las opciones avanzadas al terminar
+EXEC sp_configure 'show advanced options', 0;
+RECONFIGURE;
+```

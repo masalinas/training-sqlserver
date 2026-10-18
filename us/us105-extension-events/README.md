@@ -14,6 +14,6 @@ Apoyándote en la diapositiva "sqlcmd y Extended Events básicos", resuelve este
 
 2. Para cazar las consultas "fantasma" que ralentizan el sistema por la noche, un DBA junior te sugiere crear una sesión de Extended Events (o usar el viejo Profiler) que capture absolutamente *todas* las sentencias SQL que se ejecutan en el servidor. ¿Por qué es una pésima idea y qué advertencia clave nos da la diapositiva al respecto?
 
-3. Analiza el código T-SQL de creación del Extended Event `[lentas]`. Si queremos capturar consultas que tarden más de 1 segundo, ¿por qué el código indica `duration > 1000000`? ¿Qué ocurre con la memoria al usar `TARGET package0.event_file`?
+3. Analiza el código T-SQL de creación del Extended Event `[lentas]` de las transparencia sqlcmd y Extended Events básicos. Si queremos capturar consultas que tarden más de 1 segundo, ¿por qué el código indica `duration > 1000000`? ¿Qué ocurre con la memoria al usar `TARGET package0.event_file`?
 
 4. A la mañana siguiente, descubres que el servidor sufrió una caída grave de madrugada por interbloqueos masivos (deadlocks). Si no habías configurado ninguna sesión para capturar deadlocks, ¿está todo perdido o puedes revisar algún sitio?
