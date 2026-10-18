@@ -1,6 +1,6 @@
 'use strict';
 /**
- * m2.js — MÓDULO 2 «Gestión y Seguridad (DDL, DML y Seguridad)» · 22 diapositivas (nº 22–43) · 5,5 h.
+ * m2.js — MÓDULO 2 «Gestión y Seguridad (DDL, DML y Seguridad)» · 23 diapositivas (nº 21–43) · 5,5 h.
  * BD de ejemplo coherente en todo el módulo: Ventas (dbo.Cliente, dbo.Pedido) + schemas rpt / app.
  */
 module.exports = async (pres, H, D) => {
@@ -8,7 +8,7 @@ module.exports = async (pres, H, D) => {
   const MOD = 2;
   const mk = (badge, title, notes, lab = false) => H.slide(pres, { mod: MOD, badge, title, notes, lab });
 
-  // ───────────────────────── 22 · Separador de módulo ─────────────────────────
+  // ───────────────────────── 21 · Separador de módulo ─────────────────────────
   H.divider(pres, {
     mod: MOD,
     title: 'Gestión y Seguridad',
@@ -17,7 +17,7 @@ module.exports = async (pres, H, D) => {
     topics: [
       { icon: 'FaTable', text: 'Tablas, restricciones y vistas' },
       { icon: 'FaCogs', text: 'Procedimientos almacenados y plan cache' },
-      { icon: 'FaProjectDiagram', text: 'JOINs, subconsultas y window functions' },
+      { icon: 'FaProjectDiagram', text: 'JOINs, window functions y tablas vectoriales' },
       { icon: 'FaUserShield', text: 'Logins, users, roles y permisos' },
       { icon: 'FaLink', text: 'Ownership chaining y mínimo privilegio' },
       { icon: 'FaFlask', text: 'Laboratorio 2: consultas y permisos' },
@@ -28,10 +28,10 @@ module.exports = async (pres, H, D) => {
         'Este módulo es el más práctico del curso (5,5 h): alterna teoría breve con T-SQL que los alumnos ejecutan en su instancia (Docker o local).',
         'Hilo conductor: la base de datos Ventas con dbo.Cliente y dbo.Pedido. Todos los ejemplos, el Laboratorio 2A y el 2B reutilizan esas tablas, de modo que cada concepto se apoya en el anterior.',
         'Bloque 1 (DDL): tablas con restricciones, vistas estándar e indexadas, procedimientos almacenados y cómo el motor cachea y recompila planes (Plan Cache).',
-        'Bloque 2 (DML avanzado): orden lógico del SELECT, JOINs lógicos y sus tres algoritmos físicos (Nested Loops, Merge, Hash), subconsultas, CTE y window functions.',
+        'Bloque 2 (DML avanzado): orden lógico del SELECT, JOINs lógicos y sus tres algoritmos físicos (Nested Loops, Merge, Hash), subconsultas, CTE, window functions y tablas vectoriales nativas (SQL Server 2025).',
         'Bloque 3 (seguridad): autenticación, jerarquía Login → User → Rol → Permiso, GRANT/DENY/REVOKE, ownership chaining, mínimo privilegio y auditoría básica.',
         'Aviso de planificación: Laboratorio 2A tras DML (~1 h) y Laboratorio 2B al final de seguridad (~1 h). Si el grupo va justo de tiempo, se recortan ejercicios opcionales, nunca los pasos de verificación.',
-        'Requisito previo: SSMS o Azure Data Studio conectados a una instancia 2022/2025 con permisos de sysadmin (para crear logins y bases de datos).',
+        'Requisito previo: SSMS o VS Code MSSQL conectados a una instancia 2025 con permisos de sysadmin (para crear logins y bases de datos).',
       ],
       preguntas: [
         '¿Qué parte de vuestro trabajo actual depende más de que el modelo de datos esté bien definido (integridad) y cuál de que esté bien protegido?',
@@ -40,7 +40,7 @@ module.exports = async (pres, H, D) => {
     },
   });
 
-  // ───────────────────────── 23 · Creación de tablas y restricciones ─────────────────────────
+  // ───────────────────────── 22 · Creación de tablas y restricciones ─────────────────────────
   let s = mk('DDL', 'Creación de tablas y restricciones', {
     obj: 'Que el alumno sepa declarar tablas con las cinco restricciones básicas (PK, FK, CHECK, UNIQUE, DEFAULT) y entienda qué hace el motor internamente con cada una.',
     guion: [
@@ -91,7 +91,7 @@ CREATE TABLE dbo.Pedido (
     ],
   });
 
-  // ───────────────────────── 24 · Errores comunes DDL ─────────────────────────
+  // ───────────────────────── 23 · Errores comunes DDL ─────────────────────────
   s = mk('Buenas prácticas', 'Errores comunes en el diseño DDL', {
     obj: 'Interiorizar los seis errores de diseño más habituales en producción y su consecuencia medible en rendimiento o integridad.',
     guion: [
@@ -117,7 +117,7 @@ CREATE TABLE dbo.Pedido (
     { title: 'Tipos sobredimensionados', icon: 'FaExpandArrowsAlt', body: 'Más páginas, más I/O y más memoria en el Buffer Pool para el mismo dato.' },
   ], { cols: 3, titleSize: 16, size: 14 });
 
-  // ───────────────────────── 25 · Vistas estándar vs indexadas ─────────────────────────
+  // ───────────────────────── 24 · Vistas estándar vs indexadas ─────────────────────────
   s = mk('Vistas', 'Vistas estándar frente a vistas indexadas', {
     obj: 'Distinguir una vista estándar (consulta almacenada, sin datos) de una vista indexada (resultado materializado) y saber cuándo conviene cada una.',
     guion: [
@@ -149,7 +149,7 @@ SELECT c.ClienteId, c.Nombre, p.PedidoId, p.Fecha, p.Total
 FROM   dbo.Cliente AS c JOIN dbo.Pedido AS p ON p.ClienteId = c.ClienteId;`,
   });
 
-  // ───────────────────────── 26 · Vistas indexadas: requisitos ─────────────────────────
+  // ───────────────────────── 25 · Vistas indexadas: requisitos ─────────────────────────
   s = mk('Vistas', 'Vistas indexadas: SCHEMABINDING y requisitos', {
     obj: 'Crear correctamente una vista indexada conociendo sus restricciones y sus costes de mantenimiento.',
     guion: [
@@ -198,7 +198,7 @@ SELECT * FROM dbo.vVentasCliente WITH (NOEXPAND);`,
     ],
   });
 
-  // ───────────────────────── 27 · Procedimientos almacenados ─────────────────────────
+  // ───────────────────────── 26 · Procedimientos almacenados ─────────────────────────
   s = mk('Programabilidad', 'Procedimientos almacenados', {
     obj: 'Entender qué aporta un procedimiento almacenado (rendimiento, encapsulación y seguridad) y escribir uno con las buenas prácticas básicas.',
     guion: [
@@ -243,7 +243,7 @@ EXEC dbo.usp_PedidosPorCliente @ClienteId = 42;`,
     ],
   });
 
-  // ───────────────────────── 28 · Plan caching, sniffing, recompilaciones ─────────────────────────
+  // ───────────────────────── 27 · Plan caching, sniffing, recompilaciones ─────────────────────────
   s = mk('Programabilidad', 'Plan caching, sniffing y recompilaciones', {
     obj: 'Comprender el ciclo compilar → cachear → reutilizar → recompilar y reconocer un problema de parameter sniffing con sus mitigaciones.',
     guion: [
@@ -279,7 +279,7 @@ FROM sys.dm_exec_cached_plans ORDER BY usecounts DESC;`,
     text: 'el primer valor compilado fija el plan para todos los demás.',
   });
 
-  // ───────────────────────── 29 · SELECT: orden lógico ─────────────────────────
+  // ───────────────────────── 28 · SELECT: orden lógico ─────────────────────────
   s = mk('DML avanzado', 'SELECT complejos: orden lógico de ejecución', {
     obj: 'Aprender que el orden de escritura de un SELECT no es el orden en que se evalúa, y usarlo para razonar sobre alias, filtros y agregados.',
     guion: [
@@ -319,7 +319,7 @@ ORDER BY Ventas DESC;`,
     text: 'ORDER BY puede usar alias de SELECT porque se evalúa después; WHERE no.',
   });
 
-  // ───────────────────────── 30 · JOINs lógicos ─────────────────────────
+  // ───────────────────────── 29 · JOINs lógicos ─────────────────────────
   s = mk('DML avanzado', 'JOINs: tipos lógicos y trampas habituales', {
     obj: 'Elegir el tipo de JOIN lógico adecuado y evitar la trampa clásica de filtrar la tabla externa en el WHERE.',
     guion: [
@@ -365,7 +365,7 @@ LEFT JOIN dbo.Pedido AS p
       AND p.Fecha >= '20240101';`,
   });
 
-  // ───────────────────────── 31 · JOINs físicos ─────────────────────────
+  // ───────────────────────── 30 · JOINs físicos ─────────────────────────
   s = mk('DML avanzado', 'JOINs: algoritmos físicos del optimizador', {
     obj: 'Reconocer en un plan de ejecución los tres operadores físicos de join, saber cuándo es adecuado cada uno y qué señales indican una mala elección.',
     guion: [
@@ -401,7 +401,7 @@ LEFT JOIN dbo.Pedido AS p
     text: 'compara Estimated frente a Actual Rows. Estadísticas obsoletas provocan joins inadecuados.',
   });
 
-  // ───────────────────────── 32 · Subconsultas, EXISTS y CTE ─────────────────────────
+  // ───────────────────────── 31 · Subconsultas, EXISTS y CTE ─────────────────────────
   s = mk('DML avanzado', 'Subconsultas, EXISTS y CTE', {
     obj: 'Usar subconsultas escalares y correlacionadas, EXISTS y CTE de forma legible sin penalizar el rendimiento.',
     guion: [
@@ -449,7 +449,7 @@ ORDER BY v.Ventas DESC;`,
     text: 'NOT IN con algún NULL devuelve cero filas: usa NOT EXISTS. Una CTE no materializa datos: se expande como una vista en línea.',
   });
 
-  // ───────────────────────── 33 · Agregados y window functions ─────────────────────────
+  // ───────────────────────── 32 · Agregados y window functions ─────────────────────────
   s = mk('DML avanzado', 'Agregados y window functions básicas', {
     obj: 'Diferenciar GROUP BY (colapsa filas) de las window functions (mantienen el detalle) y aplicar ROW_NUMBER, RANK, SUM OVER y LAG.',
     guion: [
@@ -489,6 +489,47 @@ FROM dbo.Pedido;`,
   H.callout(s, {
     x: 0.6, y: 5.65, w: 12.13, h: 1.1, kind: 'info', lead: 'GROUP BY vs OVER:', size: 14,
     text: 'GROUP BY colapsa filas; OVER mantiene el detalle. Indica ROWS en el frame para evitar el worktable de RANGE.',
+  });
+
+  // ───────────────────────── 33 · Tablas vectoriales e IA (SQL Server 2025) ─────────────────────────
+  s = mk('DML avanzado', 'SQL Server 2025: Tablas vectoriales y RAG', {
+    obj: 'Comprender el soporte del tipo nativo VECTOR en SQL Server 2025, el cálculo de distancias semánticas y la implementación de arquitecturas RAG dentro del motor relacional.',
+    guion: [
+      'SQL Server 2025 incorpora el tipo de dato nativo VECTOR(n), transformando el motor relacional en una base de datos vectorial de alto rendimiento para escenarios de Inteligencia Artificial.',
+      'Ventaja clave para el DBA: evita dispersar los datos en motores vectoriales externos (Pinecone, Chroma, Milvus). Los embeddings residen en la misma tabla junto al resto de columnas transaccionales, bajo el mismo modelo de seguridad (ACID, permisos, RLS, Always Encrypted y TDE).',
+      'Función VECTOR_DISTANCE(métrica, vector1, vector2): calcula la distancia entre vectores. Métricas soportadas: cosine (similitud del coseno, típica en embeddings de texto), euclidean (distancia euclídea) y dot (producto escalar).',
+      'Arquitectura RAG (Retrieval-Augmented Generation): una consulta busca semánticamente los documentos más relevantes con ORDER BY VECTOR_DISTANCE(...) ASC y devuelve el contexto para un LLM, combinando fácilmente filtros relacionales (WHERE EmpresaId = @id AND Fecha >= @desde).',
+      'Internals: VECTOR(n) almacena números de coma flotante de 32 bits (4 bytes por dimensión). Un vector de 1536 dimensiones (OpenAI text-embedding-3) ocupa ~6 KB. Si una fila excede 8060 bytes, SQL Server gestiona el desbordamiento hacia páginas ROW_OVERFLOW o LOB.',
+      'Laboratorio y práctica: en el repositorio disponéis de labs/lab115-vector-table/vector_table.sql con una simulación completa de base de conocimiento y búsqueda semántica para probar en vuestro contenedor.',
+    ],
+    preguntas: [
+      '¿Qué ventajas operativas y de seguridad ofrece gestionar embeddings en SQL Server frente a sincronizarlos con una base de datos vectorial externa?',
+      'Si cada vector de 1536 dimensiones ocupa ~6 KB, ¿qué precauciones de diseño físico (ficheros, Buffer Pool, índices) debemos tomar como DBAs?',
+    ],
+    lab: [
+      'Opcional (demo): abrir el script labs/lab115-vector-table/vector_table.sql en SSMS o VS Code.',
+      'Crear la tabla dbo.BaseConocimiento con la columna ContenidoEmbedding VECTOR(4).',
+      'Insertar los registros de prueba y ejecutar la consulta con VECTOR_DISTANCE(\'cosine\', ...) ordenando ascendentemente.',
+    ],
+  });
+  H.code(s, {
+    x: 0.6, y: 1.75, w: 6.8, h: 3.8, size: 11, label: 'T-SQL · TABLAS VECTORIALES (SQL 2025)',
+    code: "-- Tabla con columna vectorial nativa (dimensión fija)\nCREATE TABLE dbo.BaseConocimiento (\n    DocumentoID   INT IDENTITY(1,1) PRIMARY KEY,\n    Titulo        NVARCHAR(200) NOT NULL,\n    Contenido     NVARCHAR(MAX) NOT NULL,\n    Embedding     VECTOR(1536) NOT NULL\n);\n\n-- Búsqueda semántica usando similitud de coseno\nDECLARE @VectorPregunta VECTOR(1536) = CAST('[...]' AS VECTOR(1536));\n\nSELECT TOP 3 Titulo, Contenido,\n    VECTOR_DISTANCE('cosine', Embedding, @VectorPregunta) AS Distancia\nFROM dbo.BaseConocimiento\nORDER BY Distancia ASC;\nGO"
+  });
+  H.card(s, {
+    x: 7.7, y: 1.75, w: 5.03, h: 2.35, icon: 'FaBrain', title: 'Tipo nativo VECTOR', size: 12,
+    bullets: ['Embeddings densos para texto, imágenes o audio', 'Almacenamiento de floats de 32 bits (4 bytes/dim)', 'Métricas de distancia: cosine, euclidean, dot'],
+    tone: 'tint'
+  });
+  H.card(s, {
+    x: 7.7, y: 1.75 + 2.5, w: 5.03, h: 2.45, icon: 'FaLayerGroup', title: 'Consultas Híbridas y RAG', size: 12,
+    bullets: ['Filtros relacionales (WHERE) y similitud semántica', 'Contexto directo para LLMs en arquitecturas RAG', 'Demostración práctica: labs/lab115-vector-table'],
+    tone: 'light'
+  });
+  H.callout(s, {
+    x: 0.6, y: 5.2, w: 6.8, h: 1.5, kind: 'tip',
+    lead: 'RAG sin bases externas:',
+    text: 'Los embeddings se benefician del modelo ACID, cifrado TDE, Row-Level Security y backups de SQL Server sin pipelines ETL a bases de datos de terceros.'
   });
 
   // ───────────────────────── 34 · LAB 2A ─────────────────────────

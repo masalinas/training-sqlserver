@@ -34,8 +34,8 @@ const parts = mdContent.split(/^## Diapositiva /m);
 // Parse modules info
 const modulesMeta = {
   0: { title: 'MÓDULO 0: BIENVENIDA Y ENTORNO', duration: '0,5 h', slides: '1 – 4', focus: 'Objetivos, dinámica de clase y despliegue del entorno Docker/SSMS' },
-  1: { title: 'MÓDULO 1: FUNDAMENTOS Y ARQUITECTURA. LICENCIAMIENTO', duration: '4,0 h', slides: '5 – 21', focus: 'Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF, Tablas vectoriales (IA) y Lab 1' },
-  2: { title: 'MÓDULO 2: GESTIÓN Y SEGURIDAD', duration: '5,5 h', slides: '22 – 43', focus: 'DDL, restricciones, procedimientos, DML analítico, permisos, roles y Lab 2' },
+  1: { title: 'MÓDULO 1: FUNDAMENTOS Y ARQUITECTURA. LICENCIAMIENTO', duration: '4,0 h', slides: '5 – 20', focus: 'Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF, licencias y Lab 1' },
+  2: { title: 'MÓDULO 2: GESTIÓN Y SEGURIDAD', duration: '5,5 h', slides: '21 – 43', focus: 'DDL, restricciones, procedimientos, DML analítico, Tablas vectoriales (IA), permisos, roles y Lab 2' },
   3: { title: 'MÓDULO 3: OPTIMIZACIÓN Y ALTA DISPONIBILIDAD', duration: '5,0 h', slides: '44 – 61', focus: 'Índices B-Tree, estadísticas, planes de ejecución, DMVs, Always On y Lab 3' },
   4: { title: 'MÓDULO 4: MANTENIMIENTO, COPIAS DE SEGURIDAD Y CASO FINAL', duration: '5,0 h', slides: '62 – 82', focus: 'Backups, Point-in-Time, CHECKDB, Agent, incidencias, SSIS, Lab 4 y Caso Integrador' }
 };
@@ -43,7 +43,7 @@ const modulesMeta = {
 // Friendly slide titles for opener slides
 const friendlyTitles = {
   5: '01 · Apertura del Módulo: Fundamentos y Arquitectura',
-  22: '02 · Apertura del Módulo: Gestión y Seguridad',
+  21: '02 · Apertura del Módulo: Gestión y Seguridad',
   44: '03 · Apertura del Módulo: Optimización y Alta Disponibilidad',
   62: '04 · Apertura del Módulo: Mantenimiento y Buenas Prácticas',
   80: 'Laboratorio: Caso Práctico Integrador Final'
@@ -881,15 +881,15 @@ let html = `<!DOCTYPE html>
             <td style="text-align: center; font-weight: 700;">1</td>
             <td><strong>Fundamentos y Arquitectura. Licenciamiento</strong></td>
             <td style="text-align: center;">4,0 h</td>
-            <td style="text-align: center;">5 – 21</td>
-            <td>Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF, Tablas vectoriales (IA) y Lab 1</td>
+            <td style="text-align: center;">5 – 20</td>
+            <td>Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF, licencias y Lab 1</td>
           </tr>
           <tr>
             <td style="text-align: center; font-weight: 700;">2</td>
             <td><strong>Gestión y Seguridad</strong></td>
             <td style="text-align: center;">5,5 h</td>
-            <td style="text-align: center;">22 – 43</td>
-            <td>DDL, restricciones, procedimientos, DML analítico, permisos, roles y Lab 2</td>
+            <td style="text-align: center;">21 – 43</td>
+            <td>DDL, restricciones, procedimientos, DML analítico, Tablas vectoriales (IA), permisos, roles y Lab 2</td>
           </tr>
           <tr>
             <td style="text-align: center; font-weight: 700;">3</td>
@@ -918,14 +918,14 @@ let html = `<!DOCTYPE html>
           <div class="mod-card-meta">Presentación del curso, dinámica de aprendizaje práctico, reglas de seguridad y despliegue del contenedor SQL Server 2025 en Docker.</div>
         </div>
         <div class="mod-card">
-          <div class="mod-card-header">Módulo 1 · 4,0 h · Diaps. 5–21</div>
+          <div class="mod-card-header">Módulo 1 · 4,0 h · Diaps. 5–20</div>
           <div class="mod-card-title">Arquitectura y Licenciamiento</div>
-          <div class="mod-card-meta">Relational Engine vs Storage Engine, Buffer Pool, páginas de 8 KB, MDF/NDF/LDF, WAL y VLFs, bases del sistema, tablas vectoriales (IA), ediciones y licencias Core vs Server+CAL.<br><strong>Lab 1:</strong> Ficheros y Filegroups.</div>
+          <div class="mod-card-meta">Relational Engine vs Storage Engine, Buffer Pool, páginas de 8 KB, MDF/NDF/LDF, WAL y VLFs, bases del sistema, ediciones y licencias Core vs Server+CAL.<br><strong>Lab 1:</strong> Ficheros y Filegroups.</div>
         </div>
         <div class="mod-card">
-          <div class="mod-card-header">Módulo 2 · 5,5 h · Diaps. 22–43</div>
+          <div class="mod-card-header">Módulo 2 · 5,5 h · Diaps. 21–43</div>
           <div class="mod-card-title">Gestión y Seguridad</div>
-          <div class="mod-card-meta">DDL robusto, vistas indexadas, Stored Procedures y plan cache sniffing, JOINs lógicos vs físicos, Window Functions, Logins, Users, Schemas, Roles y Ownership Chaining.<br><strong>Lab 2A:</strong> Consultas y SP · <strong>Lab 2B:</strong> Permisos segregados.</div>
+          <div class="mod-card-meta">DDL robusto, vistas indexadas, Stored Procedures y plan cache sniffing, JOINs lógicos vs físicos, Window Functions, tablas vectoriales (IA), Logins, Users, Schemas, Roles y Ownership Chaining.<br><strong>Lab 2A:</strong> Consultas y SP · <strong>Lab 2B:</strong> Permisos segregados.</div>
         </div>
         <div class="mod-card">
           <div class="mod-card-header">Módulo 3 · 5,0 h · Diaps. 44–61</div>
@@ -944,14 +944,14 @@ let html = `<!DOCTYPE html>
 
 // Add slides and module banners
 let currentModule = -1;
-const moduleFirstSlides = [1, 5, 22, 44, 62];
+const moduleFirstSlides = [1, 5, 21, 44, 62];
 
 slides.forEach((slide) => {
   // Check if we need to insert a module banner
   let modNum = -1;
   if (slide.num >= 1 && slide.num <= 4) modNum = 0;
-  else if (slide.num >= 5 && slide.num <= 21) modNum = 1;
-  else if (slide.num >= 22 && slide.num <= 43) modNum = 2;
+  else if (slide.num >= 5 && slide.num <= 20) modNum = 1;
+  else if (slide.num >= 21 && slide.num <= 43) modNum = 2;
   else if (slide.num >= 44 && slide.num <= 61) modNum = 3;
   else if (slide.num >= 62 && slide.num <= 82) modNum = 4;
 

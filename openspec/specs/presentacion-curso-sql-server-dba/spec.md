@@ -37,11 +37,11 @@ El contenido del curso SHALL estructurarse en 4 módulos técnicos más un módu
 
 #### Scenario: Módulo 1 (Fundamentos y Arquitectura. Licenciamiento)
 - **WHEN** se imparte el bloque de arquitectura (~4.0 h)
-- **THEN** se aborda el Relational Engine, Storage Engine, Buffer Pool, páginas de 8 KB, extensiones, ficheros MDF/NDF/LDF, WAL, VLFs, bases del sistema, licenciamiento (Core vs CAL), tablas vectoriales nativas (tipo `VECTOR`) y funciones de distancia para IA/RAG (`VECTOR_DISTANCE`) en SQL Server 2025, y el Laboratorio 1.
+- **THEN** se aborda el Relational Engine, Storage Engine, Buffer Pool, páginas de 8 KB, extensiones, ficheros MDF/NDF/LDF, WAL, VLFs, bases del sistema, licenciamiento (Core vs CAL) y el Laboratorio 1.
 
 #### Scenario: Módulo 2 (Gestión y Seguridad)
 - **WHEN** se imparte el bloque de gestión y seguridad (~5.5 h)
-- **THEN** se cubren restricciones DDL, vistas indexadas, procedimientos almacenados, DML avanzado (JOINs físicos y Window Functions), modelo jerárquico de permisos (Logins, Users, Schemas, Roles) y Laboratorios 2A/2B.
+- **THEN** se cubren restricciones DDL, vistas indexadas, procedimientos almacenados, DML avanzado (JOINs físicos, Window Functions y tablas vectoriales nativas tipo `VECTOR` con funciones de distancia `VECTOR_DISTANCE` para IA/RAG en SQL Server 2025), modelo jerárquico de permisos (Logins, Users, Schemas, Roles) y Laboratorios 2A/2B.
 
 #### Scenario: Módulo 3 (Optimización y Alta Disponibilidad)
 - **WHEN** se imparte el bloque de rendimiento y resiliencia (~5.0 h)

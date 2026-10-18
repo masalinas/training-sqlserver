@@ -30,8 +30,8 @@ def extract():
     md.append("| Módulo | Título | Horas | Diapositivas | Enfoque Pedagógico |")
     md.append("| :---: | :--- | :---: | :---: | :--- |")
     md.append("| **0** | Bienvenida y Entorno | 0,5 h | 1 – 4 | Objetivos, dinámica de clase y despliegue del entorno Docker/SSMS |")
-    md.append("| **1** | Fundamentos y Arquitectura. Licenciamiento | 4,0 h | 5 – 21 | Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF, Tablas vectoriales (IA) y Lab 1 |")
-    md.append("| **2** | Gestión y Seguridad | 5,5 h | 22 – 43 | DDL, restricciones, procedimientos, DML analítico, permisos, roles y Lab 2 |")
+    md.append("| **1** | Fundamentos y Arquitectura. Licenciamiento | 4,0 h | 5 – 20 | Motor relacional, Buffer Pool, páginas/extensiones, WAL/VLF, licencias y Lab 1 |")
+    md.append("| **2** | Gestión y Seguridad | 5,5 h | 21 – 43 | DDL, restricciones, procedimientos, DML analítico, Tablas vectoriales (IA), permisos, roles y Lab 2 |")
     md.append("| **3** | Optimización y Alta Disponibilidad | 5,0 h | 44 – 61 | Índices B-Tree, estadísticas, planes de ejecución, DMVs, Always On y Lab 3 |")
     md.append("| **4** | Mantenimiento, Copias de Seguridad y Caso Final | 5,0 h | 62 – 82 | Backups, Point-in-Time, CHECKDB, Agent, incidencias, SSIS, Lab 4 y Caso Integrador |")
     md.append("\n---\n")
@@ -40,7 +40,7 @@ def extract():
     def get_module_info(n):
         if n <= 4:
             return 0, "Bienvenida y Entorno"
-        elif n <= 21:
+        elif n <= 20:
             return 1, "Fundamentos y Arquitectura. Licenciamiento"
         elif n <= 43:
             return 2, "Gestión y Seguridad"

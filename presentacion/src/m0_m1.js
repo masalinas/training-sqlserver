@@ -121,7 +121,7 @@ module.exports = async (pres, H, D) => {
   H.code(s, { x: 6.9, y: CY, w: 5.83, h: 3.4, label: 'BASH · DOCKER', size: 12, code: 'docker run -d --name sql2025 \\\n  -e "ACCEPT_EULA=Y" \\\n  -e "MSSQL_SA_PASSWORD=Curso#SQL2025!" \\\n  -p 1433:1433 \\\n  -v sqldata:/var/opt/mssql \\\n  mcr.microsoft.com/mssql/server:2025-latest\n\ndocker ps\ndocker logs sql2025 | tail -n 5' });
   H.callout(s, { x: 6.9, y: 5.45, w: 5.83, h: 1.3, kind: 'warn', lead: 'Si el contenedor se para:', text: 'revisa docker logs. Casi siempre es una contraseña de sa que no cumple la política de complejidad.' });
 
-  // ════════════════════════ MÓDULO 1 — Fundamentos y arquitectura (5–21) ════════════════════════
+  // ════════════════════════ MÓDULO 1 — Fundamentos y arquitectura (5–20) ════════════════════════
 
   // 5 ─ Separador
   H.divider(pres, {
@@ -132,7 +132,6 @@ module.exports = async (pres, H, D) => {
       { icon: 'FaHdd', text: 'Páginas, extensiones y ficheros' },
       { icon: 'FaDatabase', text: 'Instancias y bases del sistema' },
       { icon: 'FaTag', text: 'Ediciones y licenciamiento' },
-      { icon: 'FaBrain', text: 'Tablas vectoriales (IA)' },
       { icon: 'FaFlask', text: 'Laboratorio 1' },
     ],
     notes: {
@@ -500,51 +499,7 @@ module.exports = async (pres, H, D) => {
   H.callout(s, { x: CX, y: 4.45, w: 5.4, h: 2.3, kind: 'tip', lead: 'system_health', text: 'ya está activa por defecto y recoge deadlocks y errores graves. Mírala primero tras un incidente.' });
   H.callout(s, { x: 6.3, y: 5.9, w: 6.43, h: 0.85, kind: 'warn', text: 'Filtra siempre con predicados para limitar la sobrecarga.' });
 
-  // 19 ─ Tablas vectoriales e IA (SQL Server 2025)
-  s = H.slide(pres, {
-    mod: 1, badge: 'Almacenamiento', title: 'SQL Server 2025: Tablas vectoriales y RAG',
-    notes: {
-      obj: 'Comprender el soporte del tipo nativo VECTOR en SQL Server 2025, el cálculo de distancias semánticas y la implementación de arquitecturas RAG dentro del motor relacional.',
-      guion: [
-        'SQL Server 2025 incorpora el tipo de dato nativo VECTOR(n), transformando el motor relacional en una base de datos vectorial de alto rendimiento para escenarios de Inteligencia Artificial.',
-        'Ventaja clave para el DBA: evita dispersar los datos en motores vectoriales externos (Pinecone, Chroma, Milvus). Los embeddings residen en la misma tabla junto al resto de columnas transaccionales, bajo el mismo modelo de seguridad (ACID, permisos, RLS, Always Encrypted y TDE).',
-        'Función VECTOR_DISTANCE(métrica, vector1, vector2): calcula la distancia entre vectores. Métricas soportadas: cosine (similitud del coseno, típica en embeddings de texto), euclidean (distancia euclídea) y dot (producto escalar).',
-        'Arquitectura RAG (Retrieval-Augmented Generation): una consulta busca semánticamente los documentos más relevantes con ORDER BY VECTOR_DISTANCE(...) ASC y devuelve el contexto para un LLM, combinando fácilmente filtros relacionales (WHERE EmpresaId = @id AND Fecha >= @desde).',
-        'Internals: VECTOR(n) almacena números de coma flotante de 32 bits (4 bytes por dimensión). Un vector de 1536 dimensiones (OpenAI text-embedding-3) ocupa ~6 KB. Si una fila excede 8060 bytes, SQL Server gestiona el desbordamiento hacia páginas ROW_OVERFLOW o LOB.',
-        'Laboratorio y práctica: en el repositorio disponéis de labs/lab115-vector-table/vector_table.sql con una simulación completa de base de conocimiento y búsqueda semántica para probar en vuestro contenedor.',
-      ],
-      preguntas: [
-        '¿Qué ventajas operativas y de seguridad ofrece gestionar embeddings en SQL Server frente a sincronizarlos con una base de datos vectorial externa?',
-        'Si cada vector de 1536 dimensiones ocupa ~6 KB, ¿qué precauciones de diseño físico (ficheros, Buffer Pool, índices) debemos tomar como DBAs?',
-      ],
-      lab: [
-        'Opcional (demo): abrir el script labs/lab115-vector-table/vector_table.sql en SSMS o VS Code.',
-        'Crear la tabla dbo.BaseConocimiento con la columna ContenidoEmbedding VECTOR(4).',
-        'Insertar los registros de prueba y ejecutar la consulta con VECTOR_DISTANCE(\'cosine\', ...) ordenando ascendentemente.',
-      ],
-    },
-  });
-  H.code(s, {
-    x: CX, y: CY, w: 6.8, h: 3.8, size: 11, label: 'T-SQL · TABLAS VECTORIALES (SQL 2025)',
-    code: "-- Tabla con columna vectorial nativa (dimensión fija)\nCREATE TABLE dbo.BaseConocimiento (\n    DocumentoID   INT IDENTITY(1,1) PRIMARY KEY,\n    Titulo        NVARCHAR(200) NOT NULL,\n    Contenido     NVARCHAR(MAX) NOT NULL,\n    Embedding     VECTOR(1536) NOT NULL\n);\n\n-- Búsqueda semántica usando similitud de coseno\nDECLARE @VectorPregunta VECTOR(1536) = CAST('[...]' AS VECTOR(1536));\n\nSELECT TOP 3 Titulo, Contenido,\n    VECTOR_DISTANCE('cosine', Embedding, @VectorPregunta) AS Distancia\nFROM dbo.BaseConocimiento\nORDER BY Distancia ASC;\nGO"
-  });
-  H.card(s, {
-    x: 7.7, y: CY, w: 5.03, h: 2.35, icon: 'FaBrain', title: 'Tipo nativo VECTOR', size: 12,
-    bullets: ['Embeddings densos para texto, imágenes o audio', 'Almacenamiento de floats de 32 bits (4 bytes/dim)', 'Métricas de distancia: cosine, euclidean, dot'],
-    tone: 'tint'
-  });
-  H.card(s, {
-    x: 7.7, y: CY + 2.5, w: 5.03, h: 2.45, icon: 'FaLayerGroup', title: 'Consultas Híbridas y RAG', size: 12,
-    bullets: ['Filtros relacionales (WHERE) y similitud semántica', 'Contexto directo para LLMs en arquitecturas RAG', 'Demostración práctica: labs/lab115-vector-table'],
-    tone: 'light'
-  });
-  H.callout(s, {
-    x: CX, y: 5.2, w: 6.8, h: 1.5, kind: 'tip',
-    lead: 'RAG sin bases externas:',
-    text: 'Los embeddings se benefician del modelo ACID, cifrado TDE, Row-Level Security y backups de SQL Server sin pipelines ETL a bases de datos de terceros.'
-  });
-
-  // 20 ─ Laboratorio 1 (I)
+  // 19 ─ Laboratorio 1 (I)
   s = H.slide(pres, {
     mod: 1, badge: 'Base de datos', title: 'Lab 1 (I): BD con ficheros y filegroups', lab: true,
     notes: {
@@ -570,7 +525,7 @@ module.exports = async (pres, H, D) => {
   H.code(s, { x: CX, y: CY, w: 7.6, h: 5.0, size: 12, label: 'T-SQL · LABORATORIO 1', code: "CREATE DATABASE Ventas\nON PRIMARY\n  (NAME = Ventas_sys, FILENAME = '/var/opt/mssql/data/Ventas.mdf',\n   SIZE = 64MB,  FILEGROWTH = 64MB),\nFILEGROUP FG_DATOS\n  (NAME = Ventas_d1,  FILENAME = '/var/opt/mssql/data/Ventas_d1.ndf',\n   SIZE = 256MB, FILEGROWTH = 128MB),\n  (NAME = Ventas_d2,  FILENAME = '/var/opt/mssql/data/Ventas_d2.ndf',\n   SIZE = 256MB, FILEGROWTH = 128MB)\nLOG ON\n  (NAME = Ventas_log, FILENAME = '/var/opt/mssql/log/Ventas.ldf',\n   SIZE = 128MB, FILEGROWTH = 64MB);\nGO" });
   H.card(s, { x: 8.55, y: CY, w: 4.18, h: 5.0, icon: 'FaFlask', title: 'Enunciado', size: 14, bullets: ['Crea la BD Ventas con los ficheros indicados', 'Dos ficheros del mismo tamaño en FG_DATOS', 'Autogrowth en MB, nunca en %', 'Comprueba el resultado en SSMS (Propiedades → Archivos)'], tone: 'tint' });
 
-  // 21 ─ Laboratorio 1 (II)
+  // 20 ─ Laboratorio 1 (II)
   s = H.slide(pres, {
     mod: 1, badge: 'Base de datos', title: 'Lab 1 (II): verificar y hacer crecer', lab: true,
     notes: {
