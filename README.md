@@ -86,11 +86,15 @@ El deck incluye composiciones visuales desarrolladas mediante formas vectoriales
 ```text
 training-sqlserver/
 ├── README.md                                    # Este documento resumen
-├── GUIA_DEL_DOCENTE.md                          # Manual completo para el instructor (~246K caracteres)
-├── GUIA_DEL_DOCENTE.pdf                         # Guía del docente maquetada profesionalmente en PDF
 ├── curso_sql_server_dba_20h.pptx                # Slide deck generado (82 diapositivas)
 ├── curso_sql_server_dba_20h.pdf                 # Presentación completa exportada a PDF
 ├── package.json                                 # Dependencias Node.js (pptxgenjs, sharp, react-icons, etc.)
+├── labs                                         # Laboratorios con información detallada sobre items de SQL Server
+    ├── lab100-activate-tcpip-server/            # Laboratorio 100 sbore como activar TCPIP en SQL Server. Los laboratorios estan agrupados por módulos
+    ├── ...            
+├── us                                           # Casos de uso prácticos sobre items de SQL Server
+    ├── us100-query-life-cycle/                  # Caso de uso sobre el ciclo de vida de una consulta. Los casos de uso estan agrupados por módulos.
+    ├── ...
 ├── openspec/
 │   ├── changes/archive/                         # Historial de cambios archivados
 │   └── specs/presentacion-curso-sql-server-dba/ # Especificación formal viva del curso
