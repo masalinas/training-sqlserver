@@ -38,6 +38,24 @@ Este es uno de los secretos mejor guardados y más críticos sobre el rendimient
 - En Enterprise Edition: El optimizador tiene un componente llamado "Matching Index View". Si haces una consulta común a las tablas base, el motor detecta automáticamente que ya existe una vista indexada que tiene esos datos listos y la usa en secreto, sin que tú se la pidas.
 - En Standard Edition: Este optimizador automático no funciona. Si consultas las tablas base, SQL Server ignorará la vista indexada y calculará todo desde cero. Para obligar a la versión Standard a leer los datos ya procesados del disco duro, debes hacer la consulta apuntando directamente a la vista y añadir la pista (hint) WITH (NOEXPAND). Esto le dice al motor: "No expandas esta vista en su consulta original, léela como si fuera una tabla física"
 
+## ¿Cuándo SÍ indexar una vista y cuándo NO?
+
+Las vistas indexadas (o materializadas) guardan los datos físicamente en el disco. Aunque aceleran las lecturas, penalizan las escrituras. Evalúa tu escenario antes de indexar:
+
+| Escenario de Base de Datos | ¿Indexar la vista? | Razón Técnica |
+| :--- | :---: | :--- |
+| **Tablas OLTP de alta transaccionalidad**<br>*(Ej: Ventas en vivo, inventario, telemetría o logs)* | ❌ **NO** | El servidor colapsará por sobrecarga de CPU y disco, ya que debe actualizar el índice de la vista en tiempo real con cada `INSERT`, `UPDATE` o `DELETE`. |
+| **Agregaciones masivas sobre millones de filas**<br>*(Ej: Consultas recurrentes con `SUM`, `COUNT` o `AVG`)* |  **SÍ** | SQL Server calcula y procesa la operación matemática **una sola vez** al escribir. El `SELECT` posterior lee el resultado ya masticado de forma instantánea. |
+| **Entornos de solo lectura o Data Warehouse**<br>*(Ej: Catálogos de productos, históricos, reportes mensuales)* |  **SÍ** | Al no existir penalización por modificación de datos (escrituras), te beneficias al 100% de la velocidad de lectura del índice físico. |
+| **Vistas con Joins complejos entre tablas gigantes**<br>*(Ej: Consultas pesadas que cruzan 4 o más tablas grandes)* |  **SÍ** | Evita que el motor tenga que resolver y recalcular el árbol de ejecuciones del `JOIN` cada vez que un usuario hace la consulta. |
+| **Vistas simples con filtros básicos**<br>*(Ej: Un filtro `WHERE Activo = 1` o Joins sencillos)* | ❌ **NO** | Es un desperdicio de almacenamiento. Para estos casos, es infinitamente más eficiente y limpio indexar correctamente las columnas en las tablas base. |
+
+---
+
+## Regla de Oro
+> Usar **vistas normales** siempre debe ser tu opción por defecto. Opta por una **vista indexada** únicamente cuando una consulta sea críticamente lenta, maneje un volumen masivo de datos, realice cálculos costosos y las tablas base cambien con relativa **poca frecuencia**.
+
+
 ## Ejemplo
 
 Ejecutar sql script `view.sql` desde SQL Server Management Studio y observar el plan utilizado, es decir, el indice creado para acelerar la busqueda en la misma.
