@@ -5,7 +5,20 @@ Primera versión en Linux y Docker: Un hito histórico. Microsoft desacopló el 
 Ver un ejemplo de despliegue de SQL Server en Docker con `docker-compose.yml` ejecutarlo desde el shell con Docker instalado.
 
 # Ejemplo
-Arrancar el servicio de SQL Server en modo detach (libera la consola o shell en el arranque).
+Si queremos arrancar SQL Server 2025 directamente en docker ejecutamos este comando:
+
+```shell
+docker run -d \
+  --name sqlserver \
+  -p 1433:1433 \
+  -e "ACCEPT_EULA=Y" \
+  -e "MSSQL_SA_PASSWORD='TuPasswordSeguro123!'" \
+  -v sqldata:/var/opt/mssql/data \
+  -v sqlbackups:/var/opt/mssql/backup \
+  mcr.microsoft.com/mssql/server:2025-latest
+```
+
+Arrancar el servicio de SQL Server utilizando docker compose. El modo detach (libera la consola o shell en el arranque).
 ```shell
 docker compose up -d
 ```
