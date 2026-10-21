@@ -2,7 +2,7 @@
 
 ## El Contexto
 
-El departamento de Marketing está preparando la campaña promocional de verano. Han pedido al equipo de desarrollo extraer un listado maestro que incluya **a todos los clientes de la base de datos**. 
+El departamento de Marketing está preparando la campaña promocional de verano. Han pedido al equipo de desarrollo extraer un listado maestro que incluya **a todos los clientes de la base de datos**.
 
 Las reglas de negocio para el informe son claras:
 * Si el cliente ha realizado algún pedido durante el año 2024, quieren ver el número de pedido para enviarle un email de "Gracias por su fidelidad".
@@ -13,7 +13,8 @@ Un desarrollador junior te entrega el siguiente código asegurando que ha usado 
 ```sql
 SELECT c.Nombre, p.PedidoId, p.Fecha
 FROM dbo.Cliente AS c
-LEFT JOIN dbo.Pedido AS p ON c.ClienteId = p.ClienteId
+LEFT JOIN dbo.Pedido AS p
+      ON c.ClienteId = p.ClienteId
 WHERE p.Fecha >= '20240101';
 ```
 
