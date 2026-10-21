@@ -1,7 +1,7 @@
-USE MiBaseDeDatos;
+USE Ventas;
 GO
 
--- REQUISITO PREVIO: Asegúrate de presionar Ctrl + M en SSMS 
+-- REQUISITO PREVIO: Asegúrate de presionar Ctrl + M en SSMS
 -- para activar la pestaña del "Plan de ejecución real".
 
 /* =========================================================================

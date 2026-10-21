@@ -1,4 +1,4 @@
-USE MiBaseDeDatos;
+USE Ventas;
 GO
 
 -- Eliminar el procedimiento si ya existe para evitar errores de duplicado
@@ -12,31 +12,31 @@ BEGIN
 
     -- Lógica analítica del script anterior encapsulada con los parámetros
     WITH PedidosNumeradosCTE AS (
-        SELECT 
+        SELECT
             c.ClienteId,
             c.Nombre AS ClienteNombre,
             p.PedidoId,
             p.Fecha AS PedidoFecha,
             p.Total AS PedidoTotal,
-            
+
             -- Numeración analítica fila por fila del cliente
             ROW_NUMBER() OVER (
-                PARTITION BY p.ClienteId 
+                PARTITION BY p.ClienteId
                 ORDER BY p.Total DESC, p.Fecha DESC
             ) AS FilaNumero,
-            
+
             -- Suma analítica total del histórico
             SUM(p.Total) OVER (
                 PARTITION BY p.ClienteId
             ) AS TotalHistoricoCliente
-        FROM   
-            dbo.Cliente AS c 
-        INNER JOIN 
+        FROM
+            dbo.Cliente AS c
+        INNER JOIN
             dbo.Pedido AS p ON p.ClienteId = c.ClienteId
         WHERE
             c.ClienteId = @ClienteId -- Aplicación del parámetro de filtrado
     )
-    SELECT 
+    SELECT
         ClienteId,
         ClienteNombre,
         PedidoId,
@@ -44,11 +44,11 @@ BEGIN
         PedidoTotal,
         FilaNumero,
         TotalHistoricoCliente
-    FROM 
+    FROM
         PedidosNumeradosCTE
-    WHERE 
+    WHERE
         FilaNumero <= @TopN -- Aplicación del parámetro dinámico del TOP
-    ORDER BY 
+    ORDER BY
         PedidoTotal DESC;
 END;
 GO
