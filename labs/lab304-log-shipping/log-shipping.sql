@@ -3,6 +3,10 @@ Paso 1: Ejecutar en el Servidor Principal (Producción)
 
 Primero, generamos los archivos de respaldo limpios que enviaremos al servidor secundario.
 */
+
+USE [MiBaseDatos];
+GO
+
 -- 1. Generar Backup Completo (Full Backup)
 BACKUP DATABASE [MiBaseDatos]
 TO DISK = N'C:\CompartidoLogShipping\MiBaseDatos_Master.bak'
