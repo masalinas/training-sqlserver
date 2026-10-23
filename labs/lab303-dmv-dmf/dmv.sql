@@ -1,8 +1,7 @@
--- Cambiar el contexto de la sesión actual usando la db training recien creada, para no ensuciar 'master' por accidente
 USE training;
 GO
 
-SELECT 
+SELECT
     r.session_id,
     s.login_name,
     s.host_name,
@@ -16,13 +15,13 @@ SELECT
     r.cpu_time AS cpu_ms,
     r.logical_reads AS lecturas_logicas,
     r.percent_complete AS porcentaje_completado
-FROM 
+FROM
     sys.dm_exec_requests r
-INNER JOIN 
+INNER JOIN
     sys.dm_exec_sessions s ON r.session_id = s.session_id
-CROSS APPLY 
+CROSS APPLY
     sys.dm_exec_sql_text(r.sql_handle) t
-WHERE 
+WHERE
     r.session_id <> @@SPID -- Excluye la sesión desde la que lanzas este script
     AND s.is_user_process = 1; -- Filtra los procesos internos del sistema (solo muestra conexiones reales)
 GO
