@@ -48,7 +48,7 @@ EXEC dbo.sp_add_job @job_name = N'Mantenimiento_Backup_DIFF', @enabled = 1;
 EXEC dbo.sp_add_jobstep @job_name = N'Mantenimiento_Backup_DIFF', @step_name = N'Ejecutar T-SQL Diff',
     @subsystem = N'TSQL',
     @command = N'
-    DECLARE @FileName VARCHAR(255);
+    DECLARE @FileName VARCHAR(255);STATISTICS
     SET @FileName = ''C:\Backups\MiBaseDatos_DIFF_'' + CONVERT(VARCHAR(8), GETDATE(), 112) + ''.bak'';
 
     BACKUP DATABASE [MiBaseDatos]
@@ -64,7 +64,7 @@ EXEC dbo.sp_add_jobschedule @job_name = N'Mantenimiento_Backup_DIFF', @name = N'
     @freq_interval = 126, -- Suma binaria de Lunes(2)+Martes(4)+Miércoles(8)+Jueves(16)+Viernes(32)+Sábado(64)
     @freq_subday_type = 1, @active_start_time = 220000; -- 22:00:00 PM
 GO
-
+STATISTICS
 /*
 Paso 3: Crear el Job para el Backup de LOG (Frecuente)
 
@@ -102,7 +102,7 @@ Paso 4: El caso de Emergencia manual: TAIL-LOG (Cola del Log)
 El Tail-Log nunca se introduce en una tarea automática del SQL Agent. Se ejecuta manualmente únicamente cuando vas a iniciar una restauración por desastre o migración. Sirve para capturar las últimas transacciones antes de que el servidor principal sea apagado o cuando los archivos de datos se dañaron.
 Para ejecutarlo, debes poner la base de datos en estado restringido y capturar el residuo con la cláusula NO_TRUNCATE:
 */
--- SCRIPT DE EMERGENCIA (MANUAL - Ejecutar solo ante desastre o failover)
+-- SCRIPT DE EMERGENCIA (MANUAL - Ejecutar solo despues desastre o failover)
 USE [master];
 GO
 
